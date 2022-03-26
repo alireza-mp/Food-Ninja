@@ -1,0 +1,30 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+        jcenter()
+
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if( requested.id.id == 'dagger.hilt.android.plugin') {
+                useModule("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
+            }
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url 'https://maven.google.com' }
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        jcenter()
+
+    }
+}
+rootProject.name = "Food Ninja"
+include ':app'
