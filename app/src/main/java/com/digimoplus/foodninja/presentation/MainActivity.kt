@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.ui
+package com.digimoplus.foodninja.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

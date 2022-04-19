@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nab_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.splash.SplashFragment"
+        android:label="fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_introductionFragment"
+            app:destination="@id/introductionFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.digimoplus.foodninja.presentation.ui.home.HomeFragment"
+        android:label="fragment_home" />
+    <fragment
+        android:id="@+id/introductionFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.introduction.IntroductionFragment"
+        android:label="fragment_introduction">
+        <action
+            android:id="@+id/action_introductionFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"
+            app:popUpTo="@id/introductionFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up.SignUpFragment"
+        android:label="fragment_sign_up">
+        <action
+            android:id="@+id/action_signUpFragment_to_completeBioFragment"
+            app:destination="@id/completeBioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.sign_in.SignInFragment"
+        android:label="fragment_sign_in">
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/completeBioFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.CompleteBioFragment"
+        android:label="fragment_complete_bio">
+        <action
+            android:id="@+id/action_completeBioFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.forget_password.ForgetPasswordFragment"
+        android:label="fragment_forget_password">
+        <action
+            android:id="@+id/action_forgetPasswordFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.location.LocationFragment"
+        android:label="fragment_location">
+        <action
+            android:id="@+id/action_locationFragment_to_successNotificationFragment"
+            app:destination="@id/successNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.payment.PaymentFragment"
+        android:label="fragment_payment">
+        <action
+            android:id="@+id/action_paymentFragment_to_uploadPhotoFragment"
+            app:destination="@id/uploadPhotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.reset_password.ResetPasswordFragment"
+        android:label="fragment_reset_password">
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_successNotificationFragment"
+            app:destination="@id/successNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successNotificationFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.success_notification.SuccessNotificationFragment"
+        android:label="fragment_success_notification">
+        <action
+            android:id="@+id/action_successNotificationFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_successNotificationFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadPhotoFragment"
+        android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.upload_photo.UploadPhotoFragment"
+        android:label="fragment_upload_photo">
+        <action
+            android:id="@+id/action_uploadPhotoFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
+</navigation>
