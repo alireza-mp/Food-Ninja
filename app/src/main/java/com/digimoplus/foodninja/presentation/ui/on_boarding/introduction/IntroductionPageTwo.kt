@@ -13,8 +13,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -22,10 +20,11 @@ import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
+import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
 fun IntroductionPageTwo(navController: NavController) {
-    Surface(color = Color.White) {
+    Surface(color = AppTheme.colors.background) {
         ConstraintLayout(
             modifier = Modifier.fillMaxSize(),
         ) {
@@ -35,13 +34,19 @@ fun IntroductionPageTwo(navController: NavController) {
 
             // background image
             Image(
-                modifier = Modifier.constrainAs(backImage) {
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(parent.top, 45.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
+                modifier = Modifier
+                    .constrainAs(backImage) {
+                        start.linkTo(parent.start, 16.dp)
+                        top.linkTo(parent.top, 45.dp)
+                        end.linkTo(parent.end, 16.dp)
+                    }
                     .fillMaxHeight(0.6f),
-                painter = painterResource(id = R.drawable.berger_background),
+                painter = painterResource(
+                    id = if (AppTheme.colors.isLight)
+                        R.drawable.berger_light_background
+                    else
+                        R.drawable.berger_dark_background
+                ),
                 contentDescription = "",
                 contentScale = ContentScale.Fit
             )

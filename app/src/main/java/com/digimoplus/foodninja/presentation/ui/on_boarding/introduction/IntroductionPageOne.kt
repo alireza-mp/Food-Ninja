@@ -1,6 +1,8 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.introduction
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -9,7 +11,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -24,6 +25,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
+import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.theme.darkTheme
+import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.delay
@@ -33,11 +37,12 @@ import kotlinx.coroutines.launch
 @ExperimentalPagerApi
 @Composable
 fun IntroductionPageOne(pagerState: PagerState) {
-    Surface(color = Color.White) {
-        ConstraintLayout(
-            modifier = Modifier.fillMaxSize(),
-        ) {
 
+    Surface(color = AppTheme.colors.background) {
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxSize(),
+        ) {
             val coroutineScope = rememberCoroutineScope()
             val (
                 imageOne, imageTwo, imageThree, imageFour, backImage, titleText, descriptionText, nextButton
@@ -45,14 +50,21 @@ fun IntroductionPageOne(pagerState: PagerState) {
 
             // background image
             Image(
-                modifier = Modifier.constrainAs(backImage) {
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(parent.top, 45.dp)
-                    end.linkTo(parent.end, 16.dp)
+                modifier = Modifier
+                    .constrainAs(backImage) {
+                        start.linkTo(parent.start, 16.dp)
+                        top.linkTo(parent.top, 45.dp)
+                        end.linkTo(parent.end, 16.dp)
 
-                }
+                    }
                     .fillMaxHeight(0.6f),
-                painter = painterResource(id = R.drawable.donate_background),
+                painter = painterResource(
+                    id = if (AppTheme.colors.isLight)
+                        R.drawable.donate_light_background
+                    else
+                        R.drawable.donate_dark_background
+
+                ),
                 contentDescription = "",
                 contentScale = ContentScale.Fit
             )
