@@ -1,6 +1,7 @@
 package com.digimoplus.foodninja.di
 
 import com.digimoplus.foodninja.domain.util.Constants
+import com.digimoplus.foodninja.network.TOneService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
