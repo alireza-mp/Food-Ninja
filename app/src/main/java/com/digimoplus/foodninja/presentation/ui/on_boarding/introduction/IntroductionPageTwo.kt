@@ -2,7 +2,6 @@ package com.digimoplus.foodninja.presentation.ui.on_boarding.introduction
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.theme.buttonGradient
 
 @Composable
 fun IntroductionPageTwo(navController: NavController) {
@@ -28,6 +28,7 @@ fun IntroductionPageTwo(navController: NavController) {
         ConstraintLayout(
             modifier = Modifier.fillMaxSize(),
         ) {
+
             val (
                 imageOne, imageTwo, imageThree, backImage, titleText, descriptionText, nextButton
             ) = createRefs()
@@ -105,8 +106,8 @@ fun IntroductionPageTwo(navController: NavController) {
                         end.linkTo(parent.end)
                     }
                     .width(300.dp),
-                style = MaterialTheme.typography.h4,
-                color = Color.Black,
+                style = AppTheme.typography.h4,
+                color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
@@ -122,8 +123,8 @@ fun IntroductionPageTwo(navController: NavController) {
                         end.linkTo(parent.end)
                     }
                     .width(250.dp),
-                style = MaterialTheme.typography.body2,
-                color = Color.DarkGray,
+                style = AppTheme.typography.body2,
+                color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -137,13 +138,7 @@ fun IntroductionPageTwo(navController: NavController) {
                     bottom.linkTo(parent.bottom)
                     top.linkTo(descriptionText.bottom)
                 },
-                gradient = Brush.horizontalGradient(
-                    listOf(
-                        Color(
-                            0xFF53E88B
-                        ), Color(0xFF15BE77)
-                    )
-                ),
+                gradient = buttonGradient(),
                 textColor = Color.White,
                 text = "Next"
             ) { // onClick

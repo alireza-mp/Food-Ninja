@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +25,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.theme.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.darkTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -43,6 +43,7 @@ fun IntroductionPageOne(pagerState: PagerState) {
             modifier = Modifier
                 .fillMaxSize(),
         ) {
+
             val coroutineScope = rememberCoroutineScope()
             val (
                 imageOne, imageTwo, imageThree, imageFour, backImage, titleText, descriptionText, nextButton
@@ -146,8 +147,8 @@ fun IntroductionPageOne(pagerState: PagerState) {
                         end.linkTo(parent.end)
                     }
                     .width(250.dp),
-                style = MaterialTheme.typography.h4,
-                color = Color.Black,
+                style = AppTheme.typography.h4,
+                color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
@@ -163,8 +164,8 @@ fun IntroductionPageOne(pagerState: PagerState) {
                         end.linkTo(parent.end)
                     }
                     .width(260.dp),
-                style = MaterialTheme.typography.body2,
-                color = Color.DarkGray,
+                style = AppTheme.typography.body2,
+                color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -178,13 +179,7 @@ fun IntroductionPageOne(pagerState: PagerState) {
                     bottom.linkTo(parent.bottom)
                     top.linkTo(descriptionText.bottom)
                 },
-                gradient = Brush.horizontalGradient(
-                    listOf(
-                        Color(
-                            0xFF53E88B
-                        ), Color(0xFF15BE77)
-                    )
-                ),
+                gradient = buttonGradient(),
                 textColor = Color.White,
                 text = "Next"
             ) { // onClick
