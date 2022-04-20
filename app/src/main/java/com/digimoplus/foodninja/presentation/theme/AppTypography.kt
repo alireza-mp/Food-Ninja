@@ -9,8 +9,13 @@ import androidx.compose.ui.unit.sp
 import com.digimoplus.foodninja.R
 
 private val bentonSansBlack = FontFamily(
-    Font(R.font.benton_sans_black, FontWeight.Normal)
+    Font(R.font.benton_sans_bold, FontWeight.Normal)
 )
+
+private val bentonSansRegular = FontFamily(
+    Font(R.font.benton_sans_regular, FontWeight.Normal)
+)
+
 
 
 data class AppTypography(
@@ -46,36 +51,36 @@ data class AppTypography(
     ),
     val h6: TextStyle = TextStyle(
         fontFamily = bentonSansBlack,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
         letterSpacing = 0.15.sp
     ),
     val body1: TextStyle = TextStyle(
-        fontFamily = bentonSansBlack,
+        fontFamily = bentonSansRegular,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
+        fontSize = 14.sp,
         letterSpacing = 0.5.sp
     ),
     val body2: TextStyle = TextStyle(
-        fontFamily = bentonSansBlack,
+        fontFamily = bentonSansRegular,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 12.sp,
         letterSpacing = 0.25.sp
     ),
     val button: TextStyle = TextStyle(
-        fontFamily = bentonSansBlack,
+        fontFamily = bentonSansRegular,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         letterSpacing = 1.25.sp
     ),
     val caption: TextStyle = TextStyle(
-        fontFamily = bentonSansBlack,
+        fontFamily = bentonSansRegular,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         letterSpacing = 0.4.sp
     ),
     val overline: TextStyle = TextStyle(
-        fontFamily = bentonSansBlack,
+        fontFamily = bentonSansRegular,
         fontWeight = FontWeight.Normal,
         fontSize = 10.sp,
         letterSpacing = 1.5.sp

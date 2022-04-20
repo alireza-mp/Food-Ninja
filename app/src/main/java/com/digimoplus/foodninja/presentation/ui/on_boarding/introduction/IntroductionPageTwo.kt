@@ -105,12 +105,11 @@ fun IntroductionPageTwo(navController: NavController) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .width(300.dp),
-                style = AppTheme.typography.h4,
+                    .width(320.dp),
+                style = AppTheme.typography.h5,
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                fontSize = 26.sp,
                 lineHeight = 35.sp
             )
 
@@ -127,7 +126,6 @@ fun IntroductionPageTwo(navController: NavController) {
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Normal,
-                fontSize = 12.sp,
                 lineHeight = 25.sp
             )
 

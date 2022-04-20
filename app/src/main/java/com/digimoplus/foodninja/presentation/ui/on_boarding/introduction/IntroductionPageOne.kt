@@ -147,11 +147,10 @@ fun IntroductionPageOne(pagerState: PagerState) {
                         end.linkTo(parent.end)
                     }
                     .width(250.dp),
-                style = AppTheme.typography.h4,
+                style = AppTheme.typography.h5,
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                fontSize = 26.sp,
                 lineHeight = 35.sp
             )
 
@@ -168,7 +167,6 @@ fun IntroductionPageOne(pagerState: PagerState) {
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Normal,
-                fontSize = 12.sp,
                 lineHeight = 25.sp
             )
 
