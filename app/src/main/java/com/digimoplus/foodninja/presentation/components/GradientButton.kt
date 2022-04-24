@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
 fun GradientButton(
@@ -32,22 +33,20 @@ fun GradientButton(
             backgroundColor = Color.Transparent
         ),
         contentPadding = PaddingValues(),
-        shape = RoundedCornerShape(25),
+        shape = RoundedCornerShape(15.dp),
         onClick = { onClick() })
     {
         Box(
             modifier = Modifier
                 .background(gradient)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = AppTheme.dimensions.grid_3_5, vertical = AppTheme.dimensions.grid_1),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                modifier = Modifier.padding(vertical = 10.dp, horizontal = 50.dp),
+                modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_1_5, horizontal = AppTheme.dimensions.grid_3_5),
                 text = text,
                 color = textColor,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                style = MaterialTheme.typography.h5
+                style = AppTheme.typography.h7,
             )
         }
     }
