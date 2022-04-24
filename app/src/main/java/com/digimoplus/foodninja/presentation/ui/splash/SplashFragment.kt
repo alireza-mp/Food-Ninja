@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -37,34 +39,39 @@ class SplashFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(color = MaterialTheme.colors.background),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            painter = painterResource(id = if (AppTheme.colors.isLight) R.drawable.background_light else R.drawable.background_dark),
-                            contentScale = ContentScale.FillWidth,
-                            contentDescription = ""
-                        )
-                        Image(
-                            modifier = Modifier
-                                .width(200.dp)
-                                .height(200.dp),
-                            painter = painterResource(id = R.drawable.logo),
-                            contentDescription = ""
-                        )
-                    }
-
-                    LaunchedEffect(Unit) {
-                        delay(1500)
-                        findNavController().navigate(R.id.action_splashFragment_to_introductionFragment)
-                    }
+                    SplashPage(navController = findNavController())
                 }
             }
         }
+    }
+}
+
+@Composable
+fun SplashPage(navController: NavController){
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.background),
+        contentAlignment = Alignment.Center,
+    ) {
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = if (AppTheme.colors.isLight) R.drawable.background_light else R.drawable.background_dark),
+            contentScale = ContentScale.FillWidth,
+            contentDescription = ""
+        )
+        Image(
+            modifier = Modifier
+                .width(200.dp)
+                .height(200.dp),
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = ""
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        delay(1500)
+        navController.navigate(R.id.action_splashFragment_to_introductionFragment)
     }
 }
 

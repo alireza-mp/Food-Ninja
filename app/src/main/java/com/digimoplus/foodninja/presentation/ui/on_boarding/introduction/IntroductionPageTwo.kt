@@ -6,24 +6,25 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
+import com.digimoplus.foodninja.presentation.theme.AppDimensions
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.buttonGradient
 
 @Composable
-fun IntroductionPageTwo(navController: NavController) {
+fun IntroductionPageTwo(navController: NavController,dimensions: AppDimensions) {
+
+
     Surface(color = AppTheme.colors.background) {
         ConstraintLayout(
             modifier = Modifier.fillMaxSize(),
@@ -37,9 +38,9 @@ fun IntroductionPageTwo(navController: NavController) {
             Image(
                 modifier = Modifier
                     .constrainAs(backImage) {
-                        start.linkTo(parent.start, 16.dp)
-                        top.linkTo(parent.top, 45.dp)
-                        end.linkTo(parent.end, 16.dp)
+                        start.linkTo(parent.start, dimensions.grid_2)
+                        top.linkTo(parent.top, dimensions.grid_5_5)
+                        end.linkTo(parent.end, dimensions.grid_2)
                     }
                     .fillMaxHeight(0.6f),
                 painter = painterResource(
@@ -55,14 +56,15 @@ fun IntroductionPageTwo(navController: NavController) {
             // donate image one
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageOne) {
-                    top.linkTo(backImage.top, 80.dp)
-                    start.linkTo(parent.start, 45.dp)
+                    top.linkTo(backImage.top, dimensions.plot_80)
+                    start.linkTo(parent.start, dimensions.grid_5_5)
                 },
                 randomRange = (10..20)
             ) { alpha ->
                 Image(
                     alpha = alpha,
                     painter = painterResource(id = R.drawable.berger3),
+                    modifier = Modifier.width(dimensions.img_berger),
                     contentDescription = ""
                 )
             }
@@ -70,8 +72,8 @@ fun IntroductionPageTwo(navController: NavController) {
             // donate image two
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageTwo) {
-                    top.linkTo(imageOne.top, 115.dp)
-                    start.linkTo(imageOne.start, 125.dp)
+                    top.linkTo(imageOne.top, dimensions.plot_115)
+                    start.linkTo(imageOne.start, dimensions.plot_125)
                 },
                 randomRange = (10..20)
             ) { alpha ->
@@ -79,20 +81,21 @@ fun IntroductionPageTwo(navController: NavController) {
                     alpha = alpha,
                     painter = painterResource(id = R.drawable.berger1),
                     contentDescription = "",
-                    modifier = Modifier.width(150.dp),
+                    modifier = Modifier.width(dimensions.img_berger),
                 )
             }
 
             // donate image three
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageThree) {
-                    top.linkTo(imageOne.bottom, 20.dp)
-                    start.linkTo(imageOne.start, 20.dp)
+                    top.linkTo(imageOne.bottom, dimensions.grid_2_5)
+                    start.linkTo(imageOne.start, dimensions.grid_2_5)
                 },
                 randomRange = (10..20)
             ) { alpha ->
                 Image(
                     alpha = alpha,
+                    modifier = Modifier.width(dimensions.img_berger),
                     painter = painterResource(id = R.drawable.berger2),
                     contentDescription = "",
                 )
@@ -101,11 +104,11 @@ fun IntroductionPageTwo(navController: NavController) {
             Text(
                 text = "Food Ninja is Where Your Comfort Food Lives", modifier = Modifier
                     .constrainAs(titleText) {
-                        top.linkTo(backImage.bottom, 8.dp)
+                        top.linkTo(backImage.bottom, dimensions.grid_1)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .width(320.dp),
+                    .width(dimensions.title_page_two),
                 style = AppTheme.typography.h5,
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
@@ -117,11 +120,11 @@ fun IntroductionPageTwo(navController: NavController) {
                 text = "Enjoy a fast and smooth food delivery at your doorstep",
                 modifier = Modifier
                     .constrainAs(descriptionText) {
-                        top.linkTo(titleText.bottom, 32.dp)
+                        top.linkTo(titleText.bottom, dimensions.grid_4)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .width(250.dp),
+                    .width(dimensions.description_page_two),
                 style = AppTheme.typography.body2,
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,

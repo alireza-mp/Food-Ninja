@@ -19,10 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.digimoplus.foodninja.R
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
+import com.digimoplus.foodninja.presentation.theme.AppDimensions
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.theme.getDimensions
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -40,7 +43,10 @@ class IntroductionFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
-                    IntroductionPage(findNavController())
+
+                    val dimensions = getDimensions(LocalConfiguration.current.screenHeightDp)
+
+                    IntroductionPage(findNavController(),dimensions)
                 }
             }
         }
@@ -49,7 +55,7 @@ class IntroductionFragment : Fragment() {
 
 @ExperimentalPagerApi
 @Composable
-fun IntroductionPage(navController: NavController) {
+fun IntroductionPage(navController: NavController,dimensions: AppDimensions) {
 
     val pagerState = rememberPagerState(pageCount = 2)
 
@@ -59,8 +65,8 @@ fun IntroductionPage(navController: NavController) {
         modifier = Modifier.background(color = AppTheme.colors.background)
     ) { index ->
         when (index) {
-            0 -> IntroductionPageOne(pagerState = pagerState)
-            1 -> IntroductionPageTwo(navController = navController)
+            0 -> IntroductionPageOne(pagerState = pagerState, dimensions = dimensions)
+            1 -> IntroductionPageTwo(navController = navController, dimensions = dimensions)
         }
     }
 }
