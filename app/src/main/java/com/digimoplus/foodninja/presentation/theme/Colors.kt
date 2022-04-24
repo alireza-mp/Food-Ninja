@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.Color
 //light colors
 private val colorLightBackground = Color(0xFFFFFFFF)
 private val colorLightTitleText = Color(0xFF000000)
-private val colorLightOnTitleText = Color(0xFF3B3B3B)
-private val colorLightPrimaryText = Color(0xFF15BE77)
+private val colorLightOnTitleText = Color(0x773B3B3B)
+private val colorLightPrimaryText = Color(0xFF53E88B)
 private val colorLightPrimaryTextVariant = Color(0xFFFF7C32) // page 1.16
 private val colorLightPrimaryVariant = Color(0xFFFF7C32) // page 1.32
 private val colorLightSurface = Color(0xFFFFFFFF)  // page 1.19
