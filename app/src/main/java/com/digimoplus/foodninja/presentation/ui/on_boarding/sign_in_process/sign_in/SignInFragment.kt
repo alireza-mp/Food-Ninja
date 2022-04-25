@@ -100,18 +100,19 @@ fun SingInPage(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Button(
+                Card(
                     modifier = Modifier
                         .padding(
                             start = AppTheme.dimensions.grid_3,
                             end = AppTheme.dimensions.grid_1_5
                         )
                         .fillMaxWidth(0.45f)
-                        .background(color = AppTheme.colors.surface),
+                        .clickable {
+                            navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                        },
                     shape = RoundedCornerShape(15.dp),
-                    onClick = {
-
-                    },
+                    elevation = 8.dp,
+                    backgroundColor = AppTheme.colors.surface,
                 ) {
                     Row(
                         modifier = Modifier.padding(
