@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,17 +19,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
-import com.digimoplus.foodninja.presentation.components.EmailTextField
+import com.digimoplus.foodninja.presentation.components.CustomTextField
 import com.digimoplus.foodninja.presentation.components.GradientButton
-import com.digimoplus.foodninja.presentation.components.PasswordTextField
+import com.digimoplus.foodninja.presentation.components.TextFieldType
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
@@ -43,7 +45,7 @@ class SignInFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
-                    SingInPage()
+                    SingInPage(findNavController())
                 }
             }
         }
@@ -52,7 +54,7 @@ class SignInFragment : Fragment() {
 
 
 @Composable
-fun SingInPage() {
+fun SingInPage(navController: NavController) {
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -83,9 +85,9 @@ fun SingInPage() {
                 lineHeight = 25.sp,
             )
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_6))
-            EmailTextField(placeHolder = "Email")
+            CustomTextField(placeHolder = "Email", textFieldType = TextFieldType.Email)
             Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1_5))
-            PasswordTextField(placeHolder = "Password")
+            CustomTextField(placeHolder = "Password", textFieldType = TextFieldType.SignInPassword)
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
             Text(
                 text = "Or Continue With",
@@ -98,15 +100,18 @@ fun SingInPage() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Card(
+                Button(
                     modifier = Modifier
                         .padding(
                             start = AppTheme.dimensions.grid_3,
                             end = AppTheme.dimensions.grid_1_5
                         )
-                        .fillMaxWidth(0.45f),
-                    elevation = 8.dp,
-                    shape = RoundedCornerShape(15.dp)
+                        .fillMaxWidth(0.45f)
+                        .background(color = AppTheme.colors.surface),
+                    shape = RoundedCornerShape(15.dp),
+                    onClick = {
+
+                    },
                 ) {
                     Row(
                         modifier = Modifier.padding(
@@ -117,6 +122,7 @@ fun SingInPage() {
                     ) {
                         Image(painterResource(id = R.drawable.facebook), contentDescription = "")
                         Text(
+                            color = AppTheme.colors.titleText,
                             style = AppTheme.typography.h7,
                             modifier = Modifier
                                 .padding(start = AppTheme.dimensions.grid_1)
@@ -130,8 +136,12 @@ fun SingInPage() {
                             end = AppTheme.dimensions.grid_3,
                             start = AppTheme.dimensions.grid_1_5
                         )
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                        },
                     elevation = 8.dp,
+                    backgroundColor = AppTheme.colors.surface,
                     shape = RoundedCornerShape(15.dp)
                 ) {
                     Row(
@@ -143,6 +153,7 @@ fun SingInPage() {
                     ) {
                         Image(painterResource(id = R.drawable.google), contentDescription = "")
                         Text(
+                            color = AppTheme.colors.titleText,
                             style = AppTheme.typography.h7,
                             modifier = Modifier
                                 .padding(start = AppTheme.dimensions.grid_1)

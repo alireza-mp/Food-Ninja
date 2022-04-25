@@ -19,6 +19,7 @@ class AppColors(
     secondary: Color,
     onSecondary: Color,
     secondaryText: Color,
+    secondarySurface:Color,
     isLight: Boolean
 ) {
 
@@ -50,6 +51,8 @@ class AppColors(
         private set
     var secondaryText by mutableStateOf(secondaryText)
         private set
+    var secondarySurface by mutableStateOf(secondarySurface)
+        private set
 
     fun copy(
         background: Color = this.background,
@@ -65,6 +68,7 @@ class AppColors(
         secondary: Color = this.secondary,
         onSecondary: Color = this.onSecondary,
         secondaryText: Color = this.secondaryText,
+        secondarySurface :Color = this.secondarySurface,
         isLight: Boolean = this.isLight
     ): AppColors = AppColors(
         background = background,
@@ -80,6 +84,7 @@ class AppColors(
         secondary = secondary,
         onSecondary = onSecondary,
         secondaryText = secondaryText,
+        secondarySurface = secondarySurface,
         isLight = isLight
     )
 
@@ -97,6 +102,7 @@ class AppColors(
         secondary = other.secondary
         onSecondary = other.onSecondary
         secondaryText = other.secondaryText
+        secondarySurface = other.secondarySurface
         isLight = other.isLight
     }
 }

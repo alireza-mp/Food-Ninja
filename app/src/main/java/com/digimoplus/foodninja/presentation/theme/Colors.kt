@@ -16,21 +16,23 @@ private val colorLightOnPrimary = Color(0xFF53E88B)
 private val colorLightSecondary = Color(0xFFDA6317)
 private val colorLightOnSecondary = Color(0xFFF9A84D)
 private val colorLightSecondaryText = Color(0xAADA6317)
+private val colorLightSecondarySurface = Color(0x553B3B3B)
 
 //dark colors
 private val colorDarkBackground = Color(0xFF0D0D0D)
 private val colorDarkTitleText = Color(0xFFFFFFFF)
-private val colorDarkOnTitleText = Color(0xAAFFFFFF)
+private val colorDarkOnTitleText = Color(0xCCFFFFFF)
 private val colorDarkPrimaryText = Color(0xFF15BE77)
 private val colorDarkPrimaryTextVariant = Color(0xFFFF7C32) // page 1.16
 private val colorDarkPrimaryVariant = Color(0xFFFF7C32) // page 1.32
-private val colorDarkSurface = Color(0xFFF4F4F4)  // page 1.19
-private val colorDarkOnSurface = Color(0xFFF4F4F4)  // page 1.4
+private val colorDarkSurface = Color(0xFF2e3234)
+private val colorDarkOnSurface = Color(0xFF2e3234)  // page 1.4
 private val colorDarkPrimary = Color(0xFF15BE77)
 private val colorDarkOnPrimary = Color(0xFF53E88B)
 private val colorDarkSecondary = Color(0xFFFFFFFF)
 private val colorDarkOnSecondary = Color(0xFFF4F4F4)
 private val colorDarkSecondaryText = Color(0xAAFFFFFF)
+private val colorDarkSecondarySurface = Color(0xFF2e3234)
 
 
 fun lightTheme(
@@ -47,6 +49,7 @@ fun lightTheme(
     secondary: Color = colorLightSecondary,
     onSecondary: Color = colorLightOnSecondary,
     secondaryText: Color = colorLightSecondaryText,
+    secondarySurface: Color = colorLightSecondarySurface,
     isLight: Boolean = true
 ): AppColors = AppColors(
     background = background,
@@ -62,6 +65,7 @@ fun lightTheme(
     secondary = secondary,
     onSecondary = onSecondary,
     secondaryText = secondaryText,
+    secondarySurface = secondarySurface,
     isLight = isLight
 )
 
@@ -79,6 +83,7 @@ fun darkTheme(
     secondary: Color = colorDarkSecondary,
     onSecondary: Color = colorDarkOnSecondary,
     secondaryText: Color = colorDarkSecondaryText,
+    secondarySurface:Color = colorDarkSecondarySurface,
     isLight: Boolean = false
 ): AppColors = AppColors(
     background = background,
@@ -94,5 +99,6 @@ fun darkTheme(
     secondary = secondary,
     onSecondary = onSecondary,
     secondaryText = secondaryText,
+    secondarySurface = secondarySurface,
     isLight = isLight
 )
