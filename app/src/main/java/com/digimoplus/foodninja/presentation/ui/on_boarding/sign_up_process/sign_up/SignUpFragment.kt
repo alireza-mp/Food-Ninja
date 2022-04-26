@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -141,13 +142,18 @@ fun SignUpPage(navController: NavController) {
 
                     }
                     Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))
-                    Text(
-                        text = "already have an account?",
-                        style = AppTheme.typography.descBold,
-                        color = AppTheme.colors.primaryText,
-                        lineHeight = 25.sp,
-                    )
-
+                    TextButton(
+                        onClick = {
+                            navController.navigate(R.id.action_signUpFragment_to_signInFragment)
+                        },
+                    ) {
+                        Text(
+                            text = "already have an account?",
+                            style = AppTheme.typography.descBold,
+                            color = AppTheme.colors.primaryText,
+                            lineHeight = 25.sp,
+                        )
+                    }
                 }
             }
         }

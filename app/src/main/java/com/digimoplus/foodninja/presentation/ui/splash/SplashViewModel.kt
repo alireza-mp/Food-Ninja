@@ -4,15 +4,18 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.OnlineChecker
 import com.digimoplus.foodninja.domain.util.PreferencesKeys.authenticationKey
 import com.digimoplus.foodninja.domain.util.PreferencesKeys.introductionKey
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
@@ -24,8 +27,10 @@ constructor(
     private val onlineChecker: OnlineChecker
 ) : ViewModel() {
 
-    fun isOnline(): Boolean {
-        return onlineChecker.isOnline
+    suspend fun isOnline(): Boolean {
+        return withContext(Dispatchers.IO){
+             onlineChecker.isOnline
+        }
     }
 
     val checkIntroduction: Flow<String> = dataStore.data
