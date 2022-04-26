@@ -136,7 +136,7 @@ private suspend fun checkUserIntroduction(
     navController: NavController
 ) {
     viewModel.checkIntroduction.collect { state ->
-        if (state != "null") {
+        if (state == "null") {
             goToIntroductionPage(retryVisibility, viewModel, navController)
         } else {
             checkUserAuthentication(retryVisibility, viewModel, navController)
