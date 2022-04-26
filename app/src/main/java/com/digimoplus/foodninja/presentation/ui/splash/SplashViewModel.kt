@@ -28,12 +28,6 @@ constructor(
         return onlineChecker.isOnline
     }
 
-/*    // check user introduction
-    val checkIntroduction: Flow<String> = dataStore.data
-        .map { preferences ->
-            preferences[introductionKey] ?: "null"
-        }*/
-
     val checkIntroduction: Flow<String> = dataStore.data
         .map { preferences ->
             preferences[introductionKey] ?: "null"
@@ -44,10 +38,4 @@ constructor(
         .map { preferences ->
             preferences[authenticationKey] ?: "null"
         }
-
-    /* suspend fun save(name: String) {
-         dataStore.edit { preferences ->
-             preferences[introductionKey] = "OK"
-         }
-     }*/
 }

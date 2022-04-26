@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -20,11 +21,15 @@ import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppDimensions
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.buttonGradient
+import kotlinx.coroutines.launch
 
 @Composable
-fun IntroductionPageTwo(navController: NavController,dimensions: AppDimensions) {
-
-
+fun IntroductionPageTwo(
+    viewModel: IntroductionViewModel,
+    navController: NavController,
+    dimensions: AppDimensions
+) {
+    val coroutineScope = rememberCoroutineScope()
     Surface(color = AppTheme.colors.background) {
         ConstraintLayout(
             modifier = Modifier.fillMaxSize(),
@@ -143,7 +148,10 @@ fun IntroductionPageTwo(navController: NavController,dimensions: AppDimensions) 
                 textColor = Color.White,
                 text = "Next"
             ) { // onClick
-                navController.navigate(R.id.action_introductionFragment_to_signUpFragment)
+                coroutineScope.launch {
+                    viewModel.saveIntroduction()
+                    navController.navigate(R.id.action_introductionFragment_to_signUpFragment)
+                }
             }
         }
     }

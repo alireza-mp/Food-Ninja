@@ -21,6 +21,8 @@ import com.digimoplus.foodninja.R
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.theme.AppDimensions
@@ -30,10 +32,14 @@ import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import dagger.hilt.android.AndroidEntryPoint
 
 
 @ExperimentalPagerApi
+@AndroidEntryPoint
 class IntroductionFragment : Fragment() {
+
+    private val viewModel: IntroductionViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +49,8 @@ class IntroductionFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
-
                     val dimensions = getDimensions(LocalConfiguration.current.screenHeightDp)
-
-                    IntroductionPage(findNavController(),dimensions)
+                    IntroductionPage(viewModel, findNavController(), dimensions)
                 }
             }
         }
@@ -55,8 +59,11 @@ class IntroductionFragment : Fragment() {
 
 @ExperimentalPagerApi
 @Composable
-fun IntroductionPage(navController: NavController,dimensions: AppDimensions) {
-
+fun IntroductionPage(
+    viewModel: IntroductionViewModel,
+    navController: NavController,
+    dimensions: AppDimensions
+) {
     val pagerState = rememberPagerState(pageCount = 2)
 
     HorizontalPager(
@@ -66,7 +73,11 @@ fun IntroductionPage(navController: NavController,dimensions: AppDimensions) {
     ) { index ->
         when (index) {
             0 -> IntroductionPageOne(pagerState = pagerState, dimensions = dimensions)
-            1 -> IntroductionPageTwo(navController = navController, dimensions = dimensions)
+            1 -> IntroductionPageTwo(
+                viewModel = viewModel,
+                navController = navController,
+                dimensions = dimensions
+            )
         }
     }
 }
