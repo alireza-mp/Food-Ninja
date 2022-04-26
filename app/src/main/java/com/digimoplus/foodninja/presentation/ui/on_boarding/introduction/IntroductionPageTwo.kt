@@ -143,7 +143,7 @@ fun IntroductionPageTwo(navController: NavController,dimensions: AppDimensions) 
                 textColor = Color.White,
                 text = "Next"
             ) { // onClick
-                navController.navigate(R.id.action_introductionFragment_to_signInFragment)
+                navController.navigate(R.id.action_introductionFragment_to_signUpFragment)
             }
         }
     }

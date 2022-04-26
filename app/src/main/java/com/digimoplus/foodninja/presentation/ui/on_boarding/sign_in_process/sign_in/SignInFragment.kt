@@ -108,7 +108,7 @@ fun SingInPage(navController: NavController) {
                         )
                         .fillMaxWidth(0.45f)
                         .clickable {
-                            navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                           // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
                         },
                     shape = RoundedCornerShape(15.dp),
                     elevation = 8.dp,
@@ -139,7 +139,7 @@ fun SingInPage(navController: NavController) {
                         )
                         .fillMaxWidth()
                         .clickable {
-                            navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                           // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
                         },
                     elevation = 8.dp,
                     backgroundColor = AppTheme.colors.surface,

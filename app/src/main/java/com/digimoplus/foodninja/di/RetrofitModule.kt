@@ -1,7 +1,7 @@
 package com.digimoplus.foodninja.di
 
 import com.digimoplus.foodninja.domain.util.Constants
-import com.digimoplus.foodninja.network.TOneService
+import com.digimoplus.foodninja.network.AuthService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -23,7 +23,7 @@ object RetrofitModule {
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
     }
 
-    fun provideTOneService(builder: Retrofit.Builder): TOneService {
-        return builder.build().create(TOneService::class.java)
+    fun provideTOneService(builder: Retrofit.Builder): AuthService {
+        return builder.build().create(AuthService::class.java)
     }
 }
