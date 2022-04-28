@@ -63,15 +63,7 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
     }
     val coroutineScope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = if (AppTheme.colors.isLight) R.drawable.background_light else R.drawable.background_dark),
-            contentDescription = "",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillWidth
-        )
+    DisplayBackgroundImage(snackBarState = snackBarState) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -170,13 +162,6 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                     }
                 }
             }
-        }
-
-        CustomSnackBar(
-            snackBarHostState = snackBarState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) {
-            snackBarState.currentSnackbarData?.dismiss()
         }
     }
 }

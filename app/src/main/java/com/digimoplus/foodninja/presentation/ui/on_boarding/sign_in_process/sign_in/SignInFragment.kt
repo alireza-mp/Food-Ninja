@@ -28,10 +28,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.CustomSnackBar
-import com.digimoplus.foodninja.presentation.components.CustomTextField
-import com.digimoplus.foodninja.presentation.components.GradientButton
-import com.digimoplus.foodninja.presentation.components.TextFieldType
+import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
@@ -68,15 +65,8 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
         SnackbarHostState()
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = if (AppTheme.colors.isLight) R.drawable.background_light else R.drawable.background_dark),
-            contentDescription = "",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillWidth
-        )
+    DisplayBackgroundImage(snackBarState = snackBarState) {
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
@@ -212,12 +202,6 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
                     }
                 }
             }
-        }
-        CustomSnackBar(
-            snackBarHostState = snackBarState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) {
-            snackBarState.currentSnackbarData?.dismiss()
         }
     }
 }
