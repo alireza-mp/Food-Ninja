@@ -14,7 +14,7 @@ private val colorLightOnSurface = Color(0xFFF4F4F4) // page 1.4
 private val colorLightPrimary = Color(0xFF15BE77)
 private val colorLightOnPrimary = Color(0xFF53E88B)
 private val colorLightSecondary = Color(0xFFDA6317)
-private val colorLightOnSecondary = Color(0xFFF9A84D)
+private val colorLightOnSecondary = Color(0xFFFAE6C8)
 private val colorLightSecondaryText = Color(0xAADA6317)
 private val colorLightSecondarySurface = Color(0xFFE6E6E6)
 
@@ -30,7 +30,7 @@ private val colorDarkOnSurface = Color(0xFF2e3234)  // page 1.4
 private val colorDarkPrimary = Color(0xFF15BE77)
 private val colorDarkOnPrimary = Color(0xFF53E88B)
 private val colorDarkSecondary = Color(0xFFFFFFFF)
-private val colorDarkOnSecondary = Color(0xFFF4F4F4)
+private val colorDarkOnSecondary = Color(0xFF2e3234)
 private val colorDarkSecondaryText = Color(0xAAFFFFFF)
 private val colorDarkSecondarySurface = Color(0xFF2e3234)
 

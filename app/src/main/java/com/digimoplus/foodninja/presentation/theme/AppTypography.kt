@@ -46,6 +46,12 @@ data class AppTypography(
         fontSize = 34.sp,
         letterSpacing = 0.25.sp
     ),
+    val h4M: TextStyle = TextStyle(
+        fontFamily = bentonSansMedium,
+        fontWeight = FontWeight.Light,
+        fontSize = 30.sp,
+        letterSpacing = 0.25.sp
+    ),
     val h5: TextStyle = TextStyle(
         fontFamily = bentonSansBlod,
         fontWeight = FontWeight.Light,
@@ -220,6 +226,12 @@ val smallTypography = AppTypography(
         fontSize = 22.sp,
         letterSpacing = 0.1625.sp
     ),
+    h4M = TextStyle(
+        fontFamily = bentonSansBlod,
+        fontWeight = FontWeight.Light,
+        fontSize = 19.5.sp,
+        letterSpacing = 0.1625.sp
+    ),
     h5 = TextStyle(
         fontFamily = bentonSansBlod,
         fontWeight = FontWeight.Light,
@@ -306,6 +318,12 @@ val mediumTypography = AppTypography(
         fontFamily = bentonSansBlod,
         fontWeight = FontWeight.Light,
         fontSize = 28.sp,
+        letterSpacing = 0.20.sp
+    ),
+    h4M = TextStyle(
+        fontFamily = bentonSansBlod,
+        fontWeight = FontWeight.Light,
+        fontSize = 24.7.sp,
         letterSpacing = 0.20.sp
     ),
     h5 = TextStyle(

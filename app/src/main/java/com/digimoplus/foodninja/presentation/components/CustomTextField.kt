@@ -60,6 +60,12 @@ fun CustomTextField(
                 value = value
             )
         }
+        is TextFieldType.None -> {
+            NoneTextField(
+                placeHolder = placeHolder,
+                value = value
+            )
+        }
     }
 }
 
@@ -92,7 +98,7 @@ private fun SignInPasswordTextField(
                 Text(
                     text = placeHolder,
                     color = AppTheme.colors.onTitleText,
-                    style = AppTheme.typography.body1
+                    style = AppTheme.typography.body
                 )
             },
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
@@ -158,7 +164,7 @@ private fun SignUpPasswordTextField(
                 Text(
                     text = placeHolder,
                     color = AppTheme.colors.onTitleText,
-                    style = AppTheme.typography.body1
+                    style = AppTheme.typography.body
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -204,11 +210,54 @@ private fun NameTextField(
                 Text(
                     text = placeHolder,
                     color = AppTheme.colors.onTitleText,
-                    style = AppTheme.typography.body1
+                    style = AppTheme.typography.body
                 )
             },
             leadingIcon = {
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)
+            },
+            onValueChange = {
+                value.value = it
+            },
+            singleLine = true,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = AppTheme.colors.titleText,
+                cursorColor = AppTheme.colors.primaryText,
+                errorCursorColor = AppTheme.colors.secondary,
+                disabledTextColor = Color.Transparent,
+                backgroundColor = AppTheme.colors.surface,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
+        )
+    }
+}
+
+@Composable
+private fun NoneTextField(
+    placeHolder: String,
+    value: MutableState<String>
+) {
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(15.dp),
+        backgroundColor = AppTheme.colors.surface,
+        border = BorderStroke(1.dp, AppTheme.colors.onSurface)
+    ) {
+        TextField(
+            textStyle = AppTheme.typography.body,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = AppTheme.dimensions.grid_1, vertical = AppTheme.dimensions.grid_0_5),
+            value = value.value,
+            placeholder = {
+                Text(
+                    text = placeHolder,
+                    color = AppTheme.colors.onTitleText,
+                    style = AppTheme.typography.body
+                )
             },
             onValueChange = {
                 value.value = it
@@ -254,7 +303,7 @@ private fun EmailTextField(
                 Text(
                     text = placeHolder,
                     color = AppTheme.colors.onTitleText,
-                    style = AppTheme.typography.body1
+                    style = AppTheme.typography.body
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -299,6 +348,7 @@ sealed class TextFieldType {
     object SignUpPassword : TextFieldType()
     object Email : TextFieldType()
     object Name : TextFieldType()
+    object None : TextFieldType()
 }
 
 sealed class TextFieldIcon {

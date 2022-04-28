@@ -3,10 +3,7 @@ package com.digimoplus.foodninja.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.digimoplus.foodninja.network.AuthService
-import com.digimoplus.foodninja.repository.SignInRepository
-import com.digimoplus.foodninja.repository.SignInRepositoryImpl
-import com.digimoplus.foodninja.repository.SignUpRepository
-import com.digimoplus.foodninja.repository.SignUpRepositoryImpl
+import com.digimoplus.foodninja.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +19,7 @@ object RepositoryModule {
     fun provideSignUpRepository(
         authService: AuthService,
         dataStore: DataStore<Preferences>,
-    ):SignUpRepository{
+    ): SignUpRepository {
         return SignUpRepositoryImpl(
             authService = authService,
             dataStore = dataStore,
@@ -38,6 +35,17 @@ object RepositoryModule {
         return SignInRepositoryImpl(
             authService = authService,
             dataStore = dataStore,
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserInfoRepository(
+        authService: AuthService,
+        dataStore: DataStore<Preferences>
+    ): UserInfoRepository {
+        return UserInfoRepositoryImpl(
+            authService = authService, dataStore = dataStore
         )
     }
 }

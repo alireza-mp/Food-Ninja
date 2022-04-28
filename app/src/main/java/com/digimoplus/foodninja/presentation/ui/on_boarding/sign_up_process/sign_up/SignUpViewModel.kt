@@ -1,5 +1,6 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up
 
+import android.os.Bundle
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -60,8 +61,11 @@ constructor(
             withContext(Dispatchers.Main) {
                 loading.value = false
                 state.showSnackbar(message = register.message)
-                if (register.message == Register.Successful.message)
-                    navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
+                if (register.message == Register.Successful.message){
+                val bundle = Bundle()
+                bundle.putString("name", name.value)
+                navController.navigate(R.id.action_signUpFragment_to_userInformationFragment,bundle)
+                }
             }
         }
     }

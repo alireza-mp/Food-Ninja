@@ -147,8 +147,8 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                         textColor = Color.White,
                     ) { // onClick
                         coroutineScope.launch {
-                            //viewModel.register(state = snackBarState, navController = navController)
-                            navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
+                            viewModel.register(state = snackBarState, navController = navController)
+                            //navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
                         }
                     }
                     Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))

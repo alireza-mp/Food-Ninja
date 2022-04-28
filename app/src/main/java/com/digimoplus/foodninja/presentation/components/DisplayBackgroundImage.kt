@@ -2,6 +2,7 @@ package com.digimoplus.foodninja.presentation.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -17,18 +18,28 @@ fun DisplayBackgroundImage(
     @DrawableRes lightBackground: Int = R.drawable.background_light,
     @DrawableRes darkBackground: Int = R.drawable.background_dark,
     snackBarState: SnackbarHostState? = null,
+    paddingValues: PaddingValues = PaddingValues(),
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = AppTheme.colors.background),
     ) {
         Image(
             painter = painterResource(id = if (AppTheme.colors.isLight) lightBackground else darkBackground),
             contentDescription = "",
+            alignment = Alignment.TopCenter,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillWidth
         )
-        content()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            content()
+        }
         snackBarState?.let { snackBarState ->
             CustomSnackBar(
                 snackBarHostState = snackBarState,

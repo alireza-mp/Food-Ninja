@@ -36,6 +36,7 @@ data class AppDimensions(
     val title_page_two :Dp =320.dp,
     val description_page_two :Dp =250.dp,
     val img_berger:Dp=150.dp,
+    val infoUserTitle :Dp= 264.dp
     )
 
 val smallDimensions = AppDimensions(
@@ -68,7 +69,8 @@ val smallDimensions = AppDimensions(
     img_donate_1 = 87.dp,
     img_donate_2 = 97.dp,
     img_donate_3 = 45.dp,
-    img_donate_4 = 97.dp
+    img_donate_4 = 97.dp,
+    infoUserTitle = 195.dp
 )
 
 val sw360Dimensions = AppDimensions(
@@ -101,7 +103,8 @@ val sw360Dimensions = AppDimensions(
     img_donate_1 = 135.dp,
     img_donate_2 = 150.dp,
     img_donate_3 = 70.dp,
-    img_donate_4 = 150.dp
+    img_donate_4 = 150.dp,
+    infoUserTitle = 300.dp
 )
 
 val mediumDimensions = AppDimensions(
@@ -134,6 +137,7 @@ val mediumDimensions = AppDimensions(
     img_donate_1 = 111.dp,
     img_donate_2 = 123.dp,
     img_donate_3 = 57.dp,
-    img_donate_4 = 111.dp
+    img_donate_4 = 111.dp,
+    infoUserTitle = 246.dp
 )
 internal val LocalDimensions = staticCompositionLocalOf { AppDimensions() }

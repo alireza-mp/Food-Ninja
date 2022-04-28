@@ -18,28 +18,28 @@ class SignUpRepositoryImpl
 
     override suspend fun registerUser(name: String, email: String, password: String): Register {
         try {
-            val response = authService.SignUp(name, email, password, password)
-            return when(response.code()){
-                422->{
+            val response = authService.signUp(name, email, password, password)
+            return when (response.code()) {
+                422 -> {
                     Register.WrongError
                 }
-                200->{
-                    saveAuthenticationToken(response.body()?.accessToken)
+                200 -> {
+                    saveAuthenticationToken(response.body()?.accessToken, response.body()?.id ?: 0)
                     Register.Successful
                 }
-                else->{
+                else -> {
                     Register.SomeError
                 }
             }
         } catch (e: Exception) {
-          return  Register.NetworkError
+            return Register.NetworkError
         }
     }
 
-    private suspend fun saveAuthenticationToken(token: String?) {
+    private suspend fun saveAuthenticationToken(token: String?, id: Int) {
         token?.let {
-            Log.d(TAG, "saveAuthenticationToken: $token")
             dataStore.edit { preferences ->
+                preferences[PreferencesKeys.userId] = id
                 preferences[PreferencesKeys.authenticationKey] = it
             }
         }
