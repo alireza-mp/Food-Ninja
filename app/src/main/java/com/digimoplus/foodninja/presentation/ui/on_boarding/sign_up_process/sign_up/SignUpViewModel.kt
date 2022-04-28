@@ -5,6 +5,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.repository.SignUpRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +30,7 @@ constructor(
     val checkOne: MutableState<Boolean> = mutableStateOf(false)
     val checkTwo: MutableState<Boolean> = mutableStateOf(false)
 
-    suspend fun register(state: SnackbarHostState) {
+    suspend fun register(navController: NavController, state: SnackbarHostState) {
         when {
             name.value.length < 4 -> {
                 state.showSnackbar("Invalid Name")
@@ -38,25 +41,27 @@ constructor(
             password.value.length < 7 -> {
                 state.showSnackbar("Invalid Password")
             }
-            !checkOne.value ->{
+            !checkOne.value -> {
                 state.showSnackbar("Invalid checkOne")
             }
-            !checkTwo.value->{
+            !checkTwo.value -> {
                 state.showSnackbar("Invalid checkTwo")
             }
             else -> {
-                registerUser(state)
+                registerUser(navController, state)
             }
         }
     }
 
-    private fun registerUser(state: SnackbarHostState) {
+    private fun registerUser(navController: NavController, state: SnackbarHostState) {
         loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val register = repository.registerUser(name.value, email.value, password.value)
             withContext(Dispatchers.Main) {
                 loading.value = false
                 state.showSnackbar(message = register.message)
+                if (register.message == Register.Successful.message)
+                    navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
             }
         }
     }
