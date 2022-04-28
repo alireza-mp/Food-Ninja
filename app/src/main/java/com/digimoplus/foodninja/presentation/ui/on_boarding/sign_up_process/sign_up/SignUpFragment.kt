@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
+
     val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreateView(

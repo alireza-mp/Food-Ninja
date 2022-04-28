@@ -83,11 +83,15 @@
         android:name="com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.sign_in.SignInFragment"
         android:label="fragment_sign_in">
         <action
+            android:id="@+id/action_signInFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"
             app:popUpTo="@id/signInFragment"
-            app:popUpToInclusive="true"
-            android:id="@+id/action_signInFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signInFragment_to_forgetPasswordFragment"
             app:destination="@id/forgetPasswordFragment" />

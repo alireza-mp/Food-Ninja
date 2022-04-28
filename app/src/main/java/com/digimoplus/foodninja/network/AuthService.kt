@@ -19,9 +19,9 @@ interface AuthService {
 
     @Headers("Accept: application/json")
     @FormUrlEncoded
-    @POST("auth/signin")
+    @POST("auth/login")
     suspend fun SignIn(
         @Field("email") email: String,
         @Field("password") password: String,
-    ): UserDto
+    ): Response<RegisterDto>
 }

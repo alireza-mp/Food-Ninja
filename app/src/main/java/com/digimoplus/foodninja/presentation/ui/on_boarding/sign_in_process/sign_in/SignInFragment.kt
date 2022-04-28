@@ -24,18 +24,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.components.CustomSnackBar
 import com.digimoplus.foodninja.presentation.components.CustomTextField
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.TextFieldType
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class SignInFragment : Fragment() {
+
+    private val viewModel: SignInViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +52,7 @@ class SignInFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
-                    SingInPage(findNavController())
+                    SingInPage(findNavController(), viewModel)
                 }
             }
         }
@@ -54,7 +61,12 @@ class SignInFragment : Fragment() {
 
 
 @Composable
-fun SingInPage(navController: NavController) {
+fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
+
+    val coroutineScope = rememberCoroutineScope()
+    val snackBarState = remember {
+        SnackbarHostState()
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -65,7 +77,6 @@ fun SingInPage(navController: NavController) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillWidth
         )
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
@@ -84,13 +95,19 @@ fun SingInPage(navController: NavController) {
                 color = AppTheme.colors.titleText,
                 lineHeight = 25.sp,
             )
-            val v = remember {
-                mutableStateOf("fdsf")
-            }
+
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_6))
-            CustomTextField(placeHolder = "Email", textFieldType = TextFieldType.Email, value = v)
+            CustomTextField(
+                placeHolder = "Email",
+                textFieldType = TextFieldType.Email,
+                value = viewModel.email
+            )
             Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1_5))
-            CustomTextField(placeHolder = "Password", textFieldType = TextFieldType.SignInPassword, value = v)
+            CustomTextField(
+                placeHolder = "Password",
+                textFieldType = TextFieldType.SignInPassword,
+                value = viewModel.password
+            )
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
             Text(
                 text = "Or Continue With",
@@ -167,13 +184,18 @@ fun SingInPage(navController: NavController) {
                 }
             }
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3_5))
-            Text(
-                text = "Forgot Your Password?",
-                style = AppTheme.typography.descBold,
-                color = AppTheme.colors.primaryText,
-                lineHeight = 25.sp,
-            )
-
+            TextButton(
+                enabled = !viewModel.loading.value,
+                onClick = {
+                    navController.navigate(R.id.action_signInFragment_to_forgetPasswordFragment)
+                }) {
+                Text(
+                    text = "Forgot Your Password?",
+                    style = AppTheme.typography.descBold,
+                    color = AppTheme.colors.primaryText,
+                    lineHeight = 25.sp,
+                )
+            }
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -182,11 +204,20 @@ fun SingInPage(navController: NavController) {
                     modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_1_5),
                     gradient = buttonGradient(),
                     text = "LogIn",
-                    textColor = Color.White
+                    textColor = Color.White,
+                    loading = viewModel.loading.value
                 ) { // onClick
-
+                    coroutineScope.launch {
+                        viewModel.loginUser(snackBarState, navController)
+                    }
                 }
             }
+        }
+        CustomSnackBar(
+            snackBarHostState = snackBarState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            snackBarState.currentSnackbarData?.dismiss()
         }
     }
 }
