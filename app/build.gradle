@@ -133,4 +133,8 @@ dependencies {
     // datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+    // progress bar
+    implementation("com.ehsanmsz:msz-progress-indicator:0.2.0")
+
+
 }

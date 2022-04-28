@@ -16,7 +16,7 @@ private val colorLightOnPrimary = Color(0xFF53E88B)
 private val colorLightSecondary = Color(0xFFDA6317)
 private val colorLightOnSecondary = Color(0xFFF9A84D)
 private val colorLightSecondaryText = Color(0xAADA6317)
-private val colorLightSecondarySurface = Color(0x553B3B3B)
+private val colorLightSecondarySurface = Color(0xFFE6E6E6)
 
 //dark colors
 private val colorDarkBackground = Color(0xFF0D0D0D)

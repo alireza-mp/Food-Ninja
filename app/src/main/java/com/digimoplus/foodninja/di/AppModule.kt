@@ -21,7 +21,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideDataStore(@ApplicationContext app: Context ) :  DataStore<Preferences> = app.dataStore
+    fun provideDataStore(@ApplicationContext app: Context): DataStore<Preferences> = app.dataStore
 
     @Singleton
     @Provides
@@ -29,5 +29,8 @@ object AppModule {
         val runtime = Runtime.getRuntime()
         return ExperimentalOnlineChecker(runtime)
     }
+
+
+
 
 }

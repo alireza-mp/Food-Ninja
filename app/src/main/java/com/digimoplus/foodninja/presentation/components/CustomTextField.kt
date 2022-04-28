@@ -28,20 +28,37 @@ import javax.annotation.meta.When
 fun CustomTextField(
     placeHolder: String,
     textFieldType: TextFieldType,
-    textFieldIcon: TextFieldIcon = TextFieldIcon.None
+    textFieldIcon: TextFieldIcon = TextFieldIcon.None,
+    value: MutableState<String>
 ) {
     when (textFieldType) {
         is TextFieldType.Email -> {
-            EmailTextField(placeHolder = placeHolder, textFieldIcon = textFieldIcon)
+            EmailTextField(
+                placeHolder = placeHolder,
+                textFieldIcon = textFieldIcon,
+                value = value
+            )
         }
         is TextFieldType.Name -> {
-            NameTextField(placeHolder = placeHolder, textFieldIcon = textFieldIcon)
+            NameTextField(
+                placeHolder = placeHolder,
+                textFieldIcon = textFieldIcon,
+                value = value
+            )
         }
         is TextFieldType.SignInPassword -> {
-            SignInPasswordTextField(placeHolder = placeHolder, textFieldIcon = textFieldIcon)
+            SignInPasswordTextField(
+                placeHolder = placeHolder,
+                textFieldIcon = textFieldIcon,
+                value = value
+            )
         }
         is TextFieldType.SignUpPassword -> {
-            SignUpPasswordTextField(placeHolder = placeHolder, textFieldIcon = textFieldIcon)
+            SignUpPasswordTextField(
+                placeHolder = placeHolder,
+                textFieldIcon = textFieldIcon,
+                value = value
+            )
         }
     }
 }
@@ -50,11 +67,12 @@ fun CustomTextField(
 @Composable
 private fun SignInPasswordTextField(
     placeHolder: String,
-    textFieldIcon: TextFieldIcon
+    textFieldIcon: TextFieldIcon,
+    value: MutableState<String>
 ) {
 
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-    var value by rememberSaveable { mutableStateOf("") }
+
     Card(
         modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
         shape = RoundedCornerShape(15.dp),
@@ -66,7 +84,7 @@ private fun SignInPasswordTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = AppTheme.dimensions.grid_1),
-            value = value,
+            value = value.value,
             leadingIcon = {
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)
             },
@@ -97,7 +115,7 @@ private fun SignInPasswordTextField(
                 }
             },
             onValueChange = {
-                value = it
+                value.value = it
             },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
@@ -117,10 +135,10 @@ private fun SignInPasswordTextField(
 @Composable
 private fun SignUpPasswordTextField(
     placeHolder: String,
-    textFieldIcon: TextFieldIcon
+    textFieldIcon: TextFieldIcon,
+    value: MutableState<String>
 ) {
 
-    var value by rememberSaveable { mutableStateOf("") }
     Card(
         modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
         shape = RoundedCornerShape(15.dp),
@@ -132,7 +150,7 @@ private fun SignUpPasswordTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = AppTheme.dimensions.grid_1),
-            value = value,
+            value = value.value,
             leadingIcon = {
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)
             },
@@ -145,7 +163,7 @@ private fun SignUpPasswordTextField(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             onValueChange = {
-                value = it
+                value.value = it
             },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
@@ -166,9 +184,10 @@ private fun SignUpPasswordTextField(
 @Composable
 private fun NameTextField(
     placeHolder: String,
-    textFieldIcon: TextFieldIcon
+    textFieldIcon: TextFieldIcon,
+    value: MutableState<String>
 ) {
-    var value by rememberSaveable { mutableStateOf("") }
+
     Card(
         modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
         shape = RoundedCornerShape(15.dp),
@@ -180,7 +199,7 @@ private fun NameTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = AppTheme.dimensions.grid_1),
-            value = value,
+            value = value.value,
             placeholder = {
                 Text(
                     text = placeHolder,
@@ -192,7 +211,7 @@ private fun NameTextField(
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)
             },
             onValueChange = {
-                value = it
+                value.value = it
             },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
@@ -212,9 +231,9 @@ private fun NameTextField(
 @Composable
 private fun EmailTextField(
     placeHolder: String,
-    textFieldIcon: TextFieldIcon
+    textFieldIcon: TextFieldIcon,
+    value: MutableState<String>
 ) {
-    var value by rememberSaveable { mutableStateOf("") }
 
     Card(
         modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
@@ -227,7 +246,7 @@ private fun EmailTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = AppTheme.dimensions.grid_1),
-            value = value,
+            value = value.value,
             leadingIcon = {
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)
             },
@@ -240,7 +259,7 @@ private fun EmailTextField(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             onValueChange = {
-                value = it
+                value.value = it
             },
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
@@ -253,7 +272,7 @@ private fun EmailTextField(
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
-            )
+        )
     }
 }
 

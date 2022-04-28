@@ -84,10 +84,13 @@ fun SingInPage(navController: NavController) {
                 color = AppTheme.colors.titleText,
                 lineHeight = 25.sp,
             )
+            val v = remember {
+                mutableStateOf("fdsf")
+            }
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_6))
-            CustomTextField(placeHolder = "Email", textFieldType = TextFieldType.Email)
+            CustomTextField(placeHolder = "Email", textFieldType = TextFieldType.Email, value = v)
             Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1_5))
-            CustomTextField(placeHolder = "Password", textFieldType = TextFieldType.SignInPassword)
+            CustomTextField(placeHolder = "Password", textFieldType = TextFieldType.SignInPassword, value = v)
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
             Text(
                 text = "Or Continue With",
@@ -108,7 +111,7 @@ fun SingInPage(navController: NavController) {
                         )
                         .fillMaxWidth(0.45f)
                         .clickable {
-                           // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                            // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
                         },
                     shape = RoundedCornerShape(15.dp),
                     elevation = 8.dp,
@@ -139,7 +142,7 @@ fun SingInPage(navController: NavController) {
                         )
                         .fillMaxWidth()
                         .clickable {
-                           // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                            // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
                         },
                     elevation = 8.dp,
                     backgroundColor = AppTheme.colors.surface,
