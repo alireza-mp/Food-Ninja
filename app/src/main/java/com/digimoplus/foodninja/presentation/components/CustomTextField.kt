@@ -27,8 +27,8 @@ import javax.annotation.meta.When
 @Composable
 fun CustomTextField(
     placeHolder: String,
-    textFieldType: TextFieldType,
-    textFieldIcon: TextFieldIcon = TextFieldIcon.None,
+    textFieldType: TextFieldType =TextFieldType.Name,
+    textFieldIcon: TextFieldIcon = TextFieldIcon.Person,
     value: MutableState<String>
 ) {
     when (textFieldType) {
@@ -290,10 +290,6 @@ private fun SetTextFieldIcon(textFieldIcon: TextFieldIcon) {
         is TextFieldIcon.Person -> {
             Image(painter = painterResource(id = R.drawable.profile), contentDescription = "")
         }
-
-        is TextFieldIcon.None -> {
-            // No Icon
-        }
     }
 
 }
@@ -309,6 +305,5 @@ sealed class TextFieldIcon {
     object Password : TextFieldIcon()
     object Person : TextFieldIcon()
     object Email : TextFieldIcon()
-    object None : TextFieldIcon()
 }
 
