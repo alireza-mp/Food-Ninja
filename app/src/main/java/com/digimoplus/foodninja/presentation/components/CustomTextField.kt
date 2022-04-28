@@ -74,7 +74,7 @@ private fun SignInPasswordTextField(
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface,
         border = BorderStroke(1.dp, AppTheme.colors.onSurface)
@@ -140,7 +140,7 @@ private fun SignUpPasswordTextField(
 ) {
 
     Card(
-        modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface,
         border = BorderStroke(1.dp, AppTheme.colors.onSurface)
@@ -189,7 +189,7 @@ private fun NameTextField(
 ) {
 
     Card(
-        modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface,
         border = BorderStroke(1.dp, AppTheme.colors.onSurface)
@@ -236,7 +236,7 @@ private fun EmailTextField(
 ) {
 
     Card(
-        modifier = Modifier.padding(horizontal = AppTheme.dimensions.grid_3),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface,
         border = BorderStroke(1.dp, AppTheme.colors.onSurface)

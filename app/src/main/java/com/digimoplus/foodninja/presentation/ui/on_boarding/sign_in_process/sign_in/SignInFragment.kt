@@ -61,13 +61,17 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
         SnackbarHostState()
     }
 
-    DisplayBackgroundImage(snackBarState = snackBarState) {
-
+    DisplayBackgroundImage(
+        snackBarState = snackBarState, paddingValues = PaddingValues(
+            top = AppTheme.dimensions.grid_3,
+            start = AppTheme.dimensions.grid_3,
+            end = AppTheme.dimensions.grid_3
+        )
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
             Image(
                 modifier = Modifier
                     .width(AppTheme.dimensions.logo_size)
@@ -109,7 +113,6 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
                 Card(
                     modifier = Modifier
                         .padding(
-                            start = AppTheme.dimensions.grid_3,
                             end = AppTheme.dimensions.grid_1_5
                         )
                         .fillMaxWidth(0.45f)
@@ -140,7 +143,6 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
                 Card(
                     modifier = Modifier
                         .padding(
-                            end = AppTheme.dimensions.grid_3,
                             start = AppTheme.dimensions.grid_1_5
                         )
                         .fillMaxWidth()

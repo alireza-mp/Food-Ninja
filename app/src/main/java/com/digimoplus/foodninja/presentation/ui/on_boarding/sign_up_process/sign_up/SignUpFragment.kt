@@ -63,13 +63,19 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
     }
     val coroutineScope = rememberCoroutineScope()
 
-    DisplayBackgroundImage(snackBarState = snackBarState) {
+    DisplayBackgroundImage(
+        snackBarState = snackBarState,
+        paddingValues = PaddingValues(
+            top = AppTheme.dimensions.grid_3,
+            start = AppTheme.dimensions.grid_3,
+            end = AppTheme.dimensions.grid_3
+        )
+    ) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
             Image(
                 modifier = Modifier
                     .width(AppTheme.dimensions.logo_size)
@@ -108,8 +114,7 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
             CustomCheckBox(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = AppTheme.dimensions.grid_3),
+                    .fillMaxWidth(),
                 selected = viewModel.checkOne.value,
                 text = "Keep Me Signed In"
             ) {
@@ -118,8 +123,7 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
             Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))
             CustomCheckBox(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = AppTheme.dimensions.grid_3),
+                    .fillMaxWidth(),
                 selected = viewModel.checkTwo.value,
                 text = "Email Me About Special Pricing"
             ) {
@@ -143,7 +147,8 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                         textColor = Color.White,
                     ) { // onClick
                         coroutineScope.launch {
-                            viewModel.register(state = snackBarState, navController = navController)
+                            //viewModel.register(state = snackBarState, navController = navController)
+                            navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
                         }
                     }
                     Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))
