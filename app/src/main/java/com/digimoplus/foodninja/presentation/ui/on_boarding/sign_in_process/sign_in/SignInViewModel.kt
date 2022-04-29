@@ -26,16 +26,18 @@ constructor(
     val loading = mutableStateOf(false)
 
 
-    suspend fun loginUser(state: SnackbarHostState, navController: NavController) {
-        when {
-            email.value.length < 9 -> {
-                state.showSnackbar("Invalid Email")
-            }
-            password.value.length < 7 -> {
-                state.showSnackbar("Invalid Password")
-            }
-            else -> {
-                login(state, navController)
+    fun loginUser(state: SnackbarHostState, navController: NavController) {
+        viewModelScope.launch {
+            when {
+                email.value.length < 9 -> {
+                    state.showSnackbar("Invalid Email")
+                }
+                password.value.length < 7 -> {
+                    state.showSnackbar("Invalid Password")
+                }
+                else -> {
+                    login(state, navController)
+                }
             }
         }
     }
@@ -43,7 +45,7 @@ constructor(
 
     private suspend fun login(state: SnackbarHostState, navController: NavController) {
         loading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             val register = repository.loginUser(email.value, password.value)
             withContext(Dispatchers.Main) {
                 loading.value = false

@@ -26,29 +26,31 @@ constructor(
     val family = mutableStateOf("")
     val phone = mutableStateOf("")
 
-    suspend fun addInfo( snackBarHost: SnackbarHostState, navController: NavController) {
-        when {
-            name.value.length < 5 -> {
-                snackBarHost.showSnackbar("name")
-            }
-            family.value.length < 5 -> {
-                snackBarHost.showSnackbar("family")
-            }
-            phone.value.length < 11 -> {
-                snackBarHost.showSnackbar("phone")
-            }
-            else -> {
-                addUserInfo(snackBarHost, navController)
+    fun addInfo(snackBarHost: SnackbarHostState, navController: NavController) {
+        viewModelScope.launch {
+            when {
+                name.value.length < 5 -> {
+                    snackBarHost.showSnackbar("name")
+                }
+                family.value.length < 5 -> {
+                    snackBarHost.showSnackbar("family")
+                }
+                phone.value.length < 11 -> {
+                    snackBarHost.showSnackbar("phone")
+                }
+                else -> {
+                    addUserInfo(snackBarHost, navController)
+                }
             }
         }
     }
 
-    private fun addUserInfo(
+    private suspend fun addUserInfo(
         snackBarHost: SnackbarHostState,
         navController: NavController
     ) {
         loading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             val register = repository.addUserInformation(name.value, family.value, phone.value)
             withContext(Dispatchers.Main) {
                 loading.value = false

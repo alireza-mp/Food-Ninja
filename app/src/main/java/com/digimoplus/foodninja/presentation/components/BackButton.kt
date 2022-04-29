@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
@@ -19,12 +21,14 @@ fun BackButton(
     paddingValues: PaddingValues = PaddingValues(),
     onClick: () -> Unit
 ) {
-    Card(
+    Button(
         modifier = Modifier
-            .clickable { onClick() }
             .padding(paddingValues),
         shape = RoundedCornerShape(15.dp),
-        backgroundColor = AppTheme.colors.onSecondary,
+        onClick ={
+            onClick()
+        },
+        colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.onSecondary),
     ) {
         Icon(
             modifier = Modifier.padding(

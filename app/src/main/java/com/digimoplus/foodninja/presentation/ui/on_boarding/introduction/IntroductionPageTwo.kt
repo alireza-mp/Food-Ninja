@@ -20,7 +20,7 @@ import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppDimensions
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.theme.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import kotlinx.coroutines.launch
 
 @Composable

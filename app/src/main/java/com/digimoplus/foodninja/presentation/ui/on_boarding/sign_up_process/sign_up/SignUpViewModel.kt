@@ -31,32 +31,34 @@ constructor(
     val checkOne: MutableState<Boolean> = mutableStateOf(false)
     val checkTwo: MutableState<Boolean> = mutableStateOf(false)
 
-    suspend fun register(navController: NavController, state: SnackbarHostState) {
-        when {
-            name.value.length < 4 -> {
-                state.showSnackbar("Invalid Name")
-            }
-            email.value.length < 9 -> {
-                state.showSnackbar("Invalid Email")
-            }
-            password.value.length < 7 -> {
-                state.showSnackbar("Invalid Password")
-            }
-            !checkOne.value -> {
-                state.showSnackbar("Invalid checkOne")
-            }
-            !checkTwo.value -> {
-                state.showSnackbar("Invalid checkTwo")
-            }
-            else -> {
-                registerUser(navController, state)
-            }
-        }
+     fun register(navController: NavController, state: SnackbarHostState) {
+         viewModelScope.launch {
+             when {
+                 name.value.length < 4 -> {
+                     state.showSnackbar("Invalid Name")
+                 }
+                 email.value.length < 9 -> {
+                     state.showSnackbar("Invalid Email")
+                 }
+                 password.value.length < 7 -> {
+                     state.showSnackbar("Invalid Password")
+                 }
+                 !checkOne.value -> {
+                     state.showSnackbar("Invalid checkOne")
+                 }
+                 !checkTwo.value -> {
+                     state.showSnackbar("Invalid checkTwo")
+                 }
+                 else -> {
+                     registerUser(navController, state)
+                 }
+             }
+         }
     }
 
-    private fun registerUser(navController: NavController, state: SnackbarHostState) {
+    private suspend fun registerUser(navController: NavController, state: SnackbarHostState) {
         loading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             val register = repository.registerUser(name.value, email.value, password.value)
             withContext(Dispatchers.Main) {
                 loading.value = false

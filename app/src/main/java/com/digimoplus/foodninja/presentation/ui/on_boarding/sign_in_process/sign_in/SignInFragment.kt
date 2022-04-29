@@ -25,7 +25,7 @@ import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.theme.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -56,7 +56,6 @@ class SignInFragment : Fragment() {
 @Composable
 fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
 
-    val coroutineScope = rememberCoroutineScope()
     val snackBarState = remember {
         SnackbarHostState()
     }
@@ -90,12 +89,14 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
             CustomTextField(
                 placeHolder = "Email",
                 textFieldType = TextFieldType.Email,
+                textFieldIcon = TextFieldIcon.Email,
                 value = viewModel.email
             )
             Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1_5))
             CustomTextField(
                 placeHolder = "Password",
                 textFieldType = TextFieldType.SignInPassword,
+                textFieldIcon = TextFieldIcon.Password,
                 value = viewModel.password
             )
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
@@ -195,9 +196,7 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
                     textColor = Color.White,
                     loading = viewModel.loading.value
                 ) { // onClick
-                    coroutineScope.launch {
-                        viewModel.loginUser(snackBarState, navController)
-                    }
+                    viewModel.loginUser(snackBarState, navController)
                 }
             }
         }

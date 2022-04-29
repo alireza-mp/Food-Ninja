@@ -11,16 +11,13 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,7 +26,7 @@ import androidx.navigation.fragment.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.theme.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -61,8 +58,6 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
     val snackBarState = remember {
         SnackbarHostState()
     }
-    val coroutineScope = rememberCoroutineScope()
-
     DisplayBackgroundImage(
         snackBarState = snackBarState,
         paddingValues = PaddingValues(
@@ -146,10 +141,8 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                         text = "Create Account",
                         textColor = Color.White,
                     ) { // onClick
-                        coroutineScope.launch {
-                            viewModel.register(state = snackBarState, navController = navController)
-                            //navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
-                        }
+                        // viewModel.register(state = snackBarState, navController = navController)
+                        navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
                     }
                     Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))
                     TextButton(
