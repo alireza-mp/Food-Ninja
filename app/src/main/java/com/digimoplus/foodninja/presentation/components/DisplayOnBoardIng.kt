@@ -10,19 +10,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.theme.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 
 @Composable
 fun OnBoardingDisplay(
     title: String,
     description: String,
-    snackBarState: SnackbarHostState,
+    snackBarState: SnackbarHostState?=null,
     onBackPress: () -> Unit,
     onClick: () -> Unit,
-    loading: Boolean,
+    loading: Boolean = false,
     content: @Composable () -> Unit
 ) {
-
 
     DisplayBackgroundImage(
         darkBackground = R.drawable.display_background_dark,

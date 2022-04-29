@@ -15,4 +15,7 @@ object PreferencesKeys {
 
     // user id
     val userId = intPreferencesKey("ID_KEY")
+
+    // user payment method
+    val userPaymentMethod = stringPreferencesKey("PAYMENT_KEY")
 }
