@@ -18,4 +18,7 @@ object PreferencesKeys {
 
     // user payment method
     val userPaymentMethod = stringPreferencesKey("PAYMENT_KEY")
+
+    // user profile image url
+    val userProfileUrl = stringPreferencesKey("PROFILE_URL_KEY")
 }

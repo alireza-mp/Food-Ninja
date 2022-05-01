@@ -1,11 +1,12 @@
 package com.digimoplus.foodninja.network
 
-import com.digimoplus.foodninja.network.model.AddInfoDto
+import com.digimoplus.foodninja.network.model.MessageDto
 import com.digimoplus.foodninja.network.model.RegisterDto
-import com.digimoplus.foodninja.network.model.UserDto
-import okhttp3.ResponseBody
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
+
 
 interface AuthService {
 
@@ -35,5 +36,13 @@ interface AuthService {
         @Field("name") name: String,
         @Field("family") family: String,
         @Field("phone") phone: String,
-    ): Response<AddInfoDto>
+    ): Response<MessageDto>
+
+    @Headers("Accept: application/json")
+    @Multipart
+    @POST("auth/upload")
+    suspend fun uploadUserProfile(
+        @Part part: MultipartBody.Part,
+        @Part("id") id: RequestBody
+    ): Response<MessageDto>
 }

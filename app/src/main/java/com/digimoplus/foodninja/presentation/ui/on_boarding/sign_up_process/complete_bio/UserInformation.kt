@@ -37,7 +37,9 @@ class UserInformation : Fragment() {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
                     viewModel.name.value = arguments?.getString("name") ?: ""
-                    UserInformationPage(navController = findNavController())
+                    UserInformationPage(navController = findNavController(), onBackPress = {
+                        activity?.onBackPressed()
+                    })
                 }
             }
         }
@@ -45,19 +47,17 @@ class UserInformation : Fragment() {
 
 
     @Composable
-    fun UserInformationPage(navController: NavController) {
+    fun UserInformationPage(navController: NavController, onBackPress: () -> Unit) {
         val snackBarState = remember { SnackbarHostState() }
         OnBoardingDisplay(
             title = "Fill in your bio to get started",
             description = "This data will be displayed in your account profile for security",
             snackBarState = snackBarState,
             loading = viewModel.loading.value,
-            onBackPress = {
-
-            },
+            onBackPress = onBackPress,
             onClick = {
-                // viewModel.addInfo(snackBarHost = snackBarState, navController = navController)
-                navController.navigate(R.id.action_userInformationFragment_to_paymentFragment)
+                 viewModel.addInfo(snackBarHost = snackBarState, navController = navController)
+                //navController.navigate(R.id.action_userInformationFragment_to_paymentFragment)
             }
         ) {
             CustomTextField(

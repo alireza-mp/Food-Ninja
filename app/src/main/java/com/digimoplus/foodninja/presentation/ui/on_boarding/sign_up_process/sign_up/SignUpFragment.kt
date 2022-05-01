@@ -141,8 +141,8 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                         text = "Create Account",
                         textColor = Color.White,
                     ) { // onClick
-                        // viewModel.register(state = snackBarState, navController = navController)
-                        navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
+                         viewModel.register(state = snackBarState, navController = navController)
+                        //navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
                     }
                     Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))
                     TextButton(

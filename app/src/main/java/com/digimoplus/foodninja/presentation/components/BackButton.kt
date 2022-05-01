@@ -2,6 +2,7 @@ package com.digimoplus.foodninja.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -23,9 +24,11 @@ fun BackButton(
 ) {
     Button(
         modifier = Modifier
-            .padding(paddingValues),
+            .padding(paddingValues)
+            .defaultMinSize(1.dp, 1.dp),
         shape = RoundedCornerShape(15.dp),
-        onClick ={
+        contentPadding = PaddingValues(0.dp),
+        onClick = {
             onClick()
         },
         colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.onSecondary),

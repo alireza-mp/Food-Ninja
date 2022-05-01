@@ -24,7 +24,7 @@ class SignUpRepositoryImpl
                     Register.WrongError
                 }
                 200 -> {
-                    saveAuthenticationToken(response.body()?.accessToken, response.body()?.id ?: 0)
+                    saveAuthenticationToken(response.body()?.accessToken?:"", response.body()?.id ?: 0)
                     Register.Successful
                 }
                 else -> {
@@ -36,12 +36,12 @@ class SignUpRepositoryImpl
         }
     }
 
-    private suspend fun saveAuthenticationToken(token: String?, id: Int) {
-        token?.let {
+    private suspend fun saveAuthenticationToken(token: String, id: Int) {
+
             dataStore.edit { preferences ->
                 preferences[PreferencesKeys.userId] = id
-                preferences[PreferencesKeys.authenticationKey] = it
+                preferences[PreferencesKeys.authenticationKey] = token
             }
-        }
+
     }
 }

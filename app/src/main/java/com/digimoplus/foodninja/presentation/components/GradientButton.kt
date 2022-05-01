@@ -16,9 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallBeatProgressIndicator
-import com.ehsanmsz.mszprogressindicator.progressindicator.LineScalePartyProgressIndicator
-import com.ehsanmsz.mszprogressindicator.progressindicator.LineScaleProgressIndicator
-import com.ehsanmsz.mszprogressindicator.progressindicator.LineScalePulseOutProgressIndicator
 
 @Composable
 fun GradientButton(

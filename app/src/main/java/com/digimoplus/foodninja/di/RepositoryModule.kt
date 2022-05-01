@@ -48,4 +48,15 @@ object RepositoryModule {
             authService = authService, dataStore = dataStore
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideUploadPhotoRepository(
+        authService: AuthService,
+        dataStore: DataStore<Preferences>
+    ): UploadPhotoRepository {
+        return UploadPhotoRepositoryImpl(
+            authService = authService, dataStore = dataStore
+        )
+    }
 }

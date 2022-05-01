@@ -33,10 +33,10 @@ android {
         useIR = true
     }
     composeOptions {
-        def kotlin_compiler_version = "1.6.10"
+        def kotlin_compiler_version = "1.6.20"
         kotlinCompilerVersion kotlin_compiler_version
 
-        def kotlin_compiler_extension_version = "1.2.0-alpha07"
+        def kotlin_compiler_extension_version = "1.2.0-alpha08"
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
     buildFeatures {
@@ -55,7 +55,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //material
-    implementation "com.google.android.material:material:1.6.0-alpha03"
+    implementation "com.google.android.material:material:1.7.0-alpha01"
 
     ///for by viewModels
     implementation "androidx.activity:activity-ktx:1.4.0"
@@ -90,13 +90,6 @@ dependencies {
     //flow
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
 
-    //progressbar
-    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
-
-    //glide
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
-
     // compose
     def constraint_layout = "2.0.4"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
@@ -105,25 +98,25 @@ dependencies {
     implementation "androidx.ui:ui-tooling:$androidx_ui"
 
     //compose
-    implementation "androidx.compose.material:material-ripple:1.2.0-alpha07"
-    implementation 'androidx.compose.ui:ui:1.2.0-alpha07'
-    implementation 'androidx.compose.ui:ui-tooling:1.2.0-alpha07'
-    implementation 'androidx.compose.foundation:foundation:1.2.0-alpha07'
-    implementation 'androidx.compose.material:material:1.2.0-alpha07'
-    implementation 'androidx.compose.material:material-icons-core:1.2.0-alpha07'
-    implementation 'androidx.compose.material:material-icons-extended:1.2.0-alpha07'
+    implementation "androidx.compose.material:material-ripple:1.2.0-alpha08"
+    implementation 'androidx.compose.ui:ui:1.2.0-alpha08'
+    implementation 'androidx.compose.ui:ui-tooling:1.2.0-alpha08'
+    implementation 'androidx.compose.foundation:foundation:1.2.0-alpha08'
+    implementation 'androidx.compose.material:material:1.2.0-alpha08'
+    implementation 'androidx.compose.material:material-icons-core:1.2.0-alpha08'
+    implementation 'androidx.compose.material:material-icons-extended:1.2.0-alpha08'
     implementation 'androidx.activity:activity-compose:1.6.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-alpha06'
-    implementation 'androidx.compose.runtime:runtime-livedata:1.2.0-alpha07'
-    implementation 'androidx.compose.runtime:runtime-rxjava2:1.2.0-alpha07'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.2.0-alpha08'
+    implementation 'androidx.compose.runtime:runtime-rxjava2:1.2.0-alpha08'
 
     // navigation
     implementation "com.google.accompanist:accompanist-navigation-animation:0.16.1"
-    implementation "androidx.navigation:navigation-compose:2.5.0-alpha04"
+    implementation "androidx.navigation:navigation-compose:2.5.0-beta01"
 
     //preview
-    debugImplementation "androidx.compose.ui:ui-tooling:1.2.0-alpha07"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.2.0-alpha07"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.2.0-alpha08"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.2.0-alpha08"
 
     // constraint layout
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
@@ -136,5 +129,10 @@ dependencies {
     // progress bar
     implementation("com.ehsanmsz:msz-progress-indicator:0.2.0")
 
+    // glide
+    implementation "com.github.skydoves:landscapist-glide:1.5.1"
+
+    //permission
+    implementation "com.google.accompanist:accompanist-permissions:0.24.7-alpha"
 
 }
