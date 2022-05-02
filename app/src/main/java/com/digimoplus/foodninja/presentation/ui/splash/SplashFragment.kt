@@ -151,8 +151,36 @@ private suspend fun checkUserAuthentication(
         if (state == "null") {
             goToSignUpPage(retryVisibility, viewModel, navController)
         } else {
+            checkUserInformation(retryVisibility, viewModel, navController)
+        }
+    }
+}
+
+private suspend fun checkUserInformation(
+    retryVisibility: MutableState<Boolean>,
+    viewModel: SplashViewModel,
+    navController: NavController
+){
+    viewModel.checkUserInformation.collect{state->
+        if (state == "null"){
+            goToUserInformationPage(retryVisibility, viewModel, navController)
+        }else{
             goToHomePage(retryVisibility, viewModel, navController)
         }
+    }
+
+}
+
+suspend fun  goToUserInformationPage(
+    retryVisibility: MutableState<Boolean>,
+    viewModel: SplashViewModel,
+    navController: NavController
+) {
+    delay(1500)
+    if (viewModel.isOnline()) {
+        navController.navigate(R.id.action_splashFragment_to_userInformationFragment)
+    } else {
+        retryVisibility.value = true
     }
 }
 

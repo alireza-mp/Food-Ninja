@@ -29,7 +29,7 @@ constructor(
                     Register.InvalidError
                 }
                 200 -> {
-                    saveAuthenticationToken(response.body()?.accessToken)
+                    saveUser(response.body()?.accessToken)
                     Register.Successful
                 }
                 else -> {
@@ -41,10 +41,13 @@ constructor(
         }
     }
 
-    private suspend fun saveAuthenticationToken(token: String?) {
+    // save user authentication key
+    // save user information key
+    private suspend fun saveUser(token: String?) {
         token?.let {
             dataStore.edit { preferences ->
                 preferences[PreferencesKeys.authenticationKey] = it
+                preferences[PreferencesKeys.userInformation] = "OK"
             }
         }
     }

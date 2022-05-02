@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.OnlineChecker
+import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.domain.util.PreferencesKeys.authenticationKey
 import com.digimoplus.foodninja.domain.util.PreferencesKeys.introductionKey
+import com.digimoplus.foodninja.domain.util.PreferencesKeys.userInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -42,5 +44,11 @@ constructor(
     val checkAuthentication: Flow<String> = dataStore.data
         .map { preferences ->
             preferences[authenticationKey] ?: "null"
+        }
+
+    // check is user information is completed or not
+    val checkUserInformation: Flow<String> = dataStore.data
+        .map { preferences ->
+            preferences[userInformation] ?: "null"
         }
 }
