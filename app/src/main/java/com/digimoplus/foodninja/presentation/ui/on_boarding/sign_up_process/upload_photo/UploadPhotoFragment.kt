@@ -2,7 +2,6 @@ package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.upl
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,16 +19,11 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -46,8 +39,6 @@ import com.google.accompanist.permissions.*
 import com.skydoves.landscapist.glide.GlideImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 
 
 @ExperimentalPermissionsApi
@@ -70,7 +61,6 @@ class UploadPhotoFragment : Fragment() {
     private val resultCamera =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                Log.d(TAG, "result camera: res ok")
                 val bitmap = result.data?.extras?.get("data") as Bitmap
                 viewModel.uploadProfile(bitmap)
             } else {
@@ -93,7 +83,9 @@ class UploadPhotoFragment : Fragment() {
                         navController = findNavController(),
                         onBackPress = {
                             activity?.onBackPressed()
-                        })
+                        },
+                        bundle = requireArguments()
+                    )
                 }
             }
         }
@@ -103,7 +95,8 @@ class UploadPhotoFragment : Fragment() {
     private fun UploadPhotoPage(
         viewModel: UploadPhotoViewModel,
         navController: NavController,
-        onBackPress: () -> Unit
+        onBackPress: () -> Unit,
+        bundle: Bundle
     ) {
         val coroutineScope = rememberCoroutineScope()
 
@@ -117,11 +110,19 @@ class UploadPhotoFragment : Fragment() {
                 if (viewModel.imageUrl.value == "none") {
                     coroutineScope.launch {
                         viewModel.snackBarState.showSnackbar("please set your profile image")
+                        // navController.navigate(R.id.action_uploadPhotoFragment_to_chooseLocationFragment)
                     }
+                } else {
+                    navController.navigate(
+                        R.id.action_uploadPhotoFragment_to_chooseLocationFragment,
+                        bundle
+                    )
                 }
             }) {
 
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+
+                // check photo is set or not
                 if (viewModel.imageUrl.value != "none") {
                     ShowProfilePhoto(viewModel)
                 } else {
@@ -137,6 +138,7 @@ class UploadPhotoFragment : Fragment() {
                         modifier = Modifier.align(Alignment.BottomCenter)
                     )
                 }
+
             }
         }
     }
@@ -200,11 +202,8 @@ private fun ChoseProfilePhoto(
         }
         if (cameraPermissions.status == PermissionStatus.Granted) {
             if (!viewModel.loading.value) {
-                Log.d(TAG, "ChoseProfilePhoto: ${viewModel.imageUrl.value}")
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 resultCamera.launch(intent)
-            } else {
-                Log.d(TAG, "ChoseProfilePhoto: load is runing")
             }
         }
     }

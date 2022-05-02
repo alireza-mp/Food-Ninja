@@ -82,10 +82,8 @@ constructor(
             // upload photo
             val register = repository.uploadProfile(inputStream)
             withContext(Dispatchers.Main) {
-                Log.d(TAG, "uploadProfile: first of main ${register.message}")
                 snackBarState.showSnackbar(register.message)
                 if (register == Register.Successful) {
-                    Log.d(TAG, "uploadProfile: in  : ${imageUrl.value}")
                     saveProfileUrl(register.value as String)
                     imageUrl.value = "${Constants.BASE_URL}${register.value.toString()}"
                 }

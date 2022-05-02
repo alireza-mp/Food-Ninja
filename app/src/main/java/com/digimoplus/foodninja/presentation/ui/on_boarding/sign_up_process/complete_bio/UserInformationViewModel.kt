@@ -1,5 +1,6 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio
 
+import android.os.Bundle
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.repository.UserInfoRepositoryImpl
+import com.digimoplus.foodninja.domain.model.RegisterInfo
+import com.digimoplus.foodninja.repository.RegisterUserRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,9 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserInformationViewModel
 @Inject
-constructor(
-    private val repository: UserInfoRepositoryImpl
-) : ViewModel() {
+constructor() : ViewModel() {
 
     val loading = mutableStateOf(false)
     val name = mutableStateOf("")
@@ -39,28 +39,13 @@ constructor(
                     snackBarHost.showSnackbar("phone")
                 }
                 else -> {
-                    addUserInfo(snackBarHost, navController)
+                    val registerInfo = RegisterInfo(name.value, family.value, phone.value)
+                    val bundle = Bundle()
+                    bundle.putParcelable("register", registerInfo)
+                    navController.navigate(R.id.action_userInformationFragment_to_paymentFragment,bundle)
                 }
             }
         }
     }
-
-    private suspend fun addUserInfo(
-        snackBarHost: SnackbarHostState,
-        navController: NavController
-    ) {
-        loading.value = true
-        withContext(Dispatchers.IO) {
-            val register = repository.addUserInformation(name.value, family.value, phone.value)
-            withContext(Dispatchers.Main) {
-                loading.value = false
-                snackBarHost.showSnackbar(register.message)
-                if (register.message == Register.Successful.message) {
-                    navController.navigate(R.id.action_userInformationFragment_to_paymentFragment)
-                }
-            }
-        }
-    }
-
 
 }

@@ -40,11 +40,11 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideUserInfoRepository(
+    fun provideRegisterUserRepository(
         authService: AuthService,
         dataStore: DataStore<Preferences>
-    ): UserInfoRepository {
-        return UserInfoRepositoryImpl(
+    ): RegisterUserRepository {
+        return RegisterUserRepositoryImpl(
             authService = authService, dataStore = dataStore
         )
     }

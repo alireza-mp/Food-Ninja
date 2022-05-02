@@ -16,10 +16,11 @@ import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 fun OnBoardingDisplay(
     title: String,
     description: String,
-    snackBarState: SnackbarHostState?=null,
+    snackBarState: SnackbarHostState? = null,
     onBackPress: () -> Unit,
     onClick: () -> Unit,
     loading: Boolean = false,
+    buttonTitle: String = "Next",
     content: @Composable () -> Unit
 ) {
 
@@ -64,7 +65,7 @@ fun OnBoardingDisplay(
                         .align(Alignment.BottomCenter)
                         .padding(bottom = AppTheme.dimensions.grid_6),
                     gradient = buttonGradient(),
-                    text = "Next",
+                    text = buttonTitle,
                     textColor = Color.White,
                     loading = loading
                 ) {

@@ -1,5 +1,6 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.payment
 
+import android.os.Bundle
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -21,12 +22,12 @@ constructor(
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
     val isPress = mutableStateOf("paypal")
-    fun savePaymentMethod(navController: NavController) {
+    fun savePaymentMethod(navController: NavController,bundle: Bundle) {
         viewModelScope.launch {
             dataStore.edit { preferences ->
                 preferences[PreferencesKeys.userPaymentMethod] = isPress.value
             }
-            navController.navigate(R.id.action_paymentFragment_to_uploadPhotoFragment)
+            navController.navigate(R.id.action_paymentFragment_to_uploadPhotoFragment,bundle)
         }
     }
 

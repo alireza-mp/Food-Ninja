@@ -36,6 +36,7 @@ interface AuthService {
         @Field("name") name: String,
         @Field("family") family: String,
         @Field("phone") phone: String,
+        @Field("location") location: String,
     ): Response<MessageDto>
 
     @Headers("Accept: application/json")
@@ -45,4 +46,5 @@ interface AuthService {
         @Part part: MultipartBody.Part,
         @Part("id") id: RequestBody
     ): Response<MessageDto>
+
 }

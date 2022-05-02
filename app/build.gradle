@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+
 }
 
 android {
@@ -134,5 +136,9 @@ dependencies {
 
     //permission
     implementation "com.google.accompanist:accompanist-permissions:0.24.7-alpha"
+
+    // google map sdk
+    implementation "com.google.maps.android:maps-compose:1.0.0"
+    implementation "com.google.android.gms:play-services-maps:18.0.2"
 
 }
