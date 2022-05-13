@@ -4,7 +4,6 @@ import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.network.AuthService
 import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
-import com.digimoplus.foodninja.network.model.UserDtoMapper
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -33,12 +32,6 @@ object NetworkModule {
     @Provides
     fun provideAuthService(builder: Retrofit.Builder): AuthService {
         return builder.build().create(AuthService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideUserDtoMapper(): UserDtoMapper {
-        return UserDtoMapper()
     }
 
     @Singleton
