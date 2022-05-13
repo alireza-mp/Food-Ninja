@@ -13,7 +13,7 @@ import javax.inject.Inject
 class SignUpRepositoryImpl
 @Inject constructor(
     private val authService: AuthService,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : SignUpRepository {
 
     override suspend fun registerUser(name: String, email: String, password: String): Register {
@@ -24,7 +24,8 @@ class SignUpRepositoryImpl
                     Register.WrongError
                 }
                 200 -> {
-                    saveAuthenticationToken(response.body()?.accessToken?:"", response.body()?.id ?: 0)
+                    saveAuthenticationToken(response.body()?.accessToken ?: "",
+                        response.body()?.id ?: 0)
                     Register.Successful
                 }
                 else -> {
@@ -38,10 +39,10 @@ class SignUpRepositoryImpl
 
     private suspend fun saveAuthenticationToken(token: String, id: Int) {
 
-            dataStore.edit { preferences ->
-                preferences[PreferencesKeys.userId] = id
-                preferences[PreferencesKeys.authenticationKey] = token
-            }
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.userId] = id
+            preferences[PreferencesKeys.authenticationKey] = "Bearer $token"
+        }
 
     }
 }

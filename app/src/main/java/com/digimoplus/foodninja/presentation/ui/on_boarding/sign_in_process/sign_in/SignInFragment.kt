@@ -29,6 +29,7 @@ import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
 import com.digimoplus.foodninja.presentation.components.TextFieldType
+import com.digimoplus.foodninja.presentation.components.base_dispalys.DisplayBackgroundImage
 
 
 @AndroidEntryPoint

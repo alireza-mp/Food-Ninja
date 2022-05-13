@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +29,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.CardUploadPhoto
-import com.digimoplus.foodninja.presentation.components.OnBoardingDisplay
+import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.accompanist.permissions.*
@@ -73,7 +71,7 @@ class UploadPhotoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -96,7 +94,7 @@ class UploadPhotoFragment : Fragment() {
         viewModel: UploadPhotoViewModel,
         navController: NavController,
         onBackPress: () -> Unit,
-        bundle: Bundle
+        bundle: Bundle,
     ) {
         val coroutineScope = rememberCoroutineScope()
 
@@ -178,7 +176,7 @@ private fun ShowProfilePhoto(viewModel: UploadPhotoViewModel) {
 private fun ChoseProfilePhoto(
     viewModel: UploadPhotoViewModel,
     resultGallery: ActivityResultLauncher<Intent>,
-    resultCamera: ActivityResultLauncher<Intent>
+    resultCamera: ActivityResultLauncher<Intent>,
 ) {
 
     val cameraPermissions = rememberPermissionState(

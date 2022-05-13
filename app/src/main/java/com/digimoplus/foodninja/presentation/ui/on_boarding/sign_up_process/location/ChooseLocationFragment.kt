@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -21,16 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.bumptech.glide.util.Util
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.domain.model.RegisterInfo
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
-import com.digimoplus.foodninja.presentation.components.OnBoardingDisplay
+import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.android.gms.maps.model.CameraPosition
@@ -48,7 +43,7 @@ class ChooseLocationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -72,7 +67,7 @@ fun ChooseLocationPage(
     viewModel: ChooseLocationViewModel,
     navController: NavController,
     onBackPress: () -> Unit,
-    bundle: Bundle
+    bundle: Bundle,
 ) {
     val defaultLocation = LatLng(34.64, 50.88)
     val coroutineScope = rememberCoroutineScope()

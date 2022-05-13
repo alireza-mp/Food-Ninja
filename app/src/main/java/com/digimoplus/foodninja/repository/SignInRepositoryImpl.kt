@@ -14,7 +14,7 @@ class SignInRepositoryImpl
 @Inject
 constructor(
     private val authService: AuthService,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : SignInRepository {
 
     override suspend fun loginUser(email: String, password: String): Register {
@@ -46,7 +46,7 @@ constructor(
     private suspend fun saveUser(token: String?) {
         token?.let {
             dataStore.edit { preferences ->
-                preferences[PreferencesKeys.authenticationKey] = it
+                preferences[PreferencesKeys.authenticationKey] = "Bearer $it"
                 preferences[PreferencesKeys.userInformation] = "OK"
             }
         }

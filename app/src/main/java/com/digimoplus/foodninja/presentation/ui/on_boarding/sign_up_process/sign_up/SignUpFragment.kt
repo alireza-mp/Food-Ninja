@@ -12,7 +12,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,11 +24,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
+import com.digimoplus.foodninja.presentation.components.base_dispalys.DisplayBackgroundImage
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -40,7 +39,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -141,7 +140,7 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                         text = "Create Account",
                         textColor = Color.White,
                     ) { // onClick
-                         viewModel.register(state = snackBarState, navController = navController)
+                        viewModel.register(state = snackBarState, navController = navController)
                         //navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
                     }
                     Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))

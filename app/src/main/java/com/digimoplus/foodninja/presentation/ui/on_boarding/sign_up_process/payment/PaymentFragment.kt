@@ -1,7 +1,6 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.payment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.core.app.Person.fromBundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.model.RegisterInfo
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
-import com.digimoplus.foodninja.presentation.components.OnBoardingDisplay
+import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
 import com.digimoplus.foodninja.presentation.components.PayButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
@@ -33,7 +29,7 @@ class PaymentFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
 
@@ -45,7 +41,7 @@ class PaymentFragment : Fragment() {
                         onBackPress = {
                             activity?.onBackPressed()
                         },
-                        bundle =requireArguments()
+                        bundle = requireArguments()
                     )
                 }
             }
@@ -58,7 +54,7 @@ fun PaymentPage(
     viewModel: PaymentViewModel,
     navController: NavController,
     bundle: Bundle,
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
 ) {
 
     OnBoardingDisplay(

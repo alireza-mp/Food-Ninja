@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -21,15 +20,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import javax.annotation.meta.When
 
 
 @Composable
 fun CustomTextField(
     placeHolder: String,
-    textFieldType: TextFieldType =TextFieldType.Name,
+    textFieldType: TextFieldType = TextFieldType.Name,
     textFieldIcon: TextFieldIcon = TextFieldIcon.Person,
-    value: MutableState<String>
+    value: MutableState<String>,
 ) {
     when (textFieldType) {
         is TextFieldType.Email -> {
@@ -74,7 +72,7 @@ fun CustomTextField(
 private fun SignInPasswordTextField(
     placeHolder: String,
     textFieldIcon: TextFieldIcon,
-    value: MutableState<String>
+    value: MutableState<String>,
 ) {
 
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
@@ -142,7 +140,7 @@ private fun SignInPasswordTextField(
 private fun SignUpPasswordTextField(
     placeHolder: String,
     textFieldIcon: TextFieldIcon,
-    value: MutableState<String>
+    value: MutableState<String>,
 ) {
 
     Card(
@@ -191,7 +189,7 @@ private fun SignUpPasswordTextField(
 private fun NameTextField(
     placeHolder: String,
     textFieldIcon: TextFieldIcon,
-    value: MutableState<String>
+    value: MutableState<String>,
 ) {
 
     Card(
@@ -237,7 +235,7 @@ private fun NameTextField(
 @Composable
 private fun NoneTextField(
     placeHolder: String,
-    value: MutableState<String>
+    value: MutableState<String>,
 ) {
 
     Card(
@@ -250,7 +248,8 @@ private fun NoneTextField(
             textStyle = AppTheme.typography.body,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimensions.grid_1, vertical = AppTheme.dimensions.grid_0_5),
+                .padding(horizontal = AppTheme.dimensions.grid_1,
+                    vertical = AppTheme.dimensions.grid_0_5),
             value = value.value,
             placeholder = {
                 Text(
@@ -281,7 +280,7 @@ private fun NoneTextField(
 private fun EmailTextField(
     placeHolder: String,
     textFieldIcon: TextFieldIcon,
-    value: MutableState<String>
+    value: MutableState<String>,
 ) {
 
     Card(
@@ -337,7 +336,7 @@ private fun SetTextFieldIcon(textFieldIcon: TextFieldIcon) {
         }
 
         is TextFieldIcon.Person -> {
-            Image(painter = painterResource(id = R.drawable.profile), contentDescription = "")
+            Image(painter = painterResource(id = R.drawable.ic_profile), contentDescription = "")
         }
     }
 
