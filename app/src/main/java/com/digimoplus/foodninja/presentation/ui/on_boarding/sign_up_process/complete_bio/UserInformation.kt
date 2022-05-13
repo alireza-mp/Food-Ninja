@@ -9,19 +9,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
+import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class UserInformation : Fragment() {
@@ -31,7 +29,7 @@ class UserInformation : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -56,7 +54,7 @@ class UserInformation : Fragment() {
             loading = viewModel.loading.value,
             onBackPress = onBackPress,
             onClick = {
-                 viewModel.addInfo(snackBarHost = snackBarState, navController = navController)
+                viewModel.addInfo(snackBarHost = snackBarState, navController = navController)
                 //navController.navigate(R.id.action_userInformationFragment_to_paymentFragment)
             }
         ) {
