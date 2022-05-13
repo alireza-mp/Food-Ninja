@@ -3,6 +3,8 @@ package com.digimoplus.foodninja.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.digimoplus.foodninja.network.AuthService
+import com.digimoplus.foodninja.network.model.MenuDtoMapper
+import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import com.digimoplus.foodninja.repository.*
 import dagger.Module
 import dagger.Provides
@@ -42,7 +44,7 @@ object RepositoryModule {
     @Provides
     fun provideRegisterUserRepository(
         authService: AuthService,
-        dataStore: DataStore<Preferences>
+        dataStore: DataStore<Preferences>,
     ): RegisterUserRepository {
         return RegisterUserRepositoryImpl(
             authService = authService, dataStore = dataStore
@@ -53,10 +55,26 @@ object RepositoryModule {
     @Provides
     fun provideUploadPhotoRepository(
         authService: AuthService,
-        dataStore: DataStore<Preferences>
+        dataStore: DataStore<Preferences>,
     ): UploadPhotoRepository {
         return UploadPhotoRepositoryImpl(
             authService = authService, dataStore = dataStore
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideHomeRepository(
+        authService: AuthService,
+        dataStore: DataStore<Preferences>,
+        restaurantMapper: RestaurantDtoMapper,
+        menuMapper: MenuDtoMapper,
+    ): HomeRepository {
+        return HomeRepositoryImpl(
+            authService = authService,
+            dataStore = dataStore,
+            restaurantMapper = restaurantMapper,
+            menuMapper = menuMapper
         )
     }
 }

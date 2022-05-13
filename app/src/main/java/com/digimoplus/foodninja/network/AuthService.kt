@@ -1,7 +1,6 @@
 package com.digimoplus.foodninja.network
 
-import com.digimoplus.foodninja.network.model.MessageDto
-import com.digimoplus.foodninja.network.model.RegisterDto
+import com.digimoplus.foodninja.network.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -44,7 +43,15 @@ interface AuthService {
     @POST("auth/upload")
     suspend fun uploadUserProfile(
         @Part part: MultipartBody.Part,
-        @Part("id") id: RequestBody
+        @Part("id") id: RequestBody,
     ): Response<MessageDto>
+
+    @Headers("Accept: application/json")
+    @GET("restaurant")
+    suspend fun restaurantList(@Header("Authorization") token: String): Response<List<RestaurantDto>>
+
+    @Headers("Accept: application/json")
+    @GET("menu")
+    suspend fun menuList(@Header("Authorization") token: String): Response<List<MenuDto>>
 
 }

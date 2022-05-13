@@ -2,6 +2,8 @@ package com.digimoplus.foodninja.di
 
 import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.network.AuthService
+import com.digimoplus.foodninja.network.model.MenuDtoMapper
+import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import com.digimoplus.foodninja.network.model.UserDtoMapper
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -35,8 +37,20 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUserDtoMapper():UserDtoMapper{
+    fun provideUserDtoMapper(): UserDtoMapper {
         return UserDtoMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRestaurantDtoMapper(): RestaurantDtoMapper {
+        return RestaurantDtoMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun provideMenuDtoMapper(): MenuDtoMapper {
+        return MenuDtoMapper()
     }
 
     @Singleton
