@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.components
+package com.digimoplus.foodninja.presentation.components.base_dispalys
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.components.CustomSnackBar
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -19,7 +20,7 @@ fun DisplayBackgroundImage(
     @DrawableRes darkBackground: Int = R.drawable.background_dark,
     snackBarState: SnackbarHostState? = null,
     paddingValues: PaddingValues = PaddingValues(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Box(
         modifier = Modifier

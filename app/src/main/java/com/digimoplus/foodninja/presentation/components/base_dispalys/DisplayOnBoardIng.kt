@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.components
+package com.digimoplus.foodninja.presentation.components.base_dispalys
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.SnackbarHostState
@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.components.BackButton
+import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 
@@ -21,7 +23,7 @@ fun OnBoardingDisplay(
     onClick: () -> Unit,
     loading: Boolean = false,
     buttonTitle: String = "Next",
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
 
     DisplayBackgroundImage(
