@@ -22,7 +22,7 @@ import androidx.fragment.app.viewModels
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.base_dispalys.DisplayBackgroundImage
 import com.digimoplus.foodninja.presentation.components.base_dispalys.HomeDisplay
-import com.digimoplus.foodninja.presentation.components.bottom.CustomBottomNavigation
+import com.digimoplus.foodninja.presentation.components.util.bottomNavigationTabValues
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.digimoplus.foodninja.presentation.ui.home.chat.ChatPage
@@ -31,6 +31,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import dagger.hilt.android.AndroidEntryPoint
+import ir.digimoplus.bottom_navigation.CustomBottomNavigation
 
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -97,7 +98,12 @@ private fun HomePage(viewModel: HomeViewModel) {
                 shape = RoundedCornerShape(15.dp),
                 elevation = 4.dp,
             ) {
-                CustomBottomNavigation(pagerState = pagerState)
+                CustomBottomNavigation(
+                    modifier = Modifier ,
+                    contentPadding = PaddingValues(horizontal = 8.dp),
+                    pagerState = pagerState,
+                    tabValues = bottomNavigationTabValues(),
+                )
             }
         }
     }
