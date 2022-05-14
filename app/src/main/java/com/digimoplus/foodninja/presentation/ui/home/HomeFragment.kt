@@ -78,7 +78,7 @@ private fun HomePage(viewModel: HomeViewModel) {
                 state = pagerState,
                 itemSpacing = 20.dp,
                 modifier = Modifier
-                    .background(color = AppTheme.colors.background)
+                    .background(color = Color.Transparent)
                     .fillMaxSize()
             ) { index ->
                 when (index) {
@@ -99,7 +99,7 @@ private fun HomePage(viewModel: HomeViewModel) {
                 elevation = 4.dp,
             ) {
                 CustomBottomNavigation(
-                    modifier = Modifier ,
+                    modifier = Modifier,
                     contentPadding = PaddingValues(horizontal = 8.dp),
                     pagerState = pagerState,
                     tabValues = bottomNavigationTabValues(),
