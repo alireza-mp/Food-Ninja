@@ -102,7 +102,10 @@ private fun HomePage(viewModel: HomeViewModel) {
                     modifier = Modifier,
                     contentPadding = PaddingValues(horizontal = 8.dp),
                     pagerState = pagerState,
-                    tabValues = bottomNavigationTabValues(),
+                    tabValues = bottomNavigationTabValues(
+                        basketBadge = viewModel.basketBadge.value,
+                        chatBadge = viewModel.chatBadge.value
+                    )
                 )
             }
         }

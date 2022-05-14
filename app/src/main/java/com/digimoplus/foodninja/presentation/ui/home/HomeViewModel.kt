@@ -33,6 +33,8 @@ constructor(
     val snackBarState = SnackbarHostState()
     val loadingRestaurant = mutableStateOf(true)
     val loadingMenu = mutableStateOf(true)
+    val basketBadge = mutableStateOf(7)
+    val chatBadge = mutableStateOf(0)
 
     init {
         getToken()

@@ -148,6 +148,6 @@ dependencies {
     implementation 'com.valentinilk.shimmer:compose-shimmer:1.0.2'
 
     //bottom navigation
-    implementation 'com.github.alireza-mp:BottomNavigationCompose:1.0'
+    implementation 'com.github.alireza-mp:BottomNavigationCompose:1.0.1'
 
 }
