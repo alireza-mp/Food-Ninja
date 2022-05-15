@@ -1,5 +1,8 @@
+@file:OptIn(FlowPreview::class,ExperimentalCoroutinesApi::class)
+
 package com.digimoplus.foodninja.presentation.ui.home
 
+import android.util.Log
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -13,9 +16,8 @@ import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.presentation.components.util.showSnackBarError
 import com.digimoplus.foodninja.repository.HomeRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +29,7 @@ constructor(
 ) : ViewModel() {
 
     private var token = ""
-    val search = mutableStateOf("")
+    val search = MutableStateFlow("")
     val restaurantList = mutableStateListOf<Restaurant>()
     val menuList = mutableStateListOf<Menu>()
     val snackBarState = SnackbarHostState()
@@ -40,6 +42,18 @@ constructor(
         getToken()
         getRestaurantList()
         getMenuList()
+        search()
+    }
+
+    @FlowPreview
+    private fun search() {
+        viewModelScope.launch(Dispatchers.Main) {
+             search.debounce(1000)
+                .distinctUntilChanged()
+                .collectLatest {
+                    Log.d("AppD", "search : $it")
+                }
+        }
     }
 
     private fun getRestaurantList() {
