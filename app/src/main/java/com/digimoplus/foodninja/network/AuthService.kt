@@ -46,12 +46,28 @@ interface AuthService {
         @Part("id") id: RequestBody,
     ): Response<MessageDto>
 
+
+    @Headers("Accept: application/json")
+    @GET("menu")
+    suspend fun menuList(@Header("Authorization") token: String): Response<List<MenuDto>>
+
     @Headers("Accept: application/json")
     @GET("restaurant")
     suspend fun restaurantList(@Header("Authorization") token: String): Response<List<RestaurantDto>>
 
     @Headers("Accept: application/json")
-    @GET("menu")
-    suspend fun menuList(@Header("Authorization") token: String): Response<List<MenuDto>>
+    @GET("restaurant_all")
+    suspend fun allRestaurantsList(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+    ): Response<RestaurantList>
+
+    @Headers("Accept: application/json")
+    @GET("restaurant_search")
+    suspend fun restaurantSearch(
+        @Header("Authorization") token: String,
+        @Query("search") search: String,
+        @Query("page") page: Int,
+    ): Response<RestaurantList>
 
 }

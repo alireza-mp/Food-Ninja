@@ -72,28 +72,28 @@ fun RestaurantCardItem(index: Int, model: Restaurant) {
 }
 
 
-// Restaurant card in search  + animation
+// Restaurant card + animation
 @ExperimentalMaterialApi
 @Composable
 fun RestaurantCardItem(
     index: Int,
     model: Restaurant,
-    count: Int,
     animationEnabled: Boolean,
+    padding: PaddingValues,
     disableAnim: () -> Unit,
 ) {
 
-    if (animationEnabled && index < 8) {
+    if (animationEnabled && index < 6) {
         Box(modifier = Modifier.animateToTop(
             dpSize = 20.dp,
             durationMillis = 300,
             delayMillis = getDelayMillis(index))) {
 
-            RestaurantItem(index = index, count = count, model = model)
+            RestaurantItem(padding = padding, model = model)
         }
     } else {
         disableAnim()
-        RestaurantItem(index = index, count = count, model = model)
+        RestaurantItem(padding = padding, model = model)
     }
 
 }
@@ -160,8 +160,6 @@ fun getDelayMillis(index: Int): Int {
         3 -> 300
         4 -> 600
         5 -> 600
-        6 -> 900
-        7 -> 900
         else -> {
             0
         }
@@ -170,10 +168,10 @@ fun getDelayMillis(index: Int): Int {
 
 @ExperimentalMaterialApi
 @Composable
-private fun RestaurantItem(index: Int, count: Int, model: Restaurant) {
+private fun RestaurantItem(padding: PaddingValues, model: Restaurant) {
     Card(
         modifier = Modifier
-            .padding(if (index != count - 1) {
+            .padding(padding/*if (index != count - 1) {
                 PaddingValues(
                     vertical = AppTheme.dimensions.grid_2,
                     horizontal = AppTheme.dimensions.grid_1_5)
@@ -183,7 +181,7 @@ private fun RestaurantItem(index: Int, count: Int, model: Restaurant) {
                     end = AppTheme.dimensions.grid_2,
                     top = AppTheme.dimensions.grid_1_5,
                     bottom = 100.dp)
-            }),
+            }*/),
         onClick = {}, backgroundColor = AppTheme.colors.surface,
         shape = RoundedCornerShape(20.dp),
     ) {

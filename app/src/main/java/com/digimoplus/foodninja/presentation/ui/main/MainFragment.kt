@@ -1,5 +1,8 @@
-@file:OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
-package com.digimoplus.foodninja.presentation.ui.home
+@file:OptIn(ExperimentalPagerApi::class,
+    ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class)
+
+package com.digimoplus.foodninja.presentation.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,19 +19,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.base_dispalys.DisplayBackgroundImage
-import com.digimoplus.foodninja.presentation.components.base_dispalys.HomeDisplay
+import com.digimoplus.foodninja.presentation.components.base_dispalys.PageMainBackgroundImage
+import com.digimoplus.foodninja.presentation.ui.main.home.HomePage
 import com.digimoplus.foodninja.presentation.components.util.bottomNavigationTabValues
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
-import com.digimoplus.foodninja.presentation.ui.home.chat.ChatPage
-import com.digimoplus.foodninja.presentation.ui.home.profile.ProfilePage
+import com.digimoplus.foodninja.presentation.ui.main.chat.ChatPage
+import com.digimoplus.foodninja.presentation.ui.main.profile.ProfilePage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -36,9 +37,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.digimoplus.bottom_navigation.CustomBottomNavigation
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class MainFragment : Fragment() {
 
-    private val viewModel: HomeViewModel by viewModels()
+    // private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +49,7 @@ class HomeFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
-                    HomePage(viewModel = viewModel)
+                    MainPage()
                 }
             }
         }
@@ -56,13 +57,15 @@ class HomeFragment : Fragment() {
 }
 
 @Composable
-private fun HomePage(viewModel: HomeViewModel) {
+private fun MainPage() {
+
+    val viewModel: MainViewModel = viewModel()
 
     val pagerState = rememberPagerState(pageCount = 3)
 
-    DisplayBackgroundImage(
-        lightBackground = R.drawable.display_background_light,
-        darkBackground = R.drawable.display_background_dark,
+    PageMainBackgroundImage(
+        lightBackground = R.drawable.main_page_background_light,
+        darkBackground = R.drawable.main_page_background_dark,
         paddingValues = PaddingValues(
             start = AppTheme.dimensions.grid_2,
             end = AppTheme.dimensions.grid_2
@@ -80,7 +83,7 @@ private fun HomePage(viewModel: HomeViewModel) {
                     .fillMaxSize()
             ) { index ->
                 when (index) {
-                    0 -> HomeDisplay(viewModel = viewModel)
+                    0 -> HomePage()
                     1 -> ProfilePage()
                     2 -> ChatPage()
                 }
@@ -103,7 +106,12 @@ private fun HomePage(viewModel: HomeViewModel) {
                     tabValues = bottomNavigationTabValues(
                         basketBadge = viewModel.basketBadge.value,
                         chatBadge = viewModel.chatBadge.value
-                    )
+                    ),
+                    onTabClickListener = {
+                        if (it == 2) { // if basket clicked
+                            TODO("go to basket page")
+                        }
+                    }
                 )
             }
         }

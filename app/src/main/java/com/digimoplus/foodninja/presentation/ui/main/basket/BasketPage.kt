@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.ui.home.basket
+package com.digimoplus.foodninja.presentation.ui.main.basket
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

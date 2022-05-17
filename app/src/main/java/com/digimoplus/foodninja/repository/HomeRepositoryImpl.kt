@@ -10,6 +10,7 @@ import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import javax.inject.Inject
 
+const val PAGE_SIZE = 16
 
 class HomeRepositoryImpl
 @Inject
@@ -19,6 +20,8 @@ constructor(
     private val restaurantMapper: RestaurantDtoMapper,
     private val menuMapper: MenuDtoMapper,
 ) : HomeRepository {
+
+    var lastPage = -1
 
     override suspend fun getRestaurantList(token: String): DataState<List<Restaurant>> {
         return try {
@@ -40,6 +43,56 @@ constructor(
             DataState.NetworkError()
         }
 
+    }
+
+    override suspend fun restaurantSearch(
+        token: String,
+        search: String,
+        page: Int,
+    ): DataState<List<Restaurant>> {
+        return try {
+            val results = authService.restaurantSearch(token, search, page)
+            when (results.code()) {
+                404 -> {
+                    DataState.InvalidError()
+                }
+                200 -> {
+                    DataState.Success(
+                        restaurantMapper.mapToDomainList(results.body()?.data ?: listOf())
+                    )
+                }
+                else -> {
+                    DataState.SomeError()
+                }
+            }
+        } catch (e: Exception) {
+            DataState.NetworkError()
+        }
+    }
+
+    override suspend fun getAllRestaurantsList(
+        token: String,
+        page: Int,
+    ): DataState<List<Restaurant>> {
+        return try {
+            val results = authService.allRestaurantsList(token, page)
+            when (results.code()) {
+                404 -> {
+                    DataState.InvalidError()
+                }
+                200 -> {
+                    lastPage = results.body()?.lastPage ?: -1
+                    DataState.Success(
+                        restaurantMapper.mapToDomainList(results.body()?.data ?: listOf())
+                    )
+                }
+                else -> {
+                    DataState.SomeError()
+                }
+            }
+        } catch (e: Exception) {
+            DataState.NetworkError()
+        }
     }
 
     override suspend fun getMenuList(token: String): DataState<List<Menu>> {

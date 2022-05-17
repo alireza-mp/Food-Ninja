@@ -9,6 +9,14 @@ interface HomeRepository {
 
     suspend fun getRestaurantList(token: String): DataState<List<Restaurant>>
 
+    suspend fun restaurantSearch(
+        token: String,
+        search: String,
+        page: Int,
+    ): DataState<List<Restaurant>>
+
+    suspend fun getAllRestaurantsList(token: String, page: Int): DataState<List<Restaurant>>
+
     suspend fun getMenuList(token: String): DataState<List<Menu>>
 
 }
