@@ -29,7 +29,7 @@ import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
 import com.digimoplus.foodninja.presentation.components.TextFieldType
-import com.digimoplus.foodninja.presentation.components.base_dispalys.DisplayBackgroundImage
+import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 
 
 @AndroidEntryPoint
@@ -60,7 +60,7 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
         SnackbarHostState()
     }
 
-    DisplayBackgroundImage(
+    PageMainBackgroundImage(
         snackBarState = snackBarState, paddingValues = PaddingValues(
             top = AppTheme.dimensions.grid_3,
             start = AppTheme.dimensions.grid_3,

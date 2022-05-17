@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.components.base_dispalys
+package com.digimoplus.foodninja.presentation.components.main_pages
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.SnackbarHostState
@@ -15,7 +15,7 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 
 @Composable
-fun OnBoardingDisplay(
+fun OnBoardingMainPage(
     title: String,
     description: String,
     snackBarState: SnackbarHostState? = null,
@@ -26,9 +26,9 @@ fun OnBoardingDisplay(
     content: @Composable () -> Unit,
 ) {
 
-    DisplayBackgroundImage(
-        darkBackground = R.drawable.display_background_dark,
-        lightBackground = R.drawable.display_background_light,
+    PageMainBackgroundImage(
+        darkBackground = R.drawable.main_page_background_dark,
+        lightBackground = R.drawable.main_page_background_light,
         snackBarState = snackBarState,
         paddingValues = PaddingValues(
             start = AppTheme.dimensions.grid_3,

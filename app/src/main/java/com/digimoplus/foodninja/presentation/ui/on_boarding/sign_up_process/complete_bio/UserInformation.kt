@@ -16,7 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.presentation.components.*
-import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
+import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +47,7 @@ class UserInformation : Fragment() {
     @Composable
     fun UserInformationPage(navController: NavController, onBackPress: () -> Unit) {
         val snackBarState = remember { SnackbarHostState() }
-        OnBoardingDisplay(
+        OnBoardingMainPage(
             title = "Fill in your bio to get started",
             description = "This data will be displayed in your account profile for security",
             snackBarState = snackBarState,

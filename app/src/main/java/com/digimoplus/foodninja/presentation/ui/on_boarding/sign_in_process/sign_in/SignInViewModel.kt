@@ -51,7 +51,7 @@ constructor(
                 loading.value = false
                 state.showSnackbar(register.message)
                 if (register.message == Register.Successful.message)
-                    navController.navigate(R.id.action_signInFragment_to_homeFragment)
+                    navController.navigate(R.id.action_signInFragment_to_mainFragment)
             }
         }
     }

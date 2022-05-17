@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.components.base_dispalys
+package com.digimoplus.foodninja.presentation.components.main_pages
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -15,7 +15,7 @@ import com.digimoplus.foodninja.presentation.components.CustomSnackBar
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
-fun DisplayBackgroundImage(
+fun PageMainBackgroundImage(
     @DrawableRes lightBackground: Int = R.drawable.background_light,
     @DrawableRes darkBackground: Int = R.drawable.background_dark,
     snackBarState: SnackbarHostState? = null,

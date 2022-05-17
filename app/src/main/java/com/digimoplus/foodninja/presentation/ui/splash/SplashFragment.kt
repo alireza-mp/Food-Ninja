@@ -23,6 +23,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -95,7 +96,7 @@ class SplashFragment : Fragment() {
                 )
                 Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_6))
                 if (!retryVisibility.value) {
-                    CircularProgressIndicator(color = AppTheme.colors.primary)
+                    CircleBallProgress()
                 } else {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
@@ -204,7 +205,7 @@ class SplashFragment : Fragment() {
     ) {
         delay(1500)
         if (viewModel.isOnline()) {
-            navController.navigate(R.id.action_splashFragment_to_homeFragment)
+            navController.navigate(R.id.action_splashFragment_to_mainFragment)
         } else {
             retryVisibility.value = true
         }

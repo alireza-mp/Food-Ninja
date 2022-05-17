@@ -15,7 +15,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,10 +29,13 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.CardUploadPhoto
-import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
+import com.digimoplus.foodninja.presentation.components.CircleBallProgress
+import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
-import com.google.accompanist.permissions.*
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 import com.skydoves.landscapist.glide.GlideImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -98,7 +100,7 @@ class UploadPhotoFragment : Fragment() {
     ) {
         val coroutineScope = rememberCoroutineScope()
 
-        OnBoardingDisplay(
+        OnBoardingMainPage(
             title = "Upload Your Photo Profile",
             description = "This data will be displayed in your account profile for security",
             snackBarState = viewModel.snackBarState,
@@ -131,8 +133,7 @@ class UploadPhotoFragment : Fragment() {
                     )
                 }
                 if (viewModel.loading.value) {
-                    CircularProgressIndicator(
-                        color = AppTheme.colors.primary,
+                    CircleBallProgress(
                         modifier = Modifier.align(Alignment.BottomCenter)
                     )
                 }
@@ -153,9 +154,8 @@ private fun ShowProfilePhoto(viewModel: UploadPhotoViewModel) {
             imageModel = viewModel.imageUrl.value,
             loading = {
                 Box(modifier = Modifier.matchParentSize()) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = AppTheme.colors.primary
+                    CircleBallProgress(
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
             },

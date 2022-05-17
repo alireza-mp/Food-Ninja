@@ -15,7 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
+import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.PayButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
@@ -57,7 +57,7 @@ fun PaymentPage(
     onBackPress: () -> Unit,
 ) {
 
-    OnBoardingDisplay(
+    OnBoardingMainPage(
         title = "Payment Method",
         description = "This data will be displayed in your account profile for security",
         onBackPress = {

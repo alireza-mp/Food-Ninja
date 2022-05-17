@@ -25,7 +25,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
-import com.digimoplus.foodninja.presentation.components.base_dispalys.OnBoardingDisplay
+import com.digimoplus.foodninja.presentation.components.CircleBallProgress
+import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.android.gms.maps.model.CameraPosition
@@ -72,7 +73,7 @@ fun ChooseLocationPage(
     val defaultLocation = LatLng(34.64, 50.88)
     val coroutineScope = rememberCoroutineScope()
 
-    OnBoardingDisplay(
+    OnBoardingMainPage(
         title = "Set Your Location ",
         description = "This data will be displayed in your account profile for security",
         snackBarState = viewModel.snackBarState,
@@ -189,7 +190,7 @@ fun ShowMap(viewModel: ChooseLocationViewModel, defaultLocation: LatLng) {
                     interactionSource = remember { MutableInteractionSource() } // This is mandatory
                 ) { }, contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = AppTheme.colors.primary)
+                CircleBallProgress()
             }
         }
     }

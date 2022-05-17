@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
-import com.digimoplus.foodninja.presentation.components.base_dispalys.DisplayBackgroundImage
+import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.components.util.buttonGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
@@ -57,7 +57,7 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
     val snackBarState = remember {
         SnackbarHostState()
     }
-    DisplayBackgroundImage(
+    PageMainBackgroundImage(
         snackBarState = snackBarState,
         paddingValues = PaddingValues(
             top = AppTheme.dimensions.grid_3,

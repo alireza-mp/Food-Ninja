@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.base_dispalys.PageMainBackgroundImage
+import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.ui.main.home.HomePage
 import com.digimoplus.foodninja.presentation.components.util.bottomNavigationTabValues
 import com.digimoplus.foodninja.presentation.theme.AppTheme
