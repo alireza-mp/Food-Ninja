@@ -32,7 +32,7 @@ class UploadPhotoViewModel
 @Inject
 constructor(
     private val repository: UploadPhotoRepositoryImpl,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
 
     val imageUrl = mutableStateOf("none")
@@ -59,10 +59,11 @@ constructor(
             withContext(Dispatchers.Main) {
                 loading.value = false
                 if (register != null) {
-                    snackBarState.showSnackbar(register?.message ?: Register.SomeError.message)
                     if (register?.message == Register.Successful.message) {
                         imageUrl.value = "${Constants.BASE_URL}${register?.value.toString()}"
                         saveProfileUrl(register?.value as String)
+                    } else {
+                        snackBarState.showSnackbar(register?.message ?: Register.SomeError.message)
                     }
                 } else {
                     snackBarState.showSnackbar(Register.SomeError.message)
@@ -82,10 +83,11 @@ constructor(
             // upload photo
             val register = repository.uploadProfile(inputStream)
             withContext(Dispatchers.Main) {
-                snackBarState.showSnackbar(register.message)
                 if (register == Register.Successful) {
                     saveProfileUrl(register.value as String)
                     imageUrl.value = "${Constants.BASE_URL}${register.value.toString()}"
+                } else {
+                    snackBarState.showSnackbar(register.message)
                 }
                 loading.value = false
             }

@@ -23,7 +23,7 @@ import javax.inject.Inject
 class ChooseLocationViewModel
 @Inject
 constructor(
-    private val repository: RegisterUserRepositoryImpl
+    private val repository: RegisterUserRepositoryImpl,
 ) : ViewModel() {
 
     val selectedLocation = mutableStateOf(LatLng(34.64, 50.88))
@@ -43,16 +43,14 @@ constructor(
                     phone = registerInfo.phone.toString(),
                     location = location
                 )
-                withContext(Dispatchers.Main) {
-                    loading.value = false
-                    snackBarState.showSnackbar(registerMessage.message)
+                loading.value = false
+                //snackBarState.showSnackbar(registerMessage.message)
+                withContext(Dispatchers.Main){
                     navController.navigate(R.id.action_chooseLocationFragment_to_successNotificationFragment)
                 }
             } else {
-                withContext(Dispatchers.Main) {
-                    snackBarState.showSnackbar(Register.SomeError.message)
-                    loading.value = false
-                }
+                snackBarState.showSnackbar(Register.SomeError.message)
+                loading.value = false
             }
         }
     }

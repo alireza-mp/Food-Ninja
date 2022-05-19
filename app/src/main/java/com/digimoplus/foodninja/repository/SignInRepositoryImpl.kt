@@ -8,6 +8,8 @@ import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.network.AuthService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SignInRepositoryImpl
@@ -30,6 +32,7 @@ constructor(
                 }
                 200 -> {
                     saveUser(response.body()?.accessToken)
+                    Log.d(TAG, "loginUser: ${response.body()?.accessToken}")
                     Register.Successful
                 }
                 else -> {
@@ -44,11 +47,9 @@ constructor(
     // save user authentication key
     // save user information key
     private suspend fun saveUser(token: String?) {
-        token?.let {
-            dataStore.edit { preferences ->
-                preferences[PreferencesKeys.authenticationKey] = "Bearer $it"
-                preferences[PreferencesKeys.userInformation] = "OK"
-            }
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.authenticationKey] = "Bearer $token"
+            preferences[PreferencesKeys.userInformation] = "OK"
         }
     }
 

@@ -18,7 +18,7 @@ import javax.inject.Inject
 class SignInViewModel
 @Inject
 constructor(
-    private val repository: SignInRepositoryImpl
+    private val repository: SignInRepositoryImpl,
 ) : ViewModel() {
 
     val email = mutableStateOf("")
@@ -36,22 +36,24 @@ constructor(
                     state.showSnackbar("Invalid Password")
                 }
                 else -> {
-                    login(state, navController)
+                    login(navController)
                 }
             }
         }
     }
 
 
-    private suspend fun login(state: SnackbarHostState, navController: NavController) {
+    private suspend fun login(navController: NavController) {
         loading.value = true
         withContext(Dispatchers.IO) {
             val register = repository.loginUser(email.value, password.value)
             withContext(Dispatchers.Main) {
                 loading.value = false
-                state.showSnackbar(register.message)
                 if (register.message == Register.Successful.message)
-                    navController.navigate(R.id.action_signInFragment_to_mainFragment)
+                    navController.apply {
+                        navigate(R.id.action_signInFragment_to_mainFragment)
+                        backQueue.clear()
+                    }
             }
         }
     }

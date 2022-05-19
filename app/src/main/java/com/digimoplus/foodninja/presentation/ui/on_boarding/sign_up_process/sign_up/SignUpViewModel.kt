@@ -62,7 +62,7 @@ constructor(
             val register = repository.registerUser(name.value, email.value, password.value)
             withContext(Dispatchers.Main) {
                 loading.value = false
-                state.showSnackbar(message = register.message)
+               // state.showSnackbar(message = register.message)
                 if (register.message == Register.Successful.message){
                 val bundle = Bundle()
                 bundle.putString("name", name.value)
