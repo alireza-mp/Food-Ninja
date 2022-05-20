@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Menu
-import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RECIPE_IMAGE
+import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RESTAURANT_CARD_ITEM_IMAGE
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.valentinilk.shimmer.shimmer
@@ -34,7 +34,7 @@ fun MenuCardItem(index: Int, model: Menu, count: Int, onClick: () -> Unit) {
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             val image = loadPicture(url = model.imageUrl,
-                defaultImage = DEFAULT_RECIPE_IMAGE).value
+                defaultImage = DEFAULT_RESTAURANT_CARD_ITEM_IMAGE).value
             image?.let { img ->
                 Card(modifier = Modifier.padding(
                     start = AppTheme.dimensions.grid_1_5,

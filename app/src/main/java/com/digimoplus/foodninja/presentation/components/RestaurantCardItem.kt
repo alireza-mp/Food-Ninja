@@ -10,12 +10,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Restaurant
-import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RECIPE_IMAGE
+import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RESTAURANT_CARD_ITEM_IMAGE
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -25,19 +27,10 @@ import com.valentinilk.shimmer.shimmer
 @ExperimentalMaterialApi
 @Composable
 fun RestaurantCardItem(index: Int, model: Restaurant) {
-
     Card(
         modifier = Modifier
-            .padding(if (index != 0)
-                PaddingValues(
-                    vertical = AppTheme.dimensions.grid_2,
-                    horizontal = AppTheme.dimensions.grid_1_5)
-            else PaddingValues(
-                start = 1.dp,
-                top = AppTheme.dimensions.grid_2,
-                bottom = AppTheme.dimensions.grid_2,
-                end = AppTheme.dimensions.grid_1_5)
-            ),
+            .size(170.dp, 200.dp)
+            .padding(getCardPadding(index)),
         onClick = {}, backgroundColor = AppTheme.colors.surface,
         shape = RoundedCornerShape(20.dp),
     ) {
@@ -48,7 +41,7 @@ fun RestaurantCardItem(index: Int, model: Restaurant) {
             horizontalAlignment = Alignment.CenterHorizontally) {
 
             val image = loadPicture(url = model.imageUrl,
-                defaultImage = DEFAULT_RECIPE_IMAGE).value
+                defaultImage = DEFAULT_RESTAURANT_CARD_ITEM_IMAGE).value
             image?.let { img ->
                 Image(
                     bitmap = img.asImageBitmap(),
@@ -69,6 +62,62 @@ fun RestaurantCardItem(index: Int, model: Restaurant) {
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
         }
     }
+}
+
+//Restaurant card shimmer
+@ExperimentalMaterialApi
+@Composable
+fun RestaurantCardItemShimmer(index: Int) {
+    Card(
+        modifier = Modifier
+            .shimmer()
+            .size(170.dp, 200.dp)
+            .padding(getCardPadding(index)),
+        onClick = {}, backgroundColor = AppTheme.colors.surface,
+        shape = RoundedCornerShape(20.dp),
+    ) {
+        Column(
+            modifier = Modifier.padding(
+                horizontal = AppTheme.dimensions.grid_2_5,
+                vertical = AppTheme.dimensions.grid_1_5),
+            horizontalAlignment = Alignment.CenterHorizontally) {
+
+
+            Card(
+                modifier = Modifier
+                    .size(100.dp),
+                backgroundColor = Color.LightGray
+            ) {}
+
+            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
+            Text(
+                modifier = Modifier.background(color = Color.LightGray),
+                text = "Vegan Resto",
+                color = Color.Transparent,
+                style = AppTheme.typography.h7)
+            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
+            Text(text = "12 Min",
+                style = AppTheme.typography.body1,
+                color = Color.Transparent,
+                modifier = Modifier.background(color = Color.LightGray))
+            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
+        }
+    }
+}
+
+//getCardPadding
+@Composable
+private fun getCardPadding(index: Int): PaddingValues {
+    return if (index != 0)
+        PaddingValues(
+            vertical = AppTheme.dimensions.grid_2,
+            horizontal = AppTheme.dimensions.grid_1_5)
+    else PaddingValues(
+        start = 1.dp,
+        top = AppTheme.dimensions.grid_2,
+        bottom = AppTheme.dimensions.grid_2,
+        end = AppTheme.dimensions.grid_1_5)
+
 }
 
 
@@ -98,61 +147,8 @@ fun RestaurantCardItem(
 
 }
 
-//Restaurant card shimmer
-@Composable
-fun RestaurantCardItemShimmer(index: Int, visibility: Boolean) {
-
-    Card(
-
-        modifier = Modifier
-            .shimmer()
-            .padding(if (index != 0)
-                PaddingValues(
-                    vertical = AppTheme.dimensions.grid_2,
-                    horizontal = AppTheme.dimensions.grid_1_5)
-            else PaddingValues(
-                start = 1.dp,
-                top = AppTheme.dimensions.grid_2,
-                bottom = AppTheme.dimensions.grid_2,
-                end = AppTheme.dimensions.grid_1_5)
-            ),
-        backgroundColor = AppTheme.colors.surface,
-        shape = RoundedCornerShape(20.dp),
-    ) {
-        Column(
-            modifier = Modifier.padding(
-                horizontal = AppTheme.dimensions.grid_2_5,
-                vertical = AppTheme.dimensions.grid_1_5),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-
-            Card(
-                modifier = Modifier
-                    .size(100.dp),
-                backgroundColor = Color.LightGray,
-                elevation = 0.dp,
-                shape = RoundedCornerShape(5.dp)
-            ) {
-
-            }
-
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
-            Text(modifier = Modifier.background(color = Color.LightGray),
-                text = "Vegan Resto",
-                color = Color.Transparent,
-                style = AppTheme.typography.h7)
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
-            Text(modifier = Modifier.background(color = Color.LightGray),
-                text = "12 Mins",
-                style = AppTheme.typography.body1,
-                color = Color.Transparent)
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
-        }
-    }
-
-}
-
 // getDelayMillis for animation restaurant card
-fun getDelayMillis(index: Int): Int {
+private fun getDelayMillis(index: Int): Int {
     return when (index) {
         0 -> 0
         1 -> 0
@@ -171,17 +167,7 @@ fun getDelayMillis(index: Int): Int {
 private fun RestaurantItem(padding: PaddingValues, model: Restaurant) {
     Card(
         modifier = Modifier
-            .padding(padding/*if (index != count - 1) {
-                PaddingValues(
-                    vertical = AppTheme.dimensions.grid_2,
-                    horizontal = AppTheme.dimensions.grid_1_5)
-            } else {
-                PaddingValues(
-                    start = AppTheme.dimensions.grid_2,
-                    end = AppTheme.dimensions.grid_2,
-                    top = AppTheme.dimensions.grid_1_5,
-                    bottom = 100.dp)
-            }*/),
+            .padding(padding),
         onClick = {}, backgroundColor = AppTheme.colors.surface,
         shape = RoundedCornerShape(20.dp),
     ) {
@@ -192,7 +178,7 @@ private fun RestaurantItem(padding: PaddingValues, model: Restaurant) {
             horizontalAlignment = Alignment.CenterHorizontally) {
 
             val image = loadPicture(url = model.imageUrl,
-                defaultImage = DEFAULT_RECIPE_IMAGE).value
+                defaultImage = DEFAULT_RESTAURANT_CARD_ITEM_IMAGE).value
             image?.let { img ->
                 Image(
                     bitmap = img.asImageBitmap(),

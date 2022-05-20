@@ -3,6 +3,7 @@
 package com.digimoplus.foodninja.presentation.ui.main.home
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,9 +16,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.model.Menu
+import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -37,19 +38,28 @@ import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgress
 
 @Composable
 fun HomePage() {
+
     val viewModel: HomeViewModel = viewModel()
+    val backHandler = remember { mutableStateOf(false) }
+
+    BackHandler(backHandler.value) {
+        viewModel.pageState.value = HomePageState.MainContent
+    }
 
     when (viewModel.pageState.value) {
 
         HomePageState.MainContent -> {
+            backHandler.value = false
             MainContent(viewModel = viewModel)
         }
 
         HomePageState.RestaurantContent -> {
+            backHandler.value = true
             RestaurantContent(viewModel = viewModel)
         }
 
         HomePageState.MenuContent -> {
+            backHandler.value = true
             MenuContent(viewModel = viewModel)
         }
 
@@ -58,6 +68,7 @@ fun HomePage() {
 
 @Composable
 private fun MainContent(viewModel: HomeViewModel) {
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
 
         item {
@@ -68,20 +79,26 @@ private fun MainContent(viewModel: HomeViewModel) {
             HomeBody(viewModel = viewModel)
         }
 
-        if (viewModel.loadingMenu.value) {
-            items(count = 5) { index ->
-                MenuCardItemShimmer(index = index, count = 5)
-            }
-        } else {
-            itemsIndexed(viewModel.menuList) { index, model ->
-                MenuCardItem(
-                    index = index,
-                    model = model,
-                    count = viewModel.menuList.size,
-                ) { //onClick
+        items(count = 5) { index ->
+            testtest(state = viewModel.loadingMenu.value,
+                index = index,
+                count = 5,
+                list = viewModel.menuList)
+        }
+    }
+}
 
-                }
-            }
+@Composable
+fun testtest(state: Boolean, index: Int, count: Int, list: List<Menu>) {
+    if (state) {
+        MenuCardItemShimmer(index = index, count = count)
+    } else {
+        MenuCardItem(
+            index = index,
+            model = list[index],
+            count = count,
+        ) { //onClick
+
         }
     }
 }
@@ -180,7 +197,11 @@ private fun HomeBody(viewModel: HomeViewModel) {
                 }
             }
 
-            NearestRestaurantList(viewModel)
+            Box(modifier = Modifier.fillMaxSize()) {
+                BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                    NearestRestaurantList(viewModel = viewModel)
+                }
+            }
 
             Row(modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -202,27 +223,31 @@ private fun HomeBody(viewModel: HomeViewModel) {
 
 @Composable
 private fun NearestRestaurantList(viewModel: HomeViewModel) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                state = rememberLazyListState()
-            ) {
-                if (viewModel.loadingRestaurant.value) {
-                    items(count = 5) { index ->
-                        RestaurantCardItemShimmer(index = index,
-                            visibility = viewModel.loadingRestaurant.value)
-                    }
-                } else {
-                    itemsIndexed(viewModel.restaurantList) { index, model ->
-                        RestaurantCardItem(
-                            index = index,
-                            model = model)
-                    }
-                }
-            }
+    LazyRow(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        items(count = 6) { index ->
+            tattt(
+                loading = viewModel.loadingRestaurant.value,
+                index = index,
+                list = viewModel.restaurantList)
+
         }
     }
+}
+
+@Composable
+fun tattt(loading: Boolean, index: Int, list: List<Restaurant>) {
+
+        if (loading) {
+            RestaurantCardItemShimmer(index = index)
+        } else {
+            RestaurantCardItem(
+                index = index,
+                model = list[index])
+        }
+
+
 }
 
 // Header used into all pages home display

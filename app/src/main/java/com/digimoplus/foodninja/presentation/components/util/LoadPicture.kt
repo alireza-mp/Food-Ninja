@@ -13,7 +13,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.digimoplus.foodninja.R
 
-const val DEFAULT_RECIPE_IMAGE = R.drawable.default_image
+const val DEFAULT_RESTAURANT_CARD_ITEM_IMAGE = R.drawable.default_image
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
