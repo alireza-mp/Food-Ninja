@@ -78,14 +78,13 @@ fun MenuCardItem(index: Int, model: Menu, count: Int, onClick: () -> Unit) {
 
 @Composable
 fun MenuCardItemShimmer(index: Int, count: Int) {
-
     Card(
         modifier = Modifier
             .padding(getPadding(index = index, count = count))
             .shimmer(),
         shape = RoundedCornerShape(20.dp),
         backgroundColor = AppTheme.colors.surface,
-        elevation = 4.dp
+        elevation = 0.dp
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
 
@@ -137,7 +136,6 @@ private fun getPadding(index: Int, count: Int): PaddingValues {
 
         0 -> {
             PaddingValues(bottom = AppTheme.dimensions.grid_1, end = 2.dp, start = 2.dp)
-
         }
         count - 1 -> {
             PaddingValues(top = AppTheme.dimensions.grid_1,
