@@ -137,7 +137,6 @@ fun RestaurantCardItem(
             dpSize = 20.dp,
             durationMillis = 300,
             delayMillis = getDelayMillis(index))) {
-
             RestaurantItem(padding = padding, model = model)
         }
     } else {

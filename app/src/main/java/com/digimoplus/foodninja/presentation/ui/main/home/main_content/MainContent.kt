@@ -1,15 +1,18 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package com.digimoplus.foodninja.presentation.ui.main.home
+package com.digimoplus.foodninja.presentation.ui.main.home.main_content
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -21,19 +24,29 @@ import com.digimoplus.foodninja.presentation.components.MenuCardItemShimmer
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItemShimmer
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
+import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.presentation.util.HomePageState
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainContent(viewModel: HomeViewModel) {
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+  //  val viewModel: HomeMainViewModel = viewModel()
+    val lazyListState = rememberLazyListState()
+
+    LazyColumn(
+        state = lazyListState,
+        modifier = Modifier.fillMaxSize()
+    ) {
 
         item {
-            HomeHeader(viewModel = viewModel)
+            HomeHeader(viewModel = viewModel, listState = lazyListState)
         }
 
         item {
-            HomeBody(viewModel = viewModel)
+            HomeBody(viewModel = viewModel, listState = lazyListState)
         }
 
         items(count = 5) { index ->
@@ -46,12 +59,12 @@ fun MainContent(viewModel: HomeViewModel) {
 }
 
 @Composable
-private fun HomeBody(viewModel: HomeViewModel) {
-
+private fun HomeBody(viewModel: HomeViewModel, listState: LazyListState) {
+    val coroutineScope = rememberCoroutineScope()
     Box(modifier = Modifier
         .fillMaxSize()
     ) {
-        Column() {
+        Column {
 
             Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1_5))
 
@@ -72,8 +85,10 @@ private fun HomeBody(viewModel: HomeViewModel) {
                     style = AppTheme.typography.h7,
                 )
                 TextButton(onClick = {
-                    viewModel.pageState.value = HomePageState.RestaurantContent
-                    viewModel.getAllRestaurantsList()
+                    coroutineScope.launch {
+                        listState.animateScrollToItem(0)
+                        viewModel.pageState.value = HomePageState.RestaurantContent
+                    }
                 }) {
                     Text(text = "View More",
                         color = AppTheme.colors.primaryTextVariant,

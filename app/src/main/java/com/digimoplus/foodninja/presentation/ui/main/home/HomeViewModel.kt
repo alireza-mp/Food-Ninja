@@ -8,6 +8,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.model.DataState
@@ -16,6 +18,7 @@ import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.presentation.util.showSnackBarError
 import com.digimoplus.foodninja.presentation.util.HomePageState
+import com.digimoplus.foodninja.presentation.util.SearchCategory
 import com.digimoplus.foodninja.repository.HomeRepositoryImpl
 import com.digimoplus.foodninja.repository.PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +33,23 @@ constructor(
     private val repository: HomeRepositoryImpl,
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
+
+    val searchTypeFilter = mutableStateOf(SearchCategory.Restaurant)
+    val searchFoodFilter = mutableStateOf(SearchCategory.None)
+    val searchLocationFilter = mutableStateOf(SearchCategory.None)
+
+    private var lastScrollIndex = 0
+
+    private val _scrollUp = MutableLiveData(false)
+    val scrollUp: LiveData<Boolean>
+        get() = _scrollUp
+
+    fun updateScrollPosition(newScrollIndex: Int) {
+        if (newScrollIndex == lastScrollIndex) return
+
+        _scrollUp.value = newScrollIndex > lastScrollIndex
+        lastScrollIndex = newScrollIndex
+    }
 
     val pageState = mutableStateOf(HomePageState.MainContent)
     val pageLoading = mutableStateOf(false)
@@ -101,18 +121,20 @@ constructor(
     }
 
     fun getAllRestaurantsList() {
-        loadingRestaurant.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            delay(1000)
-            when (val result = repository.getAllRestaurantsList(token, page = 1)) {
-                is DataState.Success -> {
-                    restaurantAllList.addAll(result.data)
+        if (restaurantAllList.size == 0) {
+            loadingRestaurant.value = true
+            viewModelScope.launch(Dispatchers.IO) {
+                delay(1000)
+                when (val result = repository.getAllRestaurantsList(token, page = 1)) {
+                    is DataState.Success -> {
+                        restaurantAllList.addAll(result.data)
+                    }
+                    else -> {
+                        result.showSnackBarError(snackBarState)
+                    }
                 }
-                else -> {
-                    result.showSnackBarError(snackBarState)
-                }
+                loadingRestaurant.value = false
             }
-            loadingRestaurant.value = false
         }
     }
 
