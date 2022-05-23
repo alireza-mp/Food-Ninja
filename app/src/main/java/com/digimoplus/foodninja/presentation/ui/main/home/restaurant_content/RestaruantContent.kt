@@ -1,23 +1,27 @@
-@file:OptIn(ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class,
+    ExperimentalMaterialApi::class)
 
 package com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -26,10 +30,24 @@ import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
 import com.digimoplus.foodninja.presentation.util.restaurantListPaddingBottom
 import com.digimoplus.foodninja.repository.PAGE_SIZE
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
-fun RestaurantContent(viewModel: HomeViewModel) {
+fun RestaurantContent(
+    homeViewModel: HomeViewModel,
+    snackBarHostState: SnackbarHostState,
+) {
 
+    val viewModel: HomeRestaurantViewModel = viewModel()
+    viewModel.snackBarState = snackBarHostState
+    viewModel.searchValue = homeViewModel.searchValue
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            viewModel.getToken()
+            viewModel.getAllRestaurantsList()
+        }
+    }
     val lazyGridState = rememberLazyGridState()
     val scrollUpState = viewModel.scrollUp.observeAsState()
     viewModel.updateScrollPosition(lazyGridState.firstVisibleItemIndex)
@@ -96,7 +114,7 @@ fun RestaurantContent(viewModel: HomeViewModel) {
         }
 
         HomeHeader(
-            viewModel = viewModel,
+            viewModel = homeViewModel,
             modifier = Modifier
                 .graphicsLayer {
                     // move layout to top

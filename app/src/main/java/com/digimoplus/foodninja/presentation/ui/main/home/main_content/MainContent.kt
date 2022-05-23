@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
 
 package com.digimoplus.foodninja.presentation.ui.main.home.main_content
 
@@ -9,13 +9,16 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
@@ -26,14 +29,17 @@ import com.digimoplus.foodninja.presentation.components.RestaurantCardItemShimme
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.presentation.util.HomePageState
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainContent(viewModel: HomeViewModel) {
+fun MainContent(
+    homeViewModel: HomeViewModel,
+    snackBarHostState: SnackbarHostState,
+) {
 
-  //  val viewModel: HomeMainViewModel = viewModel()
+    val viewModel: HomeMainViewModel = viewModel()
+    viewModel.snackBarState = snackBarHostState
     val lazyListState = rememberLazyListState()
 
     LazyColumn(
@@ -42,11 +48,13 @@ fun MainContent(viewModel: HomeViewModel) {
     ) {
 
         item {
-            HomeHeader(viewModel = viewModel, listState = lazyListState)
+            HomeHeader(viewModel = homeViewModel, listState = lazyListState)
         }
 
         item {
-            HomeBody(viewModel = viewModel, listState = lazyListState)
+            HomeBody(viewModel = viewModel,
+                listState = lazyListState,
+                pageState = homeViewModel.pageState)
         }
 
         items(count = 5) { index ->
@@ -59,7 +67,11 @@ fun MainContent(viewModel: HomeViewModel) {
 }
 
 @Composable
-private fun HomeBody(viewModel: HomeViewModel, listState: LazyListState) {
+private fun HomeBody(
+    viewModel: HomeMainViewModel,
+    listState: LazyListState,
+    pageState: MutableState<HomePageState>,
+) {
     val coroutineScope = rememberCoroutineScope()
     Box(modifier = Modifier
         .fillMaxSize()
@@ -87,7 +99,7 @@ private fun HomeBody(viewModel: HomeViewModel, listState: LazyListState) {
                 TextButton(onClick = {
                     coroutineScope.launch {
                         listState.animateScrollToItem(0)
-                        viewModel.pageState.value = HomePageState.RestaurantContent
+                        pageState.value = HomePageState.RestaurantContent
                     }
                 }) {
                     Text(text = "View More",
@@ -121,7 +133,7 @@ private fun HomeBody(viewModel: HomeViewModel, listState: LazyListState) {
 }
 
 @Composable
-private fun NearestRestaurantList(viewModel: HomeViewModel) {
+private fun NearestRestaurantList(viewModel: HomeMainViewModel) {
     LazyRow(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -129,8 +141,8 @@ private fun NearestRestaurantList(viewModel: HomeViewModel) {
             RestaurantListItem(
                 loading = viewModel.loadingRestaurant.value,
                 index = index,
-                list = viewModel.restaurantList)
-
+                list = viewModel.restaurantList
+            )
         }
     }
 }
@@ -141,9 +153,11 @@ fun RestaurantListItem(loading: Boolean, index: Int, list: List<Restaurant>) {
     if (loading) {
         RestaurantCardItemShimmer(index = index)
     } else {
-        RestaurantCardItem(
-            index = index,
-            model = list[index])
+        if (list.size == 6)
+            RestaurantCardItem(
+                index = index,
+                model = list[index]
+            )
     }
 
 
@@ -154,12 +168,13 @@ fun MenuListItem(state: Boolean, index: Int, count: Int, list: List<Menu>) {
     if (state) {
         MenuCardItemShimmer(index = index, count = count)
     } else {
-        MenuCardItem(
-            index = index,
-            model = list[index],
-            count = count,
-        ) { //onClick
+        if (list.size == 5)
+            MenuCardItem(
+                index = index,
+                model = list[index],
+                count = count,
+            ) { //onClick
 
-        }
+            }
     }
 }

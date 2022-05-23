@@ -7,31 +7,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.DataState
-import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
+import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.HomeRestaurantViewModel
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-suspend fun DataState<Any>.showSnackBarError(snackBarHostState: SnackbarHostState) {
+suspend fun DataState<Any>.showSnackBarError(snackBarHostState: SnackbarHostState?) {
     when (this) {
-        is DataState.WrongError -> {
-            snackBarHostState.showSnackbar(message)
+        is DataState.WrongLoginError -> {
+            snackBarHostState?.showSnackbar(message)
         }
-        is DataState.InvalidError -> {
-            snackBarHostState.showSnackbar(message)
+        is DataState.InvalidLoginError -> {
+            snackBarHostState?.showSnackbar(message)
         }
         is DataState.NetworkError -> {
-            snackBarHostState.showSnackbar(message)
+            snackBarHostState?.showSnackbar(message)
         }
         else -> {
-            snackBarHostState.showSnackbar(DataState.SomeError().message)
+            snackBarHostState?.showSnackbar(DataState.SomeError().message)
         }
     }
 }
 
 @Composable
-fun restaurantListPaddingBottom(index: Int, viewModel: HomeViewModel): Dp {
+fun restaurantListPaddingBottom(index: Int, viewModel: HomeRestaurantViewModel): Dp {
     return when {
         viewModel.checkIsLastPage() && (index == viewModel.restaurantAllList.size - 1) -> {
             100.dp

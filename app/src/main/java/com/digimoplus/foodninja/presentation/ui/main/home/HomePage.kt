@@ -27,53 +27,61 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun HomePage() {
+fun HomePage(snackBarHostState: SnackbarHostState) {
 
-    val viewModel: HomeViewModel = viewModel()
+    val homeViewModel: HomeViewModel = viewModel()
     val backHandler = remember { mutableStateOf(false) }
 
     BackHandler(backHandler.value) {
-        when (viewModel.pageState.value) {
-            HomePageState.MainContent -> {
-                //never
-            }
+        when (homeViewModel.pageState.value) {
             HomePageState.RestaurantContent -> {
-                viewModel.pageState.value = HomePageState.MainContent
+                homeViewModel.pageState.value = HomePageState.MainContent
             }
             HomePageState.MenuContent -> {
-                viewModel.pageState.value = HomePageState.MainContent
+                homeViewModel.pageState.value = HomePageState.MainContent
             }
             HomePageState.SearchContent -> {
-                if (viewModel.searchTypeFilter.value == SearchCategory.Restaurant) {
-                    viewModel.pageState.value = HomePageState.RestaurantContent
+                if (homeViewModel.searchTypeFilter.value == SearchCategory.Restaurant) {
+                    homeViewModel.pageState.value = HomePageState.RestaurantContent
                 } else {
-                    viewModel.pageState.value = HomePageState.MenuContent
+                    homeViewModel.pageState.value = HomePageState.MenuContent
                 }
+            }
+            else -> {
+                // never
             }
         }
     }
 
-    when (viewModel.pageState.value) {
+    when (homeViewModel.pageState.value) {
 
         HomePageState.MainContent -> {
             backHandler.value = false
-            MainContent(viewModel)
+            MainContent(
+                homeViewModel = homeViewModel,
+                snackBarHostState = snackBarHostState
+            )
         }
 
         HomePageState.RestaurantContent -> {
             backHandler.value = true
-            RestaurantContent(viewModel = viewModel)
-            viewModel.getAllRestaurantsList()
+            RestaurantContent(
+                homeViewModel = homeViewModel,
+                snackBarHostState = snackBarHostState
+            )
         }
 
         HomePageState.MenuContent -> {
             backHandler.value = true
-            MenuContent(viewModel = viewModel)
+            MenuContent(
+                homeViewModel = homeViewModel,
+                snackBarHostState = snackBarHostState
+            )
         }
 
         HomePageState.SearchContent -> {
             backHandler.value = true
-            SearchContent(viewModel = viewModel)
+            SearchContent(viewModel = homeViewModel)
         }
 
     }
@@ -131,7 +139,7 @@ fun HomeHeader(
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround) {
 
-            val text by viewModel.search.collectAsState()
+            val text by viewModel.searchValue.collectAsState()
 
             TextField(
                 value = text,
@@ -163,7 +171,7 @@ fun HomeHeader(
                         modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_0_25),
                         style = AppTheme.typography.body1)
                 }, onValueChange = {
-                    viewModel.search.value = it
+                    viewModel.searchValue.value = it
                 })
 
             Button(onClick = {
@@ -189,6 +197,4 @@ fun HomeHeader(
         }
 
     }
-
-
 }

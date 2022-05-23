@@ -60,7 +60,6 @@ class MainFragment : Fragment() {
 private fun MainPage() {
 
     val viewModel: MainViewModel = viewModel()
-
     val pagerState = rememberPagerState(pageCount = 3)
 
     PageMainBackgroundImage(
@@ -69,7 +68,8 @@ private fun MainPage() {
         paddingValues = PaddingValues(
             start = AppTheme.dimensions.grid_2,
             end = AppTheme.dimensions.grid_2
-        )
+        ),
+        snackBarState = viewModel.snackBarState
     ) {
         Box(modifier = Modifier
             .fillMaxSize()
@@ -83,7 +83,7 @@ private fun MainPage() {
                     .fillMaxSize()
             ) { index ->
                 when (index) {
-                    0 -> HomePage()
+                    0 -> HomePage(snackBarHostState = viewModel.snackBarState)
                     1 -> ProfilePage()
                     2 -> ChatPage()
                 }

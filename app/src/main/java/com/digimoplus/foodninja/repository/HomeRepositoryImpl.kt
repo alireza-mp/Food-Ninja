@@ -28,7 +28,7 @@ constructor(
             val results = authService.restaurantList(token)
             when (results.code()) {
                 404 -> {
-                    DataState.InvalidError()
+                    DataState.SomeError()
                 }
                 200 -> {
                     DataState.Success(
@@ -54,7 +54,7 @@ constructor(
             val results = authService.restaurantSearch(token, search, page)
             when (results.code()) {
                 404 -> {
-                    DataState.InvalidError()
+                    DataState.SomeError()
                 }
                 200 -> {
                     DataState.Success(
@@ -78,7 +78,7 @@ constructor(
             val results = authService.allRestaurantsList(token, page)
             when (results.code()) {
                 404 -> {
-                    DataState.InvalidError()
+                    DataState.SomeError()
                 }
                 200 -> {
                     lastPage = results.body()?.lastPage ?: -1
@@ -100,7 +100,7 @@ constructor(
             val results = authService.menuList(token)
             when (results.code()) {
                 404 -> {
-                    DataState.InvalidError()
+                    DataState.SomeError()
                 }
                 200 -> {
                     DataState.Success(
