@@ -2,10 +2,8 @@
 
 package com.digimoplus.foodninja.presentation.ui.main.home
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -13,29 +11,61 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.SearchChips
+import com.digimoplus.foodninja.presentation.components.util.buttonDisabledGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.util.HomePageState
 import com.digimoplus.foodninja.presentation.util.SearchCategory
 
 @Composable
 fun SearchContent(
     viewModel: HomeViewModel,
+    showBottomTab: (visibility: Boolean) -> Unit,
 ) {
 
     val searchListState = rememberLazyListState()
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = searchListState,
+            modifier = Modifier.fillMaxSize()
+        ) {
 
-    LazyColumn(
-        state = searchListState,
-        modifier = Modifier.fillMaxSize()
-    ) {
+            item {
+                HomeHeader(viewModel = viewModel)
+            }
 
-        item {
-            HomeHeader(viewModel = viewModel)
+            item {
+                SearchBody(viewModel)
+            }
         }
-
-        item {
-            SearchBody(viewModel)
+        viewModel.checkEnabledButton()
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .align(Alignment.BottomCenter)) {
+            GradientButton(
+                enabled = viewModel.searchButtonEnable.value,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                enableGradient = buttonEnabledGradient(),
+                disableGradient = buttonDisabledGradient(),
+                text = "Search",
+                textColor = getButtonTextColor(viewModel.searchButtonEnable.value),
+                padding = PaddingValues(bottom = AppTheme.dimensions.grid_2),
+                border = BorderStroke(width = 1.dp, color = AppTheme.colors.primary)
+            ) {
+                showBottomTab(true)
+                if (viewModel.searchTypeFilter.value == SearchCategory.Restaurant) {
+                    viewModel.pageState.value = HomePageState.RestaurantContent
+                } else {
+                    viewModel.pageState.value = HomePageState.MenuContent
+                }
+            }
         }
     }
 }
@@ -169,7 +199,7 @@ fun SearchBody(viewModel: HomeViewModel) {
 }
 
 // save clicked chips to view model
-fun selectChips(isPress: MutableState<SearchCategory>, chipsValue: SearchCategory) {
+private fun selectChips(isPress: MutableState<SearchCategory>, chipsValue: SearchCategory) {
     if (isPress.value == chipsValue) {
         isPress.value = SearchCategory.None
     } else {
@@ -177,6 +207,13 @@ fun selectChips(isPress: MutableState<SearchCategory>, chipsValue: SearchCategor
     }
 }
 
-
-
+@Composable
+private fun getButtonTextColor(searchButtonEnable: Boolean): Color {
+    return when {
+        AppTheme.colors.isLight && searchButtonEnable -> Color.White
+        AppTheme.colors.isLight -> Color.Black
+        AppTheme.colors.isLight -> Color.White
+        else -> Color.White
+    }
+}
 

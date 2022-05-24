@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -38,8 +39,6 @@ import ir.digimoplus.bottom_navigation.CustomBottomNavigation
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
-
-    // private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,37 +82,48 @@ private fun MainPage() {
                     .fillMaxSize()
             ) { index ->
                 when (index) {
-                    0 -> HomePage(snackBarHostState = viewModel.snackBarState)
+                    0 -> HomePage(
+                        snackBarHostState = viewModel.snackBarState,
+                        showBottomTab = { visibility ->
+                            viewModel.showBottomTab.value = visibility
+                        })
                     1 -> ProfilePage()
                     2 -> ChatPage()
                 }
             }
-
-            Card(
-                backgroundColor = AppTheme.colors.surface,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(90.dp)
-                    .padding(bottom = AppTheme.dimensions.grid_1)
-                    .align(Alignment.BottomCenter),
-                shape = RoundedCornerShape(15.dp),
-                elevation = 4.dp,
-            ) {
-                CustomBottomNavigation(
-                    modifier = Modifier,
-                    contentPadding = PaddingValues(horizontal = 8.dp),
-                    pagerState = pagerState,
-                    tabValues = bottomNavigationTabValues(
-                        basketBadge = viewModel.basketBadge.value,
-                        chatBadge = viewModel.chatBadge.value
-                    ),
-                    onTabClickListener = {
-                        if (it == 2) { // if basket clicked
-                            TODO("go to basket page")
+            AnimatedVisibility(modifier = Modifier.align(Alignment.BottomCenter),
+                visible = viewModel.showBottomTab.value) {
+                Card(
+                    backgroundColor = AppTheme.colors.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(90.dp)
+                        .padding(bottom = AppTheme.dimensions.grid_1)
+                        .align(Alignment.BottomCenter),
+                    shape = RoundedCornerShape(15.dp),
+                    elevation = 4.dp,
+                ) {
+                    CustomBottomNavigation(
+                        modifier = Modifier,
+                        contentPadding = PaddingValues(horizontal = 8.dp),
+                        pagerState = pagerState,
+                        tabValues = bottomNavigationTabValues(
+                            basketBadge = viewModel.basketBadge.value,
+                            chatBadge = viewModel.chatBadge.value
+                        ),
+                        onTabClickListener = {
+                            if (it == 2) { // if basket clicked
+                                TODO("go to basket page")
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
+
         }
     }
 }
+
+
+
+

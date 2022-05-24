@@ -57,6 +57,7 @@ constructor(
                     DataState.SomeError()
                 }
                 200 -> {
+                    lastPage = results.body()?.lastPage ?: -1
                     DataState.Success(
                         restaurantMapper.mapToDomainList(results.body()?.data ?: listOf())
                     )

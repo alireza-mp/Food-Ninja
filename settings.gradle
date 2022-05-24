@@ -9,7 +9,7 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            if( requested.id.id == 'dagger.hilt.android.plugin') {
+            if (requested.id.id == 'dagger.hilt.android.plugin') {
                 useModule("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
             }
         }
@@ -22,6 +22,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
 
     }

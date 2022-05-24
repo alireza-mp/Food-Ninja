@@ -14,6 +14,7 @@ constructor() : ViewModel() {
     val basketBadge = mutableStateOf(7)
     val chatBadge = mutableStateOf(0)
     val snackBarState = SnackbarHostState()
+    val showBottomTab = mutableStateOf(true)
 
 
 }

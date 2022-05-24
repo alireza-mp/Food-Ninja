@@ -10,30 +10,33 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.components.SearchAppBar
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.main_content.MainContent
 import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.MenuContent
 import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.RestaurantContent
 import com.digimoplus.foodninja.presentation.util.HomePageState
-import com.digimoplus.foodninja.presentation.util.SearchCategory
-import kotlinx.coroutines.launch
 
 
 @Composable
-fun HomePage(snackBarHostState: SnackbarHostState) {
+fun HomePage(
+    snackBarHostState: SnackbarHostState,
+    showBottomTab: (visibility: Boolean) -> Unit,
+) {
 
     val homeViewModel: HomeViewModel = viewModel()
     val backHandler = remember { mutableStateOf(false) }
 
     BackHandler(backHandler.value) {
         when (homeViewModel.pageState.value) {
+
             HomePageState.RestaurantContent -> {
                 homeViewModel.pageState.value = HomePageState.MainContent
             }
@@ -41,11 +44,8 @@ fun HomePage(snackBarHostState: SnackbarHostState) {
                 homeViewModel.pageState.value = HomePageState.MainContent
             }
             HomePageState.SearchContent -> {
-                if (homeViewModel.searchTypeFilter.value == SearchCategory.Restaurant) {
-                    homeViewModel.pageState.value = HomePageState.RestaurantContent
-                } else {
-                    homeViewModel.pageState.value = HomePageState.MenuContent
-                }
+                showBottomTab(true)
+                homeViewModel.pageState.value = HomePageState.MainContent
             }
             else -> {
                 // never
@@ -67,7 +67,7 @@ fun HomePage(snackBarHostState: SnackbarHostState) {
             backHandler.value = true
             RestaurantContent(
                 homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState
+                snackBarHostState = snackBarHostState,
             )
         }
 
@@ -81,7 +81,8 @@ fun HomePage(snackBarHostState: SnackbarHostState) {
 
         HomePageState.SearchContent -> {
             backHandler.value = true
-            SearchContent(viewModel = homeViewModel)
+            showBottomTab(false)
+            SearchContent(viewModel = homeViewModel, showBottomTab = showBottomTab)
         }
 
     }
@@ -95,6 +96,8 @@ fun HomeHeader(
     modifier: Modifier = Modifier,
     searchTopPadding: Dp = AppTheme.dimensions.grid_3,
     listState: LazyListState? = null,
+    searchQuery: (query: String) -> Unit = {},
+    focusRequester: FocusRequester? = null,
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -136,65 +139,15 @@ fun HomeHeader(
 
         Spacer(modifier = Modifier.padding(top = searchTopPadding))
 
-        Row(modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround) {
-
-            val text by viewModel.searchValue.collectAsState()
-
-            TextField(
-                value = text,
-                modifier = Modifier
-                    .fillMaxWidth(0.84f)
-                    .padding(end = AppTheme.dimensions.grid_1),
-                shape = RoundedCornerShape(18.dp),
-                leadingIcon = {
-                    Icon(painter = painterResource(id = R.drawable.ic_search),
-                        contentDescription = "",
-                        tint = AppTheme.colors.secondary,
-                        modifier = Modifier.size(30.dp)
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = AppTheme.colors.secondaryText,
-                    disabledTextColor = Color.Transparent,
-                    backgroundColor = AppTheme.colors.onSecondary,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                    cursorColor = AppTheme.colors.secondary
-                ),
-                textStyle = AppTheme.typography.body1,
-                singleLine = true,
-                placeholder = {
-                    Text(text = "What do you want to order?",
-                        color = AppTheme.colors.secondaryText,
-                        modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_0_25),
-                        style = AppTheme.typography.body1)
-                }, onValueChange = {
-                    viewModel.searchValue.value = it
-                })
-
-            Button(onClick = {
-                coroutineScope.launch {
-                    listState?.animateScrollToItem(0)
-                    viewModel.pageState.value = HomePageState.SearchContent
-                }
-            },
-                contentPadding = PaddingValues(horizontal = 16.dp,
-                    vertical = 14.dp),
-                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.onSecondary),
-                shape = RoundedCornerShape(18.dp)) {
-
-                Icon(painter = painterResource(id = R.drawable.ic_filtter_light),
-                    tint = AppTheme.colors.secondary,
-                    modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_0_25),
-                    contentDescription = ""
-                )
+        SearchAppBar(
+            viewModel = viewModel,
+            coroutineScope = coroutineScope,
+            listState = listState,
+            focusRequester = focusRequester,
+            searchQuery = {
+                searchQuery(it)
             }
-
-        }
+        )
 
     }
 }
