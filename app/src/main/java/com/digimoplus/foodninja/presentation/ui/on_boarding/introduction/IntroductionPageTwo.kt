@@ -20,14 +20,14 @@ import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppDimensions
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.components.util.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import kotlinx.coroutines.launch
 
 @Composable
 fun IntroductionPageTwo(
     viewModel: IntroductionViewModel,
     navController: NavController,
-    dimensions: AppDimensions
+    dimensions: AppDimensions,
 ) {
     val coroutineScope = rememberCoroutineScope()
     Surface(color = AppTheme.colors.background) {
@@ -36,7 +36,7 @@ fun IntroductionPageTwo(
         ) {
 
             val (
-                imageOne, imageTwo, imageThree, backImage, titleText, descriptionText, nextButton
+                imageOne, imageTwo, imageThree, backImage, titleText, descriptionText, nextButton,
             ) = createRefs()
 
             // background image
@@ -144,7 +144,7 @@ fun IntroductionPageTwo(
                     bottom.linkTo(parent.bottom)
                     top.linkTo(descriptionText.bottom)
                 },
-                gradient = buttonGradient(),
+                gradient = buttonEnabledGradient(),
                 textColor = Color.White,
                 text = "Next"
             ) { // onClick

@@ -25,7 +25,7 @@ import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.components.util.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
 import com.digimoplus.foodninja.presentation.components.TextFieldType
@@ -40,7 +40,7 @@ class SignInFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
@@ -191,7 +191,7 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
             ) {
                 GradientButton(
                     modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_1_5),
-                    gradient = buttonGradient(),
+                    gradient = buttonEnabledGradient(),
                     text = "LogIn",
                     textColor = Color.White,
                     loading = viewModel.loading.value

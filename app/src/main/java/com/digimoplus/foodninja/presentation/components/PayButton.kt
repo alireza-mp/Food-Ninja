@@ -3,7 +3,6 @@ package com.digimoplus.foodninja.presentation.components
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,8 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.util.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -25,7 +23,7 @@ fun PayButton(
     @DrawableRes id: Int,
     isPressed: String,
     name: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
         onClick = {
@@ -35,7 +33,7 @@ fun PayButton(
         modifier = Modifier
             .padding(AppTheme.dimensions.grid_1),
         colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.surface),
-        border = if (isPressed == name) BorderStroke(1.dp, buttonGradient()) else null
+        border = if (isPressed == name) BorderStroke(1.dp, buttonEnabledGradient()) else null
     ) {
         Box(
             modifier = Modifier

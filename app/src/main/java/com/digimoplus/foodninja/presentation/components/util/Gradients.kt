@@ -7,11 +7,22 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 
 @Composable
-fun buttonGradient(): Brush {
+fun buttonEnabledGradient(): Brush {
     return Brush.horizontalGradient(
         listOf(
             AppTheme.colors.onPrimary,
             AppTheme.colors.primary
+        )
+    )
+}
+
+
+@Composable
+fun buttonDisabledGradient(): Brush {
+    return Brush.horizontalGradient(
+        listOf(
+            AppTheme.colors.surface,
+            AppTheme.colors.surface
         )
     )
 }

@@ -26,7 +26,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.components.util.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.theme.isDark
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -136,7 +136,7 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                     GradientButton(
                         modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5),
                         loading = viewModel.loading.value,
-                        gradient = buttonGradient(),
+                        gradient = buttonEnabledGradient(),
                         text = "Create Account",
                         textColor = Color.White,
                     ) { // onClick

@@ -21,7 +21,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
-import com.digimoplus.foodninja.presentation.components.util.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-fun IntroductionPageOne(pagerState: PagerState,dimensions: AppDimensions) {
+fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
 
     Surface(color = AppTheme.colors.background) {
         ConstraintLayout(
@@ -41,7 +41,7 @@ fun IntroductionPageOne(pagerState: PagerState,dimensions: AppDimensions) {
 
             val coroutineScope = rememberCoroutineScope()
             val (
-                imageOne, imageTwo, imageThree, imageFour, backImage, titleText, descriptionText, nextButton
+                imageOne, imageTwo, imageThree, imageFour, backImage, titleText, descriptionText, nextButton,
             ) = createRefs()
 
             // background image
@@ -50,7 +50,7 @@ fun IntroductionPageOne(pagerState: PagerState,dimensions: AppDimensions) {
                     .constrainAs(backImage) {
                         start.linkTo(parent.start, dimensions.grid_2)
                         top.linkTo(parent.top, dimensions.grid_5_5)
-                        end.linkTo(parent.end, dimensions.grid_2 )
+                        end.linkTo(parent.end, dimensions.grid_2)
 
                     }
                     .fillMaxHeight(0.6f),
@@ -68,8 +68,8 @@ fun IntroductionPageOne(pagerState: PagerState,dimensions: AppDimensions) {
             // donate image one
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageOne) {
-                    top.linkTo(backImage.top,  dimensions.grid_6)
-                    start.linkTo(parent.start,  dimensions.grid_6)
+                    top.linkTo(backImage.top, dimensions.grid_6)
+                    start.linkTo(parent.start, dimensions.grid_6)
                 },
                 randomRange = (10..20)
             ) { alpha ->
@@ -84,7 +84,7 @@ fun IntroductionPageOne(pagerState: PagerState,dimensions: AppDimensions) {
             // donate image two
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageTwo) {
-                    top.linkTo(imageOne.top,  dimensions.grid_6)
+                    top.linkTo(imageOne.top, dimensions.grid_6)
                     start.linkTo(imageOne.end, 0.dp)
                 },
                 randomRange = (10..20)
@@ -100,7 +100,7 @@ fun IntroductionPageOne(pagerState: PagerState,dimensions: AppDimensions) {
             // donate image three
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageThree) {
-                    top.linkTo(imageOne.bottom,  dimensions.grid_3)
+                    top.linkTo(imageOne.bottom, dimensions.grid_3)
                     start.linkTo(imageOne.start, dimensions.grid_3)
                 },
                 randomRange = (10..20)
@@ -173,7 +173,7 @@ fun IntroductionPageOne(pagerState: PagerState,dimensions: AppDimensions) {
                     bottom.linkTo(parent.bottom)
                     top.linkTo(descriptionText.bottom)
                 },
-                gradient = buttonGradient(),
+                gradient = buttonEnabledGradient(),
                 textColor = Color.White,
                 text = "Next"
             ) { // onClick

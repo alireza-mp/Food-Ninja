@@ -25,7 +25,7 @@ import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.GradientButton
-import com.digimoplus.foodninja.presentation.components.util.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -112,7 +112,7 @@ class SplashFragment : Fragment() {
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(bottom = AppTheme.dimensions.grid_2),
-                    gradient = buttonGradient(),
+                    gradient = buttonEnabledGradient(),
                     text = "Tap to try again...",
                     textColor = Color.White
                 ) {

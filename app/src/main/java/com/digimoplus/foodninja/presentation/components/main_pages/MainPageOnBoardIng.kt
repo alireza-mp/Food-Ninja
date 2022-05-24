@@ -12,7 +12,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.BackButton
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.components.util.buttonGradient
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 
 @Composable
 fun OnBoardingMainPage(
@@ -66,7 +66,7 @@ fun OnBoardingMainPage(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(bottom = AppTheme.dimensions.grid_6),
-                    gradient = buttonGradient(),
+                    gradient = buttonEnabledGradient(),
                     text = buttonTitle,
                     textColor = Color.White,
                     loading = loading
