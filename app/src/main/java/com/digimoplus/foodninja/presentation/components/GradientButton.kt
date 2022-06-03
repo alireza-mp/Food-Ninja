@@ -2,9 +2,7 @@ package com.digimoplus.foodninja.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -39,12 +37,12 @@ fun GradientButton(
         onClick = { onClick() })
     {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .background(gradient)
                 .padding(
                     horizontal = AppTheme.dimensions.grid_3_5,
                     vertical = AppTheme.dimensions.grid_1
-                ),
+                ).height(IntrinsicSize.Min),
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -76,8 +74,8 @@ fun GradientButton(
     onClick: () -> Unit = {},
 ) {
     Button(
-        border = border,
         enabled = enabled,
+        border = if (enabled) null else border,
         modifier = modifier.padding(padding),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color.Transparent
