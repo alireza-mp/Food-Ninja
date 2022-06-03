@@ -70,4 +70,19 @@ interface AuthService {
         @Query("page") page: Int,
     ): Response<RestaurantList>
 
+    @Headers("Accept: application/json")
+    @GET("menu_search")
+    suspend fun menuSearch(
+        @Header("Authorization") token: String,
+        @Query("search") search: String,
+        @Query("page") page: Int,
+    ): Response<MenuList>
+
+    @Headers("Accept: application/json")
+    @GET("menu_all")
+    suspend fun allMenuList(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+    ): Response<MenuList>
+
 }

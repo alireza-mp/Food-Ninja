@@ -15,12 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RESTAURANT_CARD_ITEM_IMAGE
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.HomeRestaurantViewModel
 import com.valentinilk.shimmer.shimmer
 
 // Restaurant Card in home display
@@ -126,10 +128,11 @@ private fun getCardPadding(index: Int): PaddingValues {
 @Composable
 fun RestaurantCardItem(
     index: Int,
+    viewModel: HomeRestaurantViewModel,
     model: Restaurant,
     animationEnabled: Boolean,
-    padding: PaddingValues,
     disableAnim: () -> Unit,
+    onClick: () -> Unit,
 ) {
 
     if (animationEnabled && index < 6) {
@@ -137,11 +140,25 @@ fun RestaurantCardItem(
             dpSize = 20.dp,
             durationMillis = 300,
             delayMillis = getDelayMillis(index))) {
-            RestaurantItem(padding = padding, model = model)
+            RestaurantItem(padding =
+            PaddingValues(
+                start = AppTheme.dimensions.grid_2,
+                end = AppTheme.dimensions.grid_2,
+                top = AppTheme.dimensions.grid_1_5,
+                bottom = restaurantListPaddingBottom(index = index,
+                    viewModel = viewModel)
+            ), model = model, onClick = onClick)
         }
     } else {
         disableAnim()
-        RestaurantItem(padding = padding, model = model)
+        RestaurantItem(padding =
+        PaddingValues(
+            start = AppTheme.dimensions.grid_2,
+            end = AppTheme.dimensions.grid_2,
+            top = AppTheme.dimensions.grid_1_5,
+            bottom = restaurantListPaddingBottom(index = index,
+                viewModel = viewModel)
+        ), model = model, onClick = onClick)
     }
 
 }
@@ -163,11 +180,15 @@ private fun getDelayMillis(index: Int): Int {
 
 @ExperimentalMaterialApi
 @Composable
-private fun RestaurantItem(padding: PaddingValues, model: Restaurant) {
+private fun RestaurantItem(
+    padding: PaddingValues,
+    model: Restaurant,
+    onClick: () -> Unit,
+) {
     Card(
         modifier = Modifier
             .padding(padding),
-        onClick = {}, backgroundColor = AppTheme.colors.surface,
+        onClick = onClick, backgroundColor = AppTheme.colors.surface,
         shape = RoundedCornerShape(20.dp),
     ) {
         Column(
@@ -200,3 +221,17 @@ private fun RestaurantItem(padding: PaddingValues, model: Restaurant) {
     }
 }
 
+@Composable
+private fun restaurantListPaddingBottom(index: Int, viewModel: HomeRestaurantViewModel): Dp {
+    return when {
+        viewModel.checkIsLastPage() && (index == viewModel.restaurantAllList.size - 1) -> {
+            100.dp
+        }
+        index == viewModel.restaurantAllList.size - 1 -> {
+            150.dp
+        }
+        else -> {
+            0.dp
+        }
+    }
+}

@@ -47,8 +47,8 @@ fun SearchAppBar(
                 .padding(end = AppTheme.dimensions.grid_1)
                 .focusRequester(focusRequester ?: f)
                 .onFocusChanged {
-                    if (it.isFocused) {
-                        viewModel.enabledSearch = true
+                    if (it.isFocused && viewModel.pageState.value == HomePageState.MainContent) {
+                        viewModel.enableRestaurantFocus = true
                         viewModel.pageState.value = HomePageState.RestaurantContent
                     }
                 },

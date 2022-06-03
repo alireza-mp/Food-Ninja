@@ -106,7 +106,6 @@ constructor(
         lastScrollIndex = newScrollIndex
     }
 
-
     private suspend fun getToken() {
         withContext(Dispatchers.IO) {
             token = dataStore.data.first()[PreferencesKeys.authenticationKey].toString()

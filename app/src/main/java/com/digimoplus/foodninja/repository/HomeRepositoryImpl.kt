@@ -117,5 +117,53 @@ constructor(
         }
     }
 
+    override suspend fun menuSearch(
+        token: String,
+        search: String,
+        page: Int,
+    ): DataState<List<Menu>> {
+        return try {
+            val results = authService.menuSearch(token, search, page)
+            when (results.code()) {
+                404 -> {
+                    DataState.SomeError()
+                }
+                200 -> {
+                    lastPage = results.body()?.lastPage ?: -1
+                    DataState.Success(
+                        menuMapper.mapToDomainList(results.body()?.data ?: listOf())
+                    )
+                }
+                else -> {
+                    DataState.SomeError()
+                }
+            }
+        } catch (e: Exception) {
+            DataState.NetworkError()
+        }
+    }
+
+    override suspend fun getAllMenuList(token: String, page: Int): DataState<List<Menu>> {
+        return try {
+            val results = authService.allMenuList(token, page)
+            when (results.code()) {
+                404 -> {
+                    DataState.SomeError()
+                }
+                200 -> {
+                    lastPage = results.body()?.lastPage ?: -1
+                    DataState.Success(
+                        menuMapper.mapToDomainList(results.body()?.data ?: listOf())
+                    )
+                }
+                else -> {
+                    DataState.SomeError()
+                }
+            }
+        } catch (e: Exception) {
+            DataState.NetworkError()
+        }
+    }
+
 
 }

@@ -27,7 +27,7 @@ constructor(
     val searchLocationFilter = mutableStateOf(SearchCategory.None)
     val pageState = mutableStateOf(HomePageState.MainContent)
     val search = mutableStateOf("")
-    var enabledSearch = false
+    var enableRestaurantFocus = false
     var searchButtonEnable = mutableStateOf(false)
 
 

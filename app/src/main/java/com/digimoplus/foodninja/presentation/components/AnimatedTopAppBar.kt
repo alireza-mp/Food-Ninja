@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
+import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.HomeMenuViewModel
 import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.HomeRestaurantViewModel
 
 // animated search app bar & title & notification icon
@@ -56,6 +57,48 @@ fun AnimatedTopAppBar(
                 .align(Alignment.TopCenter),
             searchTopPadding = searchBoxPadding,
             focusRequester = focusRequester,
+            searchQuery = {
+                viewModel.searchQuery(it)
+            }
+        )
+    }
+}
+
+@Composable
+fun AnimatedTopAppBar(
+    viewModel: HomeMenuViewModel,
+    homeViewModel: HomeViewModel,
+    content: @Composable () -> Unit,
+) {
+
+    val scrollUpState = viewModel.scrollUp.observeAsState()
+
+    // animations for AppBar
+    // translation appBar animation
+    val searchBarPosition by animateFloatAsState(if (scrollUpState.value == true) -312f else 0f)
+    // content padding top
+    val contentPaddingTop by animateDpAsState(if (scrollUpState.value == true) 104.dp else 200.dp)
+    // search box padding top
+    val searchBoxPadding by animateDpAsState(if (scrollUpState.value == true) 40.dp else 24.dp)
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = contentPaddingTop)
+        ) {
+            content()
+        }
+
+        HomeHeader(
+            viewModel = homeViewModel,
+            modifier = Modifier
+                .graphicsLayer {
+                    // move layout to top
+                    translationY = (searchBarPosition)
+                }
+                .align(Alignment.TopCenter),
+            searchTopPadding = searchBoxPadding,
             searchQuery = {
                 viewModel.searchQuery(it)
             }

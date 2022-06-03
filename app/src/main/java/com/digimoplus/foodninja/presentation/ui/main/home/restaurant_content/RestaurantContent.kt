@@ -27,7 +27,6 @@ import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
 import com.digimoplus.foodninja.presentation.util.LoadingSearchState
-import com.digimoplus.foodninja.presentation.util.restaurantListPaddingBottom
 import com.digimoplus.foodninja.repository.PAGE_SIZE
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
 import kotlinx.coroutines.Dispatchers
@@ -50,8 +49,8 @@ fun RestaurantContent(
 
     // focus on search textField
     LaunchedEffect(Unit) {
-        if (homeViewModel.enabledSearch) {
-            homeViewModel.enabledSearch = false
+        if (homeViewModel.enableRestaurantFocus) {
+            homeViewModel.enableRestaurantFocus = false
             this.coroutineContext.job.invokeOnCompletion {
                 focusRequester.requestFocus()
             }
@@ -105,18 +104,14 @@ fun RestaurantContent(
                             // Restaurant Card
                             RestaurantCardItem(
                                 index = index,
+                                viewModel = viewModel,
                                 model = item,
-                                padding = PaddingValues(
-                                    start = AppTheme.dimensions.grid_2,
-                                    end = AppTheme.dimensions.grid_2,
-                                    top = AppTheme.dimensions.grid_1_5,
-                                    bottom = restaurantListPaddingBottom(index = index,
-                                        viewModel = viewModel)
-                                ),
                                 animationEnabled = viewModel.listAnim,
                                 disableAnim = {
                                     viewModel.listAnim = false
-                                })
+                                }) {
+                                TODO("on restaurant item clicked")
+                            }
                         }
                     }
                     if (viewModel.pageLoading.value) {

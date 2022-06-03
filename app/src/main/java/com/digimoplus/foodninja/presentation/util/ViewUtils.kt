@@ -29,18 +29,3 @@ suspend fun DataState<Any>.showSnackBarError(snackBarHostState: SnackbarHostStat
         }
     }
 }
-
-@Composable
-fun restaurantListPaddingBottom(index: Int, viewModel: HomeRestaurantViewModel): Dp {
-    return when {
-        viewModel.checkIsLastPage() && (index == viewModel.restaurantAllList.size - 1) -> {
-            100.dp
-        }
-        index == viewModel.restaurantAllList.size - 1 -> {
-            150.dp
-        }
-        else -> {
-            0.dp
-        }
-    }
-}

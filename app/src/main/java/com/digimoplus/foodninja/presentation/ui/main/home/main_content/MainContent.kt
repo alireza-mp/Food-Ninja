@@ -122,7 +122,12 @@ private fun HomeBody(
                     color = AppTheme.colors.titleText,
                     style = AppTheme.typography.h7,
                 )
-                TextButton(onClick = { /*TODO*/ }) {
+                TextButton(onClick = {
+                    coroutineScope.launch {
+                        listState.animateScrollToItem(0)
+                        pageState.value = HomePageState.MenuContent
+                    }
+                }) {
                     Text(text = "View More",
                         color = AppTheme.colors.primaryTextVariant,
                         style = AppTheme.typography.body1)
