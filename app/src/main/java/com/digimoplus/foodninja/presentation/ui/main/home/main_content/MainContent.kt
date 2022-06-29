@@ -26,6 +26,7 @@ import com.digimoplus.foodninja.presentation.components.MenuCardItem
 import com.digimoplus.foodninja.presentation.components.MenuCardItemShimmer
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItemShimmer
+import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
@@ -53,12 +54,15 @@ fun MainContent(
 
         item {
             HomeBody(viewModel = viewModel,
+                homeViewModel = homeViewModel,
                 listState = lazyListState,
                 pageState = homeViewModel.pageState)
         }
 
         items(count = 5) { index ->
-            MenuListItem(state = viewModel.loadingMenu.value,
+            MenuListItem(
+                state = viewModel.loadingMenu.value,
+                launchAnimState = homeViewModel.launchAnimState,
                 index = index,
                 count = 5,
                 list = viewModel.menuList)
@@ -68,6 +72,7 @@ fun MainContent(
 
 @Composable
 private fun HomeBody(
+    homeViewModel: HomeViewModel,
     viewModel: HomeMainViewModel,
     listState: LazyListState,
     pageState: MutableState<HomePageState>,
@@ -83,12 +88,20 @@ private fun HomeBody(
             Image(
                 painter = painterResource(id = R.drawable.home_baner),
                 contentDescription = "",
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateAlpha(state = homeViewModel.launchAnimState,
+                        delayMillis = 500,
+                        durationMillis = 1000),
             )
 
             Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1))
 
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .animateAlpha(state = homeViewModel.launchAnimState,
+                    delayMillis = 800,
+                    durationMillis = 1000),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
@@ -108,13 +121,21 @@ private fun HomeBody(
                 }
             }
 
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .animateAlpha(state = homeViewModel.launchAnimState,
+                    delayMillis = 800,
+                    durationMillis = 1000)) {
                 BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
                     NearestRestaurantList(viewModel = viewModel)
                 }
             }
 
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .animateAlpha(state = homeViewModel.launchAnimState,
+                    delayMillis = 1000,
+                    durationMillis = 1000),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
@@ -169,12 +190,21 @@ fun RestaurantListItem(loading: Boolean, index: Int, list: List<Restaurant>) {
 }
 
 @Composable
-fun MenuListItem(state: Boolean, index: Int, count: Int, list: List<Menu>) {
+fun MenuListItem(
+    launchAnimState: MutableState<Float>,
+    state: Boolean,
+    index: Int,
+    count: Int,
+    list: List<Menu>,
+) {
     if (state) {
-        MenuCardItemShimmer(index = index, count = count)
+        MenuCardItemShimmer(
+            launchAnimState = launchAnimState,
+            index = index, count = count)
     } else {
         if (list.size == 5)
             MenuCardItem(
+                launchAnimState = launchAnimState,
                 index = index,
                 model = list[index],
                 count = count,

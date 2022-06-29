@@ -18,11 +18,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.SearchAppBar
+import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.main_content.MainContent
 import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.MenuContent
 import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.RestaurantContent
 import com.digimoplus.foodninja.presentation.util.HomePageState
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -86,6 +88,12 @@ fun HomePage(
         }
 
     }
+
+    LaunchedEffect(Unit) {
+        delay(500)
+        homeViewModel.launchAnimState.value = 1f
+    }
+
 }
 
 // homeViewModel
@@ -106,7 +114,9 @@ fun HomeHeader(
         Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_5))
 
         Row(horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()) {
+            modifier = Modifier
+                .fillMaxWidth()
+                .animateAlpha(state = viewModel.launchAnimState, durationMillis = 1000)) {
 
             Text(text = "Find Your Favorite Food",
                 lineHeight = 40.sp,

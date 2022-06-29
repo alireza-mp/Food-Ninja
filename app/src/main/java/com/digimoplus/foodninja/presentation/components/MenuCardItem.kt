@@ -11,6 +11,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,19 +23,27 @@ import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RESTAURANT_CARD_ITEM_IMAGE
+import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.HomeMenuViewModel
-import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.HomeRestaurantViewModel
 import com.valentinilk.shimmer.shimmer
 
 
 @Composable
-fun MenuCardItem(index: Int, model: Menu, count: Int, onClick: () -> Unit) {
+fun MenuCardItem(
+    launchAnimState: MutableState<Float>,
+    index: Int,
+    model: Menu,
+    count: Int,
+    onClick: () -> Unit,
+) {
 
     Card(
-        modifier = Modifier.padding(getPadding(index = index, count = count)),
+        modifier = Modifier
+            .padding(getPadding(index = index, count = count))
+            .animateAlpha(state = launchAnimState, delayMillis = 400, durationMillis = 1000),
         onClick = { onClick() },
         shape = RoundedCornerShape(20.dp),
         backgroundColor = AppTheme.colors.surface
@@ -180,10 +189,11 @@ private fun MenuItem(
 }
 
 @Composable
-fun MenuCardItemShimmer(index: Int, count: Int) {
+fun MenuCardItemShimmer(launchAnimState: MutableState<Float>, index: Int, count: Int) {
     Card(
         modifier = Modifier
             .padding(getPadding(index = index, count = count))
+            .animateAlpha(state = launchAnimState, delayMillis = 400, durationMillis = 1000)
             .shimmer(),
         shape = RoundedCornerShape(20.dp),
         backgroundColor = AppTheme.colors.surface,

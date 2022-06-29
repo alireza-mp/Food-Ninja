@@ -25,6 +25,7 @@ import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.GradientButton
+import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
@@ -63,6 +64,9 @@ class SplashFragment : Fragment() {
     @Composable
     fun SplashPage(navController: NavController, viewModel: SplashViewModel, context: Context) {
 
+        val splashLaunchAnim = remember {
+            mutableStateOf(0f)
+        }
         val retryVisibility = remember { mutableStateOf(false) }
         val coroutineScope = rememberCoroutineScope()
 
@@ -81,7 +85,11 @@ class SplashFragment : Fragment() {
             contentAlignment = Alignment.Center,
         ) {
             Image(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .animateAlpha(
+                        state = splashLaunchAnim,
+                        durationMillis = 500),
                 painter = painterResource(id = if (AppTheme.colors.isLight) R.drawable.background_light else R.drawable.background_dark),
                 contentScale = ContentScale.FillWidth,
                 contentDescription = ""
@@ -89,6 +97,9 @@ class SplashFragment : Fragment() {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
                     modifier = Modifier
+                        .animateAlpha(
+                            state = splashLaunchAnim,
+                            delayMillis = 500, durationMillis = 1000)
                         .width(200.dp)
                         .height(200.dp),
                     painter = painterResource(id = R.drawable.logo),
@@ -126,6 +137,9 @@ class SplashFragment : Fragment() {
                     }
                 }
             }
+        }
+        LaunchedEffect(Unit) {
+            splashLaunchAnim.value = 1f
         }
     }
 

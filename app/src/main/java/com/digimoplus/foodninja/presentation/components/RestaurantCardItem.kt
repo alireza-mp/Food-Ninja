@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RESTAURANT_CARD_ITEM_IMAGE
+import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
 import com.digimoplus.foodninja.presentation.theme.AppTheme

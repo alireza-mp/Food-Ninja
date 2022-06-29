@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
 import com.digimoplus.foodninja.presentation.util.HomePageState
@@ -33,7 +34,9 @@ fun SearchAppBar(
     searchQuery: (query: String) -> Unit,
     focusRequester: FocusRequester? = null,
 ) {
-    Row(modifier = Modifier.fillMaxWidth(),
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .animateAlpha(state = viewModel.launchAnimState, delayMillis = 300, durationMillis = 1000),
         horizontalArrangement = Arrangement.SpaceAround) {
         val f = remember {
             FocusRequester()

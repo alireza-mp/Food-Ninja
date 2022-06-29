@@ -22,6 +22,8 @@ constructor(
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
 
+    val launchAnimState = mutableStateOf(0f)
+
     val searchTypeFilter = mutableStateOf(SearchCategory.Restaurant)
     val searchFoodFilter = mutableStateOf(SearchCategory.None)
     val searchLocationFilter = mutableStateOf(SearchCategory.None)
