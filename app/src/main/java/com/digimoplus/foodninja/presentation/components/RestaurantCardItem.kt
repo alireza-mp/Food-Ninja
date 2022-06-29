@@ -8,17 +8,17 @@ import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Restaurant
-import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RESTAURANT_CARD_ITEM_IMAGE
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
@@ -43,16 +43,22 @@ fun RestaurantCardItem(index: Int, model: Restaurant) {
                 vertical = AppTheme.dimensions.grid_1_5),
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-            val image = loadPicture(url = model.imageUrl,
-                defaultImage = DEFAULT_RESTAURANT_CARD_ITEM_IMAGE).value
+            val image = loadPicture(url = model.imageUrl).value
+            val imageAnim = remember {
+                mutableStateOf(0f)
+            }
             image?.let { img ->
                 Image(
                     bitmap = img.asImageBitmap(),
                     contentDescription = "",
                     modifier = Modifier
-                        .size(100.dp),
+                        .size(100.dp)
+                        .animateAlpha(state = imageAnim, delayMillis = 500, durationMillis = 750),
                     contentScale = ContentScale.Crop
                 )
+            }
+            LaunchedEffect(Unit) {
+                imageAnim.value = 1f
             }
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
             Text(text = model.name,
@@ -198,16 +204,23 @@ private fun RestaurantItem(
                 vertical = AppTheme.dimensions.grid_1_5),
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-            val image = loadPicture(url = model.imageUrl,
-                defaultImage = DEFAULT_RESTAURANT_CARD_ITEM_IMAGE).value
+            val imageAnim = remember {
+                mutableStateOf(0f)
+            }
+
+            val image = loadPicture(url = model.imageUrl).value
             image?.let { img ->
                 Image(
                     bitmap = img.asImageBitmap(),
                     contentDescription = "",
                     modifier = Modifier
-                        .size(100.dp),
+                        .size(100.dp)
+                        .animateAlpha(state = imageAnim, delayMillis = 500, durationMillis = 750),
                     contentScale = ContentScale.Crop
                 )
+            }
+            LaunchedEffect(Unit) {
+                imageAnim.value = 1f
             }
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
             Text(text = model.name,

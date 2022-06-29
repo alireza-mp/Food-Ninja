@@ -13,25 +13,12 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.digimoplus.foodninja.R
 
-const val DEFAULT_RESTAURANT_CARD_ITEM_IMAGE = R.drawable.default_image
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun loadPicture(url: String, @DrawableRes defaultImage: Int): MutableState<Bitmap?> {
+fun loadPicture(url: String): MutableState<Bitmap?> {
 
     val bitmapState: MutableState<Bitmap?> = mutableStateOf(null)
-
-    // get local default image
-    Glide.with(LocalContext.current)
-        .asBitmap()
-        .load(defaultImage)
-        .into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                bitmapState.value = resource
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
 
     //get network image
     Glide.with(LocalContext.current)

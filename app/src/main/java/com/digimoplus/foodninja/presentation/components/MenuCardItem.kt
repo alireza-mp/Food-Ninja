@@ -10,8 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
-import com.digimoplus.foodninja.presentation.components.util.DEFAULT_RESTAURANT_CARD_ITEM_IMAGE
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
@@ -48,9 +46,11 @@ fun MenuCardItem(
         shape = RoundedCornerShape(20.dp),
         backgroundColor = AppTheme.colors.surface
     ) {
+        val imageAnim = remember {
+            mutableStateOf(0f)
+        }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            val image = loadPicture(url = model.imageUrl,
-                defaultImage = DEFAULT_RESTAURANT_CARD_ITEM_IMAGE).value
+            val image = loadPicture(url = model.imageUrl).value
             image?.let { img ->
                 Card(modifier = Modifier.padding(
                     start = AppTheme.dimensions.grid_1_5,
@@ -63,10 +63,16 @@ fun MenuCardItem(
                         contentDescription = "",
                         modifier = Modifier
                             .size(80.dp)
+                            .animateAlpha(state = imageAnim,
+                                delayMillis = 500,
+                                durationMillis = 750)
                             .clip(RoundedCornerShape(15.dp)),
                         contentScale = ContentScale.Crop
                     )
                 }
+            }
+            LaunchedEffect(Unit) {
+                imageAnim.value = 1f
             }
             Column(modifier = Modifier.padding(start = AppTheme.dimensions.grid_2_5)) {
                 Text(
@@ -147,8 +153,10 @@ private fun MenuItem(
         backgroundColor = AppTheme.colors.surface
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            val image = loadPicture(url = model.imageUrl,
-                defaultImage = DEFAULT_RESTAURANT_CARD_ITEM_IMAGE).value
+            val image = loadPicture(url = model.imageUrl).value
+            val imageAnim = remember {
+                mutableStateOf(0f)
+            }
             image?.let { img ->
                 Card(modifier = Modifier.padding(
                     start = AppTheme.dimensions.grid_1_5,
@@ -161,10 +169,16 @@ private fun MenuItem(
                         contentDescription = "",
                         modifier = Modifier
                             .size(80.dp)
+                            .animateAlpha(state = imageAnim,
+                                delayMillis = 500,
+                                durationMillis = 750)
                             .clip(RoundedCornerShape(15.dp)),
                         contentScale = ContentScale.Crop
                     )
                 }
+            }
+            LaunchedEffect(Unit) {
+                imageAnim.value = 1f
             }
             Column(modifier = Modifier.padding(start = AppTheme.dimensions.grid_2_5)) {
                 Text(
