@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class RegisterInfo(
+data class UserInfo(
     val name: String? = null,
     val family: String? = null,
     val phone: String? = null,

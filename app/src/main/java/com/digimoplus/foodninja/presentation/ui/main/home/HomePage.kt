@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.SearchAppBar
@@ -33,7 +34,7 @@ fun HomePage(
     showBottomTab: (visibility: Boolean) -> Unit,
 ) {
 
-    val homeViewModel: HomeViewModel = viewModel()
+    val homeViewModel: HomeViewModel = hiltViewModel()
     val backHandler = remember { mutableStateOf(false) }
 
     BackHandler(backHandler.value) {

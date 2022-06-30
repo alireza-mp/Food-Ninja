@@ -1,27 +1,18 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.payment
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.PayButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.theme.isDark
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+/*@AndroidEntryPoint
 class PaymentFragment : Fragment() {
 
     val viewModel: PaymentViewModel by viewModels()
@@ -47,24 +38,22 @@ class PaymentFragment : Fragment() {
             }
         }
     }
-}
+}*/
 
 @Composable
 fun PaymentPage(
-    viewModel: PaymentViewModel,
     navController: NavController,
-    bundle: Bundle,
-    onBackPress: () -> Unit,
+    userInfo: UserInfo?,
 ) {
+
+    val viewModel: PaymentViewModel = hiltViewModel()
 
     OnBoardingMainPage(
         title = "Payment Method",
         description = "This data will be displayed in your account profile for security",
-        onBackPress = {
-            onBackPress()
-        },
+        navController = navController,
         onClick = {
-            viewModel.savePaymentMethod(navController, bundle)
+            viewModel.savePaymentMethod(navController, userInfo)
         },
     ) {
         PayButton(

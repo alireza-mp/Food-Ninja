@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.BackButton
 import com.digimoplus.foodninja.presentation.components.GradientButton
@@ -19,7 +20,7 @@ fun OnBoardingMainPage(
     title: String,
     description: String,
     snackBarState: SnackbarHostState? = null,
-    onBackPress: () -> Unit,
+    navController: NavController,
     onClick: () -> Unit,
     loading: Boolean = false,
     buttonTitle: String = "Next",
@@ -38,7 +39,7 @@ fun OnBoardingMainPage(
     ) {
         Column {
             BackButton {
-                onBackPress()
+                navController.navigateUp()
             }
             Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
             Text(

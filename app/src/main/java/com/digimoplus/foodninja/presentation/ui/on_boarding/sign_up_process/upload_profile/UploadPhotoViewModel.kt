@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.upload_photo
+package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.upload_profile
 
 import android.content.Context
 import android.graphics.Bitmap

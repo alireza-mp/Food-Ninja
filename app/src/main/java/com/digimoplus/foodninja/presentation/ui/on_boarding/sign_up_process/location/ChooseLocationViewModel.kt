@@ -1,7 +1,6 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.location
 
 import android.os.Bundle
-import android.util.Log
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -9,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.domain.model.RegisterInfo
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
+import com.digimoplus.foodninja.domain.model.UserInfo
+import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.repository.RegisterUserRepositoryImpl
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,22 +30,30 @@ constructor(
     val loading = mutableStateOf(false)
     val snackBarState = SnackbarHostState()
 
-    fun saveLocation(bundle: Bundle, navController: NavController) {
+    fun saveLocation(userInfo: UserInfo?, navController: NavController) {
         loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            val registerInfo = bundle.getParcelable<RegisterInfo>("register")
             val location = "${selectedLocation.value.latitude}:${selectedLocation.value.longitude}"
-            if (registerInfo != null) {
+
+            if (userInfo != null) {
                 val registerMessage = repository.addUserInformation(
-                    name = registerInfo.name.toString(),
-                    family = registerInfo.family.toString(),
-                    phone = registerInfo.phone.toString(),
+                    name = userInfo.name.toString(),
+                    family = userInfo.family.toString(),
+                    phone = userInfo.phone.toString(),
                     location = location
                 )
                 loading.value = false
-                //snackBarState.showSnackbar(registerMessage.message)
-                withContext(Dispatchers.Main){
-                    navController.navigate(R.id.action_chooseLocationFragment_to_successNotificationFragment)
+                // if successful added
+                if (registerMessage == Register.Successful) {
+                    withContext(Dispatchers.Main) {
+                        // navigate to success page
+                        navController.navigate(Screens.SuccessPage.route) {
+                            //remove all lasts pages form backstack
+                            popUpTo(0)
+                        }
+                    }
+                } else {
+                    snackBarState.showSnackbar(registerMessage.message)
                 }
             } else {
                 snackBarState.showSnackbar(Register.SomeError.message)

@@ -18,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Menu
@@ -39,7 +40,7 @@ fun MainContent(
     snackBarHostState: SnackbarHostState,
 ) {
 
-    val viewModel: HomeMainViewModel = viewModel()
+    val viewModel: HomeMainViewModel = hiltViewModel()
     viewModel.snackBarState = snackBarHostState
     val lazyListState = rememberLazyListState()
 

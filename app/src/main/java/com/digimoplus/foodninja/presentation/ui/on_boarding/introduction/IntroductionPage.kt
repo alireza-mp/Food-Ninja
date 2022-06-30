@@ -1,41 +1,21 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.introduction
 
-import android.os.Bundle
-import android.util.Log
-import android.view.ContentInfo
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.navigation.findNavController
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.digimoplus.foodninja.R
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
-import com.digimoplus.foodninja.presentation.theme.AppDimensions
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.getDimensions
-import com.digimoplus.foodninja.presentation.theme.isDark
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@ExperimentalPagerApi
+/*@ExperimentalPagerApi
 @AndroidEntryPoint
 class IntroductionFragment : Fragment() {
 
@@ -49,21 +29,20 @@ class IntroductionFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 AppTheme(isDark(isSystemInDarkTheme())) {
-                    val dimensions = getDimensions(LocalConfiguration.current.screenHeightDp)
-                    IntroductionPage(viewModel, findNavController(), dimensions)
+                    IntroductionPage(viewModel, findNavController())
                 }
             }
         }
     }
-}
+}*/
 
 @ExperimentalPagerApi
 @Composable
 fun IntroductionPage(
-    viewModel: IntroductionViewModel,
-    navController: NavController,
-    dimensions: AppDimensions
+    navController: NavController
 ) {
+    val viewModel :IntroductionViewModel  = hiltViewModel()
+    val dimensions = getDimensions(LocalConfiguration.current.screenHeightDp)
     val pagerState = rememberPagerState(pageCount = 2)
 
     HorizontalPager(

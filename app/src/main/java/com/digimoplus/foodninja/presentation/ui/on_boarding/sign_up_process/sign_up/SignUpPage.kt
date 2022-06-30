@@ -1,11 +1,6 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
@@ -15,23 +10,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
-import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
-import com.digimoplus.foodninja.presentation.theme.isDark
-import dagger.hilt.android.AndroidEntryPoint
+import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 
-@AndroidEntryPoint
+/*@AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     val viewModel: SignUpViewModel by viewModels()
@@ -50,10 +42,12 @@ class SignUpFragment : Fragment() {
         }
     }
 
-}
+}*/
 
 @Composable
-fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
+fun SignUpPage(navController: NavController) {
+
+    val viewModel: SignUpViewModel = hiltViewModel()
     val snackBarState = remember {
         SnackbarHostState()
     }
@@ -141,13 +135,13 @@ fun SignUpPage(viewModel: SignUpViewModel, navController: NavController) {
                         textColor = Color.White,
                     ) { // onClick
                         viewModel.register(state = snackBarState, navController = navController)
-                        //navController.navigate(R.id.action_signUpFragment_to_userInformationFragment)
+                        //navController.navigate(Screens.Main.route)
                     }
                     Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_0_5))
                     TextButton(
                         enabled = !viewModel.loading.value,
                         onClick = {
-                            navController.navigate(R.id.action_signUpFragment_to_signInFragment)
+                            navController.navigate(Screens.SignIn.route)
                         },
                     ) {
                         Text(

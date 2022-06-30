@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.theme.AppDimensions
@@ -150,7 +151,12 @@ fun IntroductionPageTwo(
             ) { // onClick
                 coroutineScope.launch {
                     viewModel.saveIntroduction()
-                    navController.navigate(R.id.action_introductionFragment_to_signUpFragment)
+                    navController.navigate(Screens.SignUp.route) {
+                        // remove introduction page from backstack
+                        popUpTo(Screens.Introduction.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }

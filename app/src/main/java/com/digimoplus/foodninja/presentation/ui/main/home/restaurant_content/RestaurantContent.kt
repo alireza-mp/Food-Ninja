@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.*
 import com.digimoplus.foodninja.R
@@ -39,7 +40,7 @@ fun RestaurantContent(
     snackBarHostState: SnackbarHostState,
 ) {
 
-    val viewModel: HomeRestaurantViewModel = viewModel()
+    val viewModel: HomeRestaurantViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
     val lazyGridState = rememberLazyGridState()
     val focusRequester = remember { FocusRequester() }

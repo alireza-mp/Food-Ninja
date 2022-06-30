@@ -1,19 +1,14 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio
 
-import android.os.Bundle
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.domain.model.RegisterInfo
-import com.digimoplus.foodninja.repository.RegisterUserRepositoryImpl
+import com.digimoplus.foodninja.domain.model.UserInfo
+import com.digimoplus.foodninja.presentation.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,10 +34,11 @@ constructor() : ViewModel() {
                     snackBarHost.showSnackbar("phone")
                 }
                 else -> {
-                    val registerInfo = RegisterInfo(name.value, family.value, phone.value)
-                    val bundle = Bundle()
-                    bundle.putParcelable("register", registerInfo)
-                    navController.navigate(R.id.action_userInformationFragment_to_paymentFragment,bundle)
+                    val userInfo = UserInfo(name.value, family.value, phone.value)
+                    // send object of user to payment page
+                    navController.currentBackStackEntry?.arguments?.putParcelable("user",
+                        userInfo)
+                    navController.navigate(Screens.Payment.route)
                 }
             }
         }

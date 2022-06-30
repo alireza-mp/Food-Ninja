@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -39,7 +40,7 @@ fun MenuContent(
     snackBarHostState: SnackbarHostState,
 ) {
 
-    val viewModel: HomeMenuViewModel = viewModel()
+    val viewModel: HomeMenuViewModel = hiltViewModel()
     viewModel.snackBarHostState = snackBarHostState
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()

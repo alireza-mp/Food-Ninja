@@ -4,40 +4,34 @@
 
 package com.digimoplus.foodninja.presentation.ui.main
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
-import com.digimoplus.foodninja.presentation.ui.main.home.HomePage
 import com.digimoplus.foodninja.presentation.components.util.bottomNavigationTabValues
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.theme.isDark
 import com.digimoplus.foodninja.presentation.ui.main.chat.ChatPage
+import com.digimoplus.foodninja.presentation.ui.main.home.HomePage
 import com.digimoplus.foodninja.presentation.ui.main.profile.ProfilePage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import dagger.hilt.android.AndroidEntryPoint
 import ir.digimoplus.bottom_navigation.CustomBottomNavigation
 
-@AndroidEntryPoint
+/*@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     override fun onCreateView(
@@ -53,12 +47,12 @@ class MainFragment : Fragment() {
             }
         }
     }
-}
+}*/
 
 @Composable
-private fun MainPage() {
+fun MainPage(navController: NavController) {
 
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: MainViewModel = hiltViewModel()
     val pagerState = rememberPagerState(pageCount = 3)
 
     PageMainBackgroundImage(

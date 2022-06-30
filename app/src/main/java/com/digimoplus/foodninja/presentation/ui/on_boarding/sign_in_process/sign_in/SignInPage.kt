@@ -1,37 +1,37 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.sign_in
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Card
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.*
-import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
-import com.digimoplus.foodninja.presentation.theme.isDark
-import dagger.hilt.android.AndroidEntryPoint
+import com.digimoplus.foodninja.presentation.Screens
+import com.digimoplus.foodninja.presentation.components.CustomTextField
+import com.digimoplus.foodninja.presentation.components.GradientButton
+import com.digimoplus.foodninja.presentation.components.TextFieldIcon
 import com.digimoplus.foodninja.presentation.components.TextFieldType
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
+import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
+import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 
+/*
 @AndroidEntryPoint
 class SignInFragment : Fragment() {
 
@@ -51,11 +51,13 @@ class SignInFragment : Fragment() {
         }
     }
 }
+*/
 
 
 @Composable
-fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
+fun SingInPage(navController: NavController) {
 
+    val viewModel: SignInViewModel = hiltViewModel()
     val snackBarState = remember {
         SnackbarHostState()
     }
@@ -176,7 +178,7 @@ fun SingInPage(navController: NavController, viewModel: SignInViewModel) {
             TextButton(
                 enabled = !viewModel.loading.value,
                 onClick = {
-                    navController.navigate(R.id.action_signInFragment_to_forgetPasswordFragment)
+                    navController.navigate(Screens.ForgetPassword.route)
                 }) {
                 Text(
                     text = "Forgot Your Password?",

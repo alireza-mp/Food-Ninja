@@ -21,9 +21,11 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
@@ -37,7 +39,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
+/*@AndroidEntryPoint
 class ChooseLocationFragment : Fragment() {
     private val viewModel: ChooseLocationViewModel by viewModels()
 
@@ -61,15 +63,14 @@ class ChooseLocationFragment : Fragment() {
             }
         }
     }
-}
+}*/
 
 @Composable
 fun ChooseLocationPage(
-    viewModel: ChooseLocationViewModel,
     navController: NavController,
-    onBackPress: () -> Unit,
-    bundle: Bundle,
+    userInfo: UserInfo?,
 ) {
+    val viewModel: ChooseLocationViewModel = hiltViewModel()
     val defaultLocation = LatLng(34.64, 50.88)
     val coroutineScope = rememberCoroutineScope()
 
@@ -79,10 +80,10 @@ fun ChooseLocationPage(
         snackBarState = viewModel.snackBarState,
         buttonTitle = if (viewModel.mapIsVisible.value) "Save" else "Next",
         loading = viewModel.loading.value,
-        onBackPress = onBackPress,
+        navController = navController,
         onClick = {
             if (viewModel.mapIsVisible.value) {
-                viewModel.saveLocation(bundle, navController)
+                viewModel.saveLocation(userInfo, navController)
 
             } else {
                 if (viewModel.selectedLocation.value == defaultLocation) {
