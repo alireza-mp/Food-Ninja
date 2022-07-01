@@ -7,35 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.presentation.components.CustomTextField
 import com.digimoplus.foodninja.presentation.components.TextFieldType
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-
-/*@AndroidEntryPoint
-class UserInformation : Fragment() {
-
-    val viewModel: UserInformationViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                AppTheme(isDark(isSystemInDarkTheme())) {
-                    viewModel.name.value = arguments?.getString("name") ?: ""
-                    UserInformationPage(navController = findNavController(), onBackPress = {
-                        activity?.onBackPressed()
-                    })
-                }
-            }
-        }
-    }
-}*/
 
 @Composable
 fun UserInformationPage(navController: NavController, name: String/* onBackPress: () -> Unit*/) {

@@ -12,34 +12,6 @@ import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMai
 import com.digimoplus.foodninja.presentation.components.PayButton
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
-/*@AndroidEntryPoint
-class PaymentFragment : Fragment() {
-
-    val viewModel: PaymentViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        return ComposeView(requireContext()).apply {
-
-            setContent {
-                AppTheme(isDark(isSystemInDarkTheme())) {
-                    PaymentPage(
-                        viewModel = viewModel,
-                        navController = findNavController(),
-                        onBackPress = {
-                            activity?.onBackPressed()
-                        },
-                        bundle = requireArguments()
-                    )
-                }
-            }
-        }
-    }
-}*/
-
 @Composable
 fun PaymentPage(
     navController: NavController,

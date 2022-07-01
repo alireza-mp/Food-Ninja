@@ -35,42 +35,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 
-
-/*@ExperimentalPermissionsApi
-@AndroidEntryPoint
-class UploadPhotoFragment : Fragment() {
-
-    private val viewModel: UploadPhotoViewModel by viewModels()
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                AppTheme(isDark(isSystemInDarkTheme())) {
-                    UploadProfilePage(
-                        viewModel = viewModel,
-                        navController = findNavController(),
-                        onBackPress = {
-                            activity?.onBackPressed()
-                        },
-                        bundle = requireArguments()
-                    )
-                }
-            }
-        }
-    }
-
-
-}*/
-
-
-
 @Composable
- fun UploadProfilePage(
+fun UploadProfilePage(
     navController: NavController,
     userInfo: UserInfo?,
 ) {

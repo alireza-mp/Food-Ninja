@@ -263,13 +263,3 @@ fun FoodNinja() {
         }
     }
 }
-
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FoodNinjaTheme {
-        Greeting("djfij")
-    }
-}*/

@@ -13,7 +13,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.Screens
@@ -24,33 +23,6 @@ import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradie
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-
-/*@ExperimentalPagerApi
-@AndroidEntryPoint
-class SplashFragment : Fragment() {
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setContent {
-                AppTheme(isDark(isSystemInDarkTheme())) {
-
-//                    SplashPage(
-//                        navController = findNavController(),
-//                        viewModel = viewModel,
-//                        requireContext()
-//                    )
-
-                }
-            }
-        }
-    }
-}*/
 
 @Composable
 fun SplashPage(navController: NavController) {
