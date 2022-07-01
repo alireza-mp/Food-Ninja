@@ -62,7 +62,7 @@ fun FoodNinja() {
     val navController = rememberAnimatedNavController()
     AnimatedNavHost(
         navController = navController,
-        startDestination = Screens.Splash.route,
+        startDestination = Screens.SuccessPage.route,
     ) {
         composable(route = Screens.Splash.route,
             enterTransition = {
