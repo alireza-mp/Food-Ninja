@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.SearchAppBar
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
@@ -32,6 +33,7 @@ import kotlinx.coroutines.delay
 fun HomePage(
     snackBarHostState: SnackbarHostState,
     showBottomTab: (visibility: Boolean) -> Unit,
+    navController: NavController
 ) {
 
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -62,7 +64,8 @@ fun HomePage(
             backHandler.value = false
             MainContent(
                 homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState
+                snackBarHostState = snackBarHostState,
+                navController = navController
             )
         }
 

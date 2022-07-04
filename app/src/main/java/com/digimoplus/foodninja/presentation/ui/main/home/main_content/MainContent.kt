@@ -20,9 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
+import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.MenuCardItem
 import com.digimoplus.foodninja.presentation.components.MenuCardItemShimmer
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
@@ -38,6 +40,7 @@ import kotlinx.coroutines.launch
 fun MainContent(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
+    navController: NavController,
 ) {
 
     val viewModel: HomeMainViewModel = hiltViewModel()
@@ -57,7 +60,9 @@ fun MainContent(
             HomeBody(viewModel = viewModel,
                 homeViewModel = homeViewModel,
                 listState = lazyListState,
-                pageState = homeViewModel.pageState)
+                pageState = homeViewModel.pageState,
+                navController = navController
+            )
         }
 
         items(count = 5) { index ->
@@ -66,7 +71,8 @@ fun MainContent(
                 launchAnimState = homeViewModel.launchAnimState,
                 index = index,
                 count = 5,
-                list = viewModel.menuList)
+                list = viewModel.menuList
+            )
         }
     }
 }
@@ -76,6 +82,7 @@ private fun HomeBody(
     homeViewModel: HomeViewModel,
     viewModel: HomeMainViewModel,
     listState: LazyListState,
+    navController: NavController,
     pageState: MutableState<HomePageState>,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -128,7 +135,7 @@ private fun HomeBody(
                     delayMillis = 800,
                     durationMillis = 1000)) {
                 BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-                    NearestRestaurantList(viewModel = viewModel)
+                    NearestRestaurantList(viewModel = viewModel, navController = navController)
                 }
             }
 
@@ -160,7 +167,7 @@ private fun HomeBody(
 }
 
 @Composable
-private fun NearestRestaurantList(viewModel: HomeMainViewModel) {
+private fun NearestRestaurantList(viewModel: HomeMainViewModel, navController: NavController) {
     LazyRow(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -168,14 +175,20 @@ private fun NearestRestaurantList(viewModel: HomeMainViewModel) {
             RestaurantListItem(
                 loading = viewModel.loadingRestaurant.value,
                 index = index,
-                list = viewModel.restaurantList
+                list = viewModel.restaurantList,
+                navController = navController
             )
         }
     }
 }
 
 @Composable
-fun RestaurantListItem(loading: Boolean, index: Int, list: List<Restaurant>) {
+fun RestaurantListItem(
+    loading: Boolean,
+    index: Int,
+    list: List<Restaurant>,
+    navController: NavController,
+) {
 
     if (loading) {
         RestaurantCardItemShimmer(index = index)
@@ -183,7 +196,11 @@ fun RestaurantListItem(loading: Boolean, index: Int, list: List<Restaurant>) {
         if (list.size == 6)
             RestaurantCardItem(
                 index = index,
-                model = list[index]
+                model = list[index],
+                onClick = {
+                    // navigate to restaurant Detail page & send id
+                    navController.navigate(Screens.RestaurantDetail.createIdRoute(id = list[index].id))
+                }
             )
     }
 

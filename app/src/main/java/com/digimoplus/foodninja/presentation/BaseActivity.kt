@@ -3,18 +3,21 @@
 package com.digimoplus.foodninja.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.navArgument
+import com.digimoplus.foodninja.presentation.ui.restaurant_detail.RestaurantDetailPage
 import com.digimoplus.foodninja.domain.model.UserInfo
+import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.util.screenEnterTransition
 import com.digimoplus.foodninja.presentation.components.util.screenExitTransition
 import com.digimoplus.foodninja.presentation.components.util.screenPopEnterTransition
@@ -39,11 +42,20 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+
+var appHeight = 0f
+
 @AndroidEntryPoint
 class BaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                // get display height px
+                val height = with(LocalDensity.current) { maxHeight.toPx() }
+                // 1/1000 % of height
+                appHeight = (height * 0.001f)
+            }
             AppTheme(isDark(isSystemInDarkTheme())) {
                 // start nav host
                 FoodNinja()
@@ -57,12 +69,13 @@ class BaseActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun FoodNinja() {
     val navController = rememberAnimatedNavController()
     AnimatedNavHost(
         navController = navController,
-        startDestination = Screens.SuccessPage.route,
+        startDestination = Screens.Splash.route,
     ) {
         composable(route = Screens.Splash.route,
             enterTransition = {
@@ -259,6 +272,27 @@ fun FoodNinja() {
             }) {
             SuccessPage(
                 navController = navController,
+            )
+        }
+        composable(
+            route = Screens.RestaurantDetail.route,
+            arguments = listOf(navArgument(name = "id") { defaultValue = 1 }),
+            enterTransition = {
+                screenEnterTransition()
+            },
+            exitTransition = {
+                screenExitTransition()
+            },
+            popEnterTransition = {
+                screenPopEnterTransition()
+            },
+            popExitTransition = {
+                screenPopExitTransition()
+            }
+        ) { backStackEntry ->
+            RestaurantDetailPage(
+                navController = navController,
+                restaurantId = 2/*backStackEntry.arguments?.getInt("id") ?: 1*/
             )
         }
     }

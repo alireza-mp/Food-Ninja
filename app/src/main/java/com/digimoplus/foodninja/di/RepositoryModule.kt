@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.digimoplus.foodninja.network.AuthService
 import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
+import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
 import com.digimoplus.foodninja.repository.*
 import dagger.Module
 import dagger.Provides
@@ -75,6 +76,17 @@ object RepositoryModule {
             dataStore = dataStore,
             restaurantMapper = restaurantMapper,
             menuMapper = menuMapper
+        )
+    }
+    @Singleton
+    @Provides
+    fun provideRestoDetailRepository(
+        authService: AuthService,
+        restoDetailDtoMapper: RestoDetailDtoMapper,
+    ): RestoDetailRepository {
+        return RestoDetailRepositoryImpl(
+            authService = authService,
+            mapper = restoDetailDtoMapper,
         )
     }
 }

@@ -4,6 +4,7 @@ import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.network.AuthService
 import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
+import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -48,9 +49,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideclient(interceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideRestoDetailDtoMapper(): RestoDetailDtoMapper {
+        return RestoDetailDtoMapper()
+    }
 
-
+    @Singleton
+    @Provides
+    fun provideClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(interceptor)
         }.build()
@@ -58,7 +63,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun prrere(): HttpLoggingInterceptor {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }

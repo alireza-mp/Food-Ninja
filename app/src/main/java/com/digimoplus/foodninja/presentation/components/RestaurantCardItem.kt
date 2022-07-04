@@ -29,12 +29,17 @@ import com.valentinilk.shimmer.shimmer
 // Restaurant Card in home display
 @ExperimentalMaterialApi
 @Composable
-fun RestaurantCardItem(index: Int, model: Restaurant) {
+fun RestaurantCardItem(
+    index: Int,
+    model: Restaurant,
+    onClick: () -> Unit,
+) {
     Card(
         modifier = Modifier
             .size(170.dp, 200.dp)
             .padding(getCardPadding(index)),
-        onClick = {}, backgroundColor = AppTheme.colors.surface,
+        onClick = onClick,
+        backgroundColor = AppTheme.colors.surface,
         shape = RoundedCornerShape(20.dp),
     ) {
         Column(

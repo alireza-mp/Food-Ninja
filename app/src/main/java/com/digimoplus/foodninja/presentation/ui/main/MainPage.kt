@@ -61,7 +61,9 @@ fun MainPage(navController: NavController) {
                         snackBarHostState = viewModel.snackBarState,
                         showBottomTab = { visibility ->
                             viewModel.showBottomTab.value = visibility
-                        })
+                        },
+                        navController = navController
+                    )
                     1 -> ProfilePage()
                     2 -> ChatPage()
                 }
