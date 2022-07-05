@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.Screens
-import com.digimoplus.foodninja.presentation.components.CircleBallProgress
+import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
@@ -57,6 +57,11 @@ fun SplashPage(navController: NavController) {
             contentScale = ContentScale.FillWidth,
             contentDescription = ""
         )
+        if (!retryVisibility.value) {
+            BallProgress(modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 28.dp))
+        }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 modifier = Modifier
@@ -69,9 +74,7 @@ fun SplashPage(navController: NavController) {
                 contentDescription = ""
             )
             Spacer(modifier = Modifier.padding(top = 32.dp))
-            if (!retryVisibility.value) {
-                CircleBallProgress()
-            } else {
+            if (retryVisibility.value) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = "Internet connection error...",

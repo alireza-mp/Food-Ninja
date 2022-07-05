@@ -4,7 +4,9 @@
 package com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -20,10 +22,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.airbnb.lottie.compose.*
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.AnimatedTopAppBar
-import com.digimoplus.foodninja.presentation.components.CircleBallProgress
+import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
@@ -87,7 +92,7 @@ fun RestaurantContent(
             when (viewModel.loadingRestaurant.value) {
                 // loading
                 LoadingSearchState.Loading -> {
-                    CircleBallProgress()
+                    BallProgress()
                 }
                 // show restaurant list
                 LoadingSearchState.NotLoading -> {

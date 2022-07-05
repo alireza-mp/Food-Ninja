@@ -25,8 +25,8 @@ import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.Screens
+import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.CardUploadPhoto
-import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -104,7 +104,7 @@ fun UploadProfilePage(
                 )
             }
             if (viewModel.loading.value) {
-                CircleBallProgress(
+                BallProgress(
                     modifier = Modifier.align(Alignment.BottomCenter)
                 )
             }
@@ -124,7 +124,7 @@ private fun ShowProfilePhoto(viewModel: UploadPhotoViewModel) {
             imageModel = viewModel.imageUrl.value,
             loading = {
                 Box(modifier = Modifier.matchParentSize()) {
-                    CircleBallProgress(
+                    BallProgress(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }

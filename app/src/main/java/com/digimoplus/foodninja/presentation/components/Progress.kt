@@ -9,15 +9,6 @@ import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseProgressIndi
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallSpinFadeLoaderProgressIndicator
 
 @Composable
-fun CircleBallProgress(modifier: Modifier = Modifier) {
-    BallSpinFadeLoaderProgressIndicator(
-        modifier = modifier,
-        color = AppTheme.colors.primary,
-        diameter = 50.dp,
-    )
-}
-
-@Composable
 fun BallProgress(modifier: Modifier=Modifier){
     
     BallPulseProgressIndicator(

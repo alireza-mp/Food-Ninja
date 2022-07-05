@@ -17,14 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.AnimatedTopAppBar
-import com.digimoplus.foodninja.presentation.components.CircleBallProgress
+import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.MenuCardItem
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
@@ -72,7 +71,7 @@ fun MenuContent(
             when (viewModel.loadingMenu.value) {
                 // loading
                 LoadingSearchState.Loading -> {
-                    CircleBallProgress()
+                   BallProgress()
                 }
                 // show menu list
                 LoadingSearchState.NotLoading -> {
