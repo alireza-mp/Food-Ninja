@@ -8,7 +8,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.theme.getDimensions
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -19,7 +18,6 @@ fun IntroductionPage(
     navController: NavController,
 ) {
     val viewModel: IntroductionViewModel = hiltViewModel()
-    val dimensions = getDimensions(LocalConfiguration.current.screenHeightDp)
     val pagerState = rememberPagerState(pageCount = 2)
 
     HorizontalPager(
@@ -28,11 +26,10 @@ fun IntroductionPage(
         modifier = Modifier.background(color = AppTheme.colors.background)
     ) { index ->
         when (index) {
-            0 -> IntroductionPageOne(pagerState = pagerState, dimensions = dimensions)
+            0 -> IntroductionPageOne(pagerState = pagerState)
             1 -> IntroductionPageTwo(
                 viewModel = viewModel,
                 navController = navController,
-                dimensions = dimensions
             )
         }
     }

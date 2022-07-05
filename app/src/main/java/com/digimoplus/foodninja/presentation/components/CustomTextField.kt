@@ -87,7 +87,7 @@ private fun SignInPasswordTextField(
             textStyle = AppTheme.typography.body,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimensions.grid_1),
+                .padding(horizontal = 8.dp),
             value = value.value,
             leadingIcon = {
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)
@@ -153,7 +153,7 @@ private fun SignUpPasswordTextField(
             textStyle = AppTheme.typography.body,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimensions.grid_1),
+                .padding(horizontal = 8.dp),
             value = value.value,
             leadingIcon = {
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)
@@ -202,7 +202,7 @@ private fun NameTextField(
             textStyle = AppTheme.typography.body,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimensions.grid_1),
+                .padding(horizontal = 8.dp),
             value = value.value,
             placeholder = {
                 Text(
@@ -248,8 +248,9 @@ private fun NoneTextField(
             textStyle = AppTheme.typography.body,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimensions.grid_1,
-                    vertical = AppTheme.dimensions.grid_0_5),
+                .padding(horizontal = 8.dp,
+                    vertical = 4.dp
+                ),
             value = value.value,
             placeholder = {
                 Text(
@@ -293,7 +294,7 @@ private fun EmailTextField(
             textStyle = AppTheme.typography.body,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = AppTheme.dimensions.grid_1),
+                .padding(horizontal = 8.dp),
             value = value.value,
             leadingIcon = {
                 SetTextFieldIcon(textFieldIcon = textFieldIcon)

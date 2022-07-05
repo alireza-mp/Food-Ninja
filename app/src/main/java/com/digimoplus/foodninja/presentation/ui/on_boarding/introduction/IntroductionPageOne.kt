@@ -1,14 +1,14 @@
+@file:OptIn(ExperimentalPagerApi::class)
+
 package com.digimoplus.foodninja.presentation.ui.on_boarding.introduction
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Surface
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -22,38 +22,38 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
+import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.components.util.dpw
 import com.digimoplus.foodninja.presentation.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
-@ExperimentalPagerApi
 @Composable
-fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
+fun IntroductionPageOne(pagerState: PagerState) {
 
-    Surface(color = AppTheme.colors.background) {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxSize(),
-        ) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(color = AppTheme.colors.background),
+        contentAlignment = Alignment.Center) {
 
-            val coroutineScope = rememberCoroutineScope()
+        ConstraintLayout {
+
             val (
-                imageOne, imageTwo, imageThree, imageFour, backImage, titleText, descriptionText, nextButton,
+                imageOne, imageTwo, imageThree, imageFour, backImage, titleText, descriptionText,
             ) = createRefs()
 
             // background image
             Image(
                 modifier = Modifier
                     .constrainAs(backImage) {
-                        start.linkTo(parent.start, dimensions.grid_2)
-                        top.linkTo(parent.top, dimensions.grid_5_5)
-                        end.linkTo(parent.end, dimensions.grid_2)
-
+                        start.linkTo(parent.start, 0.dp)
+                        top.linkTo(parent.top, 0.dp)
+                        end.linkTo(parent.end, 0.dp)
                     }
-                    .fillMaxHeight(0.6f),
+
+                    .size(175.dpw, 200.dps),
                 painter = painterResource(
                     id = if (AppTheme.colors.isLight)
                         R.drawable.donate_light_background
@@ -68,8 +68,8 @@ fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
             // donate image one
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageOne) {
-                    top.linkTo(backImage.top, dimensions.grid_6)
-                    start.linkTo(parent.start, dimensions.grid_6)
+                    top.linkTo(backImage.top, 20.dps)
+                    start.linkTo(backImage.start, 20.dpw)
                 },
                 randomRange = (10..20)
             ) { alpha ->
@@ -77,15 +77,16 @@ fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
                     alpha = alpha,
                     painter = painterResource(id = R.drawable.donate4),
                     contentDescription = "",
-                    modifier = Modifier.width(dimensions.img_donate_4)
+                    modifier = Modifier.size(70.dpw, 70.dps),
+                    contentScale = ContentScale.Fit
                 )
             }
 
             // donate image two
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageTwo) {
-                    top.linkTo(imageOne.top, dimensions.grid_6)
-                    start.linkTo(imageOne.end, 0.dp)
+                    top.linkTo(backImage.top, 35.dps)
+                    end.linkTo(backImage.end, 28.dpw)
                 },
                 randomRange = (10..20)
             ) { alpha ->
@@ -93,15 +94,16 @@ fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
                     alpha = alpha,
                     painter = painterResource(id = R.drawable.donate1),
                     contentDescription = "",
-                    modifier = Modifier.width(dimensions.img_donate_1)
+                    modifier = Modifier.size(60.dpw, 60.dps),
+                    contentScale = ContentScale.Fit
                 )
             }
 
             // donate image three
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageThree) {
-                    top.linkTo(imageOne.bottom, dimensions.grid_3)
-                    start.linkTo(imageOne.start, dimensions.grid_3)
+                    top.linkTo(backImage.top, 97.dps)
+                    start.linkTo(backImage.start, 28.dpw)
                 },
                 randomRange = (10..20)
             ) { alpha ->
@@ -109,18 +111,16 @@ fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
                     alpha = alpha,
                     painter = painterResource(id = R.drawable.donate3),
                     contentDescription = "",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .width(dimensions.img_donate_3)
-                        .height(dimensions.img_donate_3)
+                    modifier = Modifier.size(35.dpw, 35.dps),
+                    contentScale = ContentScale.Fit
                 )
             }
 
             // donate image four
             FloatingImageAnimation(
                 modifier = Modifier.constrainAs(imageFour) {
-                    top.linkTo(imageOne.bottom, dimensions.grid_2)
-                    start.linkTo(imageThree.end, 0.dp)
+                    top.linkTo(backImage.top, 90.dps)
+                    end.linkTo(backImage.end, 42.dpw)
                 },
                 randomRange = (10..20)
             ) { alpha ->
@@ -128,21 +128,19 @@ fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
                     alpha = alpha,
                     painter = painterResource(id = R.drawable.donate2),
                     contentDescription = "",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .width(dimensions.img_donate_2)
-                        .height(dimensions.img_donate_2)
+                    modifier = Modifier.size(70.dpw, 70.dps),
+                    contentScale = ContentScale.Fit
                 )
             }
 
             Text(
                 text = "Find your  Comfort Food here", modifier = Modifier
                     .constrainAs(titleText) {
-                        top.linkTo(backImage.bottom, dimensions.grid_1)
+                        top.linkTo(backImage.bottom, 0.dp)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .width(dimensions.title_page_one),
+                    .width(120.dpw),
                 style = AppTheme.typography.h5,
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
@@ -154,34 +152,33 @@ fun IntroductionPageOne(pagerState: PagerState, dimensions: AppDimensions) {
                 text = "Here You Can find a chef or dish for every taste and color. Enjoy!",
                 modifier = Modifier
                     .constrainAs(descriptionText) {
-                        top.linkTo(titleText.bottom, dimensions.grid_4)
+                        top.linkTo(titleText.bottom, 15.dps)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .width(dimensions.description_page_one),
+                    .width(120.dpw),
                 style = AppTheme.typography.body2,
                 color = AppTheme.colors.titleText,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Normal,
                 lineHeight = 25.sp
             )
-
-            GradientButton(
-                modifier = Modifier.constrainAs(nextButton) {
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(descriptionText.bottom)
-                },
-                gradient = buttonEnabledGradient(),
-                textColor = Color.White,
-                text = "Next"
-            ) { // onClick
-                coroutineScope.launch {
-                    delay(100)
-                    pagerState.animateScrollToPage(1)
-                }
+        }
+        val coroutineScope = rememberCoroutineScope()
+        GradientButton(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp),
+            textColor = Color.White,
+            text = "Next",
+            gradient = buttonEnabledGradient()) {
+            coroutineScope.launch {
+                delay(100)
+                pagerState.animateScrollToPage(1)
             }
         }
+
+
     }
 }
+

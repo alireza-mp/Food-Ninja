@@ -35,8 +35,8 @@ fun BackButton(
     ) {
         Icon(
             modifier = Modifier.padding(
-                horizontal = AppTheme.dimensions.grid_2_5,
-                vertical = AppTheme.dimensions.grid_2
+                horizontal = 20.dp,
+                vertical = 16.dp
             ),
             tint = AppTheme.colors.secondary,
             painter = painterResource(id = R.drawable.ic_back),

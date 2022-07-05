@@ -19,7 +19,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.AnimatedTopAppBar
@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 fun RestaurantContent(
     homeViewModel: HomeViewModel, // home viewModel for home header
     snackBarHostState: SnackbarHostState,
+    navController: NavController
 ) {
 
     val viewModel: HomeRestaurantViewModel = hiltViewModel()
@@ -107,9 +108,9 @@ fun RestaurantContent(
                                 index = index,
                                 viewModel = viewModel,
                                 model = item,
-                                animationEnabled = viewModel.listAnim,
+                                animationEnabled = homeViewModel.contentListAnim,
                                 disableAnim = {
-                                    viewModel.listAnim = false
+                                    homeViewModel.contentListAnim = false
                                 }) {
                                 TODO("on restaurant item clicked")
                             }

@@ -2,8 +2,6 @@
 
 package com.digimoplus.foodninja.presentation.ui.restaurant_detail
 
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,22 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.CommentCardItem
 import com.digimoplus.foodninja.presentation.components.NoInternetContent
 import com.digimoplus.foodninja.presentation.components.RestaurantDetailMenuItem
 import com.digimoplus.foodninja.presentation.components.util.*
-import com.digimoplus.foodninja.presentation.dps
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import kotlinx.coroutines.*
 
@@ -46,8 +39,8 @@ fun RestaurantDetailPage(
     val viewModel: RestaurantDetailViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(Unit){
-        withContext(Dispatchers.IO){
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
             viewModel.getDetails(restaurantId)
         }
     }
@@ -157,24 +150,15 @@ private fun Content(
     navController: NavController,
 ) {
     Spacer(modifier = Modifier.padding(top = 120.dps))
-    val bikeState = remember { mutableStateOf(600.dp) }
-
-    val offsetAnimation: Dp by animateDpAsState(
-        bikeState.value,
-        animationSpec = tween(
-            durationMillis = 1000
-        )
-    )
-
-    LaunchedEffect(Unit) {
-        bikeState.value = 0.dp
-    }
 
     Card(
         backgroundColor = AppTheme.colors.background,
         modifier = Modifier
             .fillMaxWidth()
-            .absoluteOffset(y = offsetAnimation),
+            .animateToTop(
+                durationMillis = 1000,
+                delayMillis = 0
+            ),
         shape = RoundedCornerShape(topStart = 35.dp, topEnd = 35.dp)
     ) {
         Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {

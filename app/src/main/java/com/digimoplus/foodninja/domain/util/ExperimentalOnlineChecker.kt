@@ -8,8 +8,8 @@ class ExperimentalOnlineChecker(private val runtime: Runtime) : OnlineChecker {
     override val isOnline: Boolean
         get() {
             try {
-              //  val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
-                val ipProcess = runtime.exec("/system/bin/ping -c 1 0.0.0.0")
+                val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
+               // val ipProcess = runtime.exec("/system/bin/ping -c 1 0.0.0.0")
                 return ipProcess.waitFor() ==0
             } catch (e: IOException) {
                 e.printStackTrace()

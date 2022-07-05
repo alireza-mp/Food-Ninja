@@ -31,6 +31,7 @@ constructor(
     val search = mutableStateOf("")
     var enableRestaurantFocus = false
     var searchButtonEnable = mutableStateOf(false)
+    var contentListAnim = true
 
 
     fun checkEnabledButton() {

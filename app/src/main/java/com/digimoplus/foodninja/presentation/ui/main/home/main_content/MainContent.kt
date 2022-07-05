@@ -18,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -65,12 +66,12 @@ fun MainContent(
             )
         }
 
-        items(count = 5) { index ->
+        items(count = 6) { index ->
             MenuListItem(
                 state = viewModel.loadingMenu.value,
                 launchAnimState = homeViewModel.launchAnimState,
                 index = index,
-                count = 5,
+                count = 6,
                 list = viewModel.menuList
             )
         }
@@ -91,7 +92,7 @@ private fun HomeBody(
     ) {
         Column {
 
-            Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1_5))
+            Spacer(modifier = Modifier.padding(top = 16.dp))
 
             Image(
                 painter = painterResource(id = R.drawable.home_baner),
@@ -103,7 +104,7 @@ private fun HomeBody(
                         durationMillis = 1000),
             )
 
-            Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1))
+            Spacer(modifier = Modifier.padding(top = 8.dp))
 
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -191,7 +192,7 @@ fun RestaurantListItem(
 ) {
 
     if (loading) {
-        RestaurantCardItemShimmer(index = index)
+        RestaurantCardItemShimmer()
     } else {
         if (list.size == 6)
             RestaurantCardItem(
@@ -220,7 +221,7 @@ fun MenuListItem(
             launchAnimState = launchAnimState,
             index = index, count = count)
     } else {
-        if (list.size == 5)
+        if (list.size == 6)
             MenuCardItem(
                 launchAnimState = launchAnimState,
                 index = index,

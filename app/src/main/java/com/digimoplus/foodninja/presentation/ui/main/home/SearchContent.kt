@@ -56,7 +56,7 @@ fun SearchContent(
                 disableGradient = buttonDisabledGradient(),
                 text = "Search",
                 textColor = getButtonTextColor(viewModel.searchButtonEnable.value),
-                padding = PaddingValues(bottom = AppTheme.dimensions.grid_2),
+                padding = PaddingValues(bottom = 16.dp),
                 border = BorderStroke(width = 1.dp, color = AppTheme.colors.primary)
             ) {
                 showBottomTab(true)
@@ -74,11 +74,11 @@ fun SearchContent(
 fun SearchBody(viewModel: HomeViewModel) {
     Column {
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_2))
+        Spacer(modifier = Modifier.padding(top =16.dp))
 
         Text(text = "Type", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
+        Spacer(modifier = Modifier.padding(top = 12.dp))
 
         LazyRow {
             item {
@@ -101,11 +101,11 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_2))
+        Spacer(modifier = Modifier.padding(top = 16.dp))
 
         Text(text = "Location", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
+        Spacer(modifier = Modifier.padding(top = 12.dp))
 
         LazyRow {
             item {
@@ -136,11 +136,11 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_2))
+        Spacer(modifier = Modifier.padding(top = 16.dp))
 
         Text(text = "Food", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
+        Spacer(modifier = Modifier.padding(top = 12.dp))
 
         LazyRow {
             item {
@@ -172,7 +172,7 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
+        Spacer(modifier = Modifier.padding(top = 12.dp))
 
         LazyRow {
             item {

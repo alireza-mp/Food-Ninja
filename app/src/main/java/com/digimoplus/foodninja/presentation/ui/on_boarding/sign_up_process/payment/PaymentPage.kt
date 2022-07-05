@@ -10,6 +10,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.PayButton
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -35,7 +36,7 @@ fun PaymentPage(
         ) {
             viewModel.isPress.value = "paypal"
         }
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
+        Spacer(modifier = Modifier.padding(top = 2.dps))
         PayButton(
             id = if (AppTheme.colors.isLight) R.drawable.pay2_light else R.drawable.pay2_dark,
             isPressed = viewModel.isPress.value,
@@ -43,7 +44,7 @@ fun PaymentPage(
         ) {
             viewModel.isPress.value = "visa"
         }
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_1_5))
+        Spacer(modifier = Modifier.padding(top = 2.dps))
         PayButton(
             id = if (AppTheme.colors.isLight) R.drawable.pay3_light else R.drawable.pay3_dark,
             isPressed = viewModel.isPress.value,

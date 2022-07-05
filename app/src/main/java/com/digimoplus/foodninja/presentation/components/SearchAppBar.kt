@@ -47,7 +47,7 @@ fun SearchAppBar(
             value = viewModel.search.value,
             modifier = Modifier
                 .fillMaxWidth(0.84f)
-                .padding(end = AppTheme.dimensions.grid_1)
+                .padding(end = 8.dp)
                 .focusRequester(focusRequester ?: f)
                 .onFocusChanged {
                     if (it.isFocused && viewModel.pageState.value == HomePageState.MainContent) {
@@ -77,7 +77,7 @@ fun SearchAppBar(
             placeholder = {
                 Text(text = "What do you want to order?",
                     color = AppTheme.colors.secondaryText,
-                    modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_0_25),
+                    modifier = Modifier.padding(vertical = 2.dp),
                     style = AppTheme.typography.body1)
             },
             onValueChange = {
@@ -109,7 +109,7 @@ fun SearchAppBar(
 
             Icon(painter = painterResource(id = R.drawable.ic_filtter_light),
                 tint = AppTheme.colors.secondary,
-                modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_0_25),
+                modifier = Modifier.padding(vertical = 2.dp),
                 contentDescription = ""
             )
         }

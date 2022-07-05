@@ -23,6 +23,7 @@ import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackg
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.gradientText
 import com.digimoplus.foodninja.presentation.components.util.textBrush
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -31,14 +32,14 @@ fun SuccessPage(
 ) {
     PageMainBackgroundImage(
         paddingValues = PaddingValues(
-            top = AppTheme.dimensions.grid_3,
-            start = AppTheme.dimensions.grid_3,
-            end = AppTheme.dimensions.grid_3
+            top = 24.dps,
+            start = 24.dp,
+            end = 24.dp
         )
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
 
-            Box(modifier = Modifier.padding(top = maxHeight * 0.07f)) {
+            Box(modifier = Modifier.padding(top = 7.dps)) {
 
                 val icon by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.successful))
                 val papers by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.successful_back))
@@ -46,7 +47,7 @@ fun SuccessPage(
                 Box(modifier = Modifier.fillMaxWidth()) {
                     LottieAnimation(
                         modifier = Modifier
-                            .height(380.dp),
+                            .height(170.dps),
                         composition = icon,
                         iterations = 1,
                     )
@@ -65,7 +66,7 @@ fun SuccessPage(
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 24.dp),
+                                .padding(top = 12.dps),
                             text = "Your Profile Is Ready To Use",
                             lineHeight = 40.sp,
                             color = AppTheme.colors.titleText,
@@ -76,7 +77,7 @@ fun SuccessPage(
                     }
                 }
                 LottieAnimation(
-                    modifier = Modifier.height(350.dp),
+                    modifier = Modifier.height(200.dps),
                     composition = papers,
                     iterations = LottieConstants.IterateForever,
                 )
@@ -85,7 +86,7 @@ fun SuccessPage(
             GradientButton(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = AppTheme.dimensions.grid_6),
+                    .padding(bottom = 10.dps),
                 gradient = buttonEnabledGradient(),
                 text = "Try Order",
                 textColor = Color.White,

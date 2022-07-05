@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import com.digimoplus.foodninja.presentation.components.CustomTextField
 import com.digimoplus.foodninja.presentation.components.TextFieldType
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
-import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.components.util.dps
 
 @Composable
 fun UserInformationPage(navController: NavController, name: String/* onBackPress: () -> Unit*/) {
@@ -35,13 +35,13 @@ fun UserInformationPage(navController: NavController, name: String/* onBackPress
             value = viewModel.name,
             textFieldType = TextFieldType.None
         )
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
+        Spacer(modifier = Modifier.padding(top = 8.dps))
         CustomTextField(
             placeHolder = "Last Name",
             value = viewModel.family,
             textFieldType = TextFieldType.None
         )
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
+        Spacer(modifier = Modifier.padding(top = 8.dps))
         CustomTextField(
             placeHolder = "Mobile Number",
             value = viewModel.phone,

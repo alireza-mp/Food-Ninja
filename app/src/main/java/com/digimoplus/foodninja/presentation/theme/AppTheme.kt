@@ -19,17 +19,12 @@ object AppTheme {
         @ReadOnlyComposable
         get() = LocalTypography.current
 
-    val dimensions: AppDimensions
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalDimensions.current
-
 }
 
 @Composable
 fun AppTheme(
     colors: AppColors = AppTheme.colors,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
 
     val screenHeightDp = LocalConfiguration.current.screenHeightDp
@@ -37,7 +32,6 @@ fun AppTheme(
 
     CompositionLocalProvider(
         LocalColors provides rememberedColors,
-        LocalDimensions provides getDimensions(screenHeightDp),
         LocalTypography provides getTypography(screenHeightDp)
 
     ) {
@@ -45,22 +39,14 @@ fun AppTheme(
     }
 }
 
-fun getDimensions(height: Int): AppDimensions {
-    return when {
-        height > 733 -> sw360Dimensions
-        height in 641..732 -> mediumDimensions
-        height < 640 -> smallDimensions
-        else -> sw360Dimensions
-    }
-}
-
 fun getTypography(height: Int): AppTypography {
-    return when {
-        height > 733 -> sw360DTypography
-        height in 641..732 -> mediumTypography
-        height < 640 -> smallTypography
-        else -> sw360DTypography
-    }
+    /* return when {
+         height > 733 -> sw360DTypography
+         height in 641..732 -> mediumTypography
+         height < 640 -> smallTypography
+         else -> sw360DTypography
+     }*/
+    return sw360DTypography
 }
 
 fun isDark(state: Boolean): AppColors {

@@ -40,8 +40,8 @@ fun MainPage(navController: NavController) {
         lightBackground = R.drawable.main_page_background_light,
         darkBackground = R.drawable.main_page_background_dark,
         paddingValues = PaddingValues(
-            start = AppTheme.dimensions.grid_2,
-            end = AppTheme.dimensions.grid_2
+            start = 16.dp,
+            end = 16.dp
         ),
         snackBarState = viewModel.snackBarState
     ) {
@@ -75,7 +75,7 @@ fun MainPage(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(90.dp)
-                        .padding(bottom = AppTheme.dimensions.grid_1)
+                        .padding(bottom = 8.dp)
                         .align(Alignment.BottomCenter),
                     shape = RoundedCornerShape(15.dp),
                     elevation = 4.dp,

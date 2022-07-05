@@ -44,6 +44,7 @@ import kotlinx.coroutines.delay
 
 
 var appHeight = 0f
+var appWidth = 0f
 
 @AndroidEntryPoint
 class BaseActivity : ComponentActivity() {
@@ -55,6 +56,12 @@ class BaseActivity : ComponentActivity() {
                 val height = with(LocalDensity.current) { maxHeight.toPx() }
                 // 1/1000 % of height
                 appHeight = (height * 0.001f)
+
+                // get display width px
+                val width = with(LocalDensity.current) { maxWidth.toPx() }
+                // 1/2000 % of width
+                appWidth = (width * 0.002f)
+
             }
             AppTheme(isDark(isSystemInDarkTheme())) {
                 // start nav host

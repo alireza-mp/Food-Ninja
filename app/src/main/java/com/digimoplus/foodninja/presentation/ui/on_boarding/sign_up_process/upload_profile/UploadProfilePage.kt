@@ -28,6 +28,7 @@ import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.CardUploadPhoto
 import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -117,7 +118,7 @@ private fun ShowProfilePhoto(viewModel: UploadPhotoViewModel) {
     Card(
         shape = RoundedCornerShape(25.dp), elevation = 0.dp, modifier = Modifier
             .size(250.dp)
-            .padding(top = AppTheme.dimensions.grid_2)
+            .padding(top = 6.dps)
     ) {
         GlideImage(
             imageModel = viewModel.imageUrl.value,
@@ -160,7 +161,7 @@ private fun ChoseProfilePhoto(
             intent.type = "image/*"
             resultGallery.launch(intent)
         }
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_2))
+        Spacer(modifier = Modifier.padding(top = 6.dps))
         CardUploadPhoto(
             title = "Take Photo",
             id = R.drawable.camera

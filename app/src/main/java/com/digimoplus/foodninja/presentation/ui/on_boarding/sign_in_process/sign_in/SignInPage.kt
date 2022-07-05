@@ -26,6 +26,7 @@ import com.digimoplus.foodninja.presentation.components.TextFieldIcon
 import com.digimoplus.foodninja.presentation.components.TextFieldType
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -38,135 +39,130 @@ fun SingInPage(navController: NavController) {
 
     PageMainBackgroundImage(
         snackBarState = snackBarState, paddingValues = PaddingValues(
-            top = AppTheme.dimensions.grid_3,
-            start = AppTheme.dimensions.grid_3,
-            end = AppTheme.dimensions.grid_3
+            top = 0.dp,
+            start = 24.dp,
+            end = 24.dp
         )
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                modifier = Modifier
-                    .width(AppTheme.dimensions.logo_size)
-                    .height(AppTheme.dimensions.logo_size),
-                painter = painterResource(id = R.drawable.logo), contentDescription = ""
-            )
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_6))
-            Text(
-                text = "Login To Your Account",
-                style = AppTheme.typography.h5,
-                color = AppTheme.colors.titleText,
-                lineHeight = 25.sp,
-            )
-
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_6))
-            CustomTextField(
-                placeHolder = "Email",
-                textFieldType = TextFieldType.Email,
-                textFieldIcon = TextFieldIcon.Email,
-                value = viewModel.email
-            )
-            Spacer(modifier = Modifier.padding(AppTheme.dimensions.grid_1_5))
-            CustomTextField(
-                placeHolder = "Password",
-                textFieldType = TextFieldType.SignInPassword,
-                textFieldIcon = TextFieldIcon.Password,
-                value = viewModel.password
-            )
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
-            Text(
-                text = "Or Continue With",
-                style = AppTheme.typography.descBold,
-                color = AppTheme.colors.titleText,
-                lineHeight = 25.sp,
-            )
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+        Box (modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Card(
+                Image(
                     modifier = Modifier
-                        .padding(
-                            end = AppTheme.dimensions.grid_1_5
-                        )
-                        .fillMaxWidth(0.45f)
-                        .clickable {
-                            // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
-                        },
-                    shape = RoundedCornerShape(15.dp),
-                    elevation = 8.dp,
-                    backgroundColor = AppTheme.colors.surface,
-                ) {
-                    Row(
-                        modifier = Modifier.padding(
-                            horizontal = AppTheme.dimensions.grid_0_5,
-                            vertical = AppTheme.dimensions.grid_2
-                        ),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Image(painterResource(id = R.drawable.facebook), contentDescription = "")
-                        Text(
-                            color = AppTheme.colors.titleText,
-                            style = AppTheme.typography.h7,
-                            modifier = Modifier
-                                .padding(start = AppTheme.dimensions.grid_1)
-                                .align(Alignment.CenterVertically), text = "Facebook"
-                        )
-                    }
-                }
-                Card(
-                    modifier = Modifier
-                        .padding(
-                            start = AppTheme.dimensions.grid_1_5
-                        )
-                        .fillMaxWidth()
-                        .clickable {
-                            // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
-                        },
-                    elevation = 8.dp,
-                    backgroundColor = AppTheme.colors.surface,
-                    shape = RoundedCornerShape(15.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(
-                            horizontal = AppTheme.dimensions.grid_0_5,
-                            vertical = AppTheme.dimensions.grid_2
-                        ),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Image(painterResource(id = R.drawable.google), contentDescription = "")
-                        Text(
-                            color = AppTheme.colors.titleText,
-                            style = AppTheme.typography.h7,
-                            modifier = Modifier
-                                .padding(start = AppTheme.dimensions.grid_1)
-                                .align(Alignment.CenterVertically), text = "Google"
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_3_5))
-            TextButton(
-                enabled = !viewModel.loading.value,
-                onClick = {
-                    navController.navigate(Screens.ForgetPassword.route)
-                }) {
+                        .width(100.dps)
+                        .height(100.dps),
+                    painter = painterResource(id = R.drawable.logo), contentDescription = ""
+                )
+                Spacer(modifier = Modifier.padding(top = 10.dps))
                 Text(
-                    text = "Forgot Your Password?",
-                    style = AppTheme.typography.descBold,
-                    color = AppTheme.colors.primaryText,
+                    text = "Login To Your Account",
+                    style = AppTheme.typography.h5,
+                    color = AppTheme.colors.titleText,
                     lineHeight = 25.sp,
                 )
-            }
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+                Spacer(modifier = Modifier.padding(top = 10.dps))
+                CustomTextField(
+                    placeHolder = "Email",
+                    textFieldType = TextFieldType.Email,
+                    textFieldIcon = TextFieldIcon.Email,
+                    value = viewModel.email
+                )
+                Spacer(modifier = Modifier.padding(4.dps))
+                CustomTextField(
+                    placeHolder = "Password",
+                    textFieldType = TextFieldType.SignInPassword,
+                    textFieldIcon = TextFieldIcon.Password,
+                    value = viewModel.password
+                )
+                Spacer(modifier = Modifier.padding(4.dps))
+                Text(
+                    text = "Or Continue With",
+                    style = AppTheme.typography.descBold,
+                    color = AppTheme.colors.titleText,
+                    lineHeight = 25.sp,
+                )
+                Spacer(modifier = Modifier.padding(4.dps))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Card(
+                        modifier = Modifier
+                            .padding(
+                                end = 4.dps
+                            )
+                            .weight(1f)
+                            .clickable {
+                                // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                            },
+                        shape = RoundedCornerShape(15.dp),
+                        elevation = 8.dp,
+                        backgroundColor = AppTheme.colors.surface,
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(
+                                horizontal = 4.dps,
+                                vertical = 8.dps
+                            ),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Image(painterResource(id = R.drawable.facebook), contentDescription = "")
+                            Text(
+                                color = AppTheme.colors.titleText,
+                                style = AppTheme.typography.h7,
+                                modifier = Modifier
+                                    .padding(start = 3.dps)
+                                    .align(Alignment.CenterVertically), text = "Facebook"
+                            )
+                        }
+                    }
+                    Card(
+                        modifier = Modifier
+                            .padding(
+                                start = 4.dps
+                            )
+                            .weight(1f)
+                            .clickable {
+                                // navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                            },
+                        elevation = 8.dp,
+                        backgroundColor = AppTheme.colors.surface,
+                        shape = RoundedCornerShape(15.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(
+                                horizontal = 4.dps,
+                                vertical = 8.dps
+                            ),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Image(painterResource(id = R.drawable.google), contentDescription = "")
+                            Text(
+                                color = AppTheme.colors.titleText,
+                                style = AppTheme.typography.h7,
+                                modifier = Modifier
+                                    .padding(start = 3.dps)
+                                    .align(Alignment.CenterVertically), text = "Google"
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.padding(top = 5.dps))
+                TextButton(
+                    enabled = !viewModel.loading.value,
+                    onClick = {
+                        navController.navigate(Screens.ForgetPassword.route)
+                    }) {
+                    Text(
+                        text = "Forgot Your Password?",
+                        style = AppTheme.typography.descBold,
+                        color = AppTheme.colors.primaryText,
+                        lineHeight = 25.sp,
+                    )
+                }
                 GradientButton(
-                    modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_1_5),
+                    modifier = Modifier.padding(vertical = 5.dps),
                     gradient = buttonEnabledGradient(),
                     text = "LogIn",
                     textColor = Color.White,

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -31,7 +32,7 @@ fun PayButton(
         },
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
-            .padding(AppTheme.dimensions.grid_1),
+            .padding(6.dps),
         colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.surface),
         border = if (isPressed == name) BorderStroke(1.dp, buttonEnabledGradient()) else null
     ) {

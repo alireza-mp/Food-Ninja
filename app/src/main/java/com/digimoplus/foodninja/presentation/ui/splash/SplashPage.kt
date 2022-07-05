@@ -68,7 +68,7 @@ fun SplashPage(navController: NavController) {
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = ""
             )
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_6))
+            Spacer(modifier = Modifier.padding(top = 32.dp))
             if (!retryVisibility.value) {
                 CircleBallProgress()
             } else {
@@ -85,7 +85,7 @@ fun SplashPage(navController: NavController) {
             GradientButton(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = AppTheme.dimensions.grid_2),
+                    .padding(bottom = 16.dp),
                 gradient = buttonEnabledGradient(),
                 text = "Tap to try again...",
                 textColor = Color.White

@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.SearchAppBar
@@ -40,8 +39,8 @@ fun HomePage(
     val backHandler = remember { mutableStateOf(false) }
 
     BackHandler(backHandler.value) {
+        homeViewModel.contentListAnim = true
         when (homeViewModel.pageState.value) {
-
             HomePageState.RestaurantContent -> {
                 homeViewModel.pageState.value = HomePageState.MainContent
             }
@@ -74,6 +73,7 @@ fun HomePage(
             RestaurantContent(
                 homeViewModel = homeViewModel,
                 snackBarHostState = snackBarHostState,
+                navController = navController
             )
         }
 
@@ -106,7 +106,7 @@ fun HomePage(
 fun HomeHeader(
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
-    searchTopPadding: Dp = AppTheme.dimensions.grid_3,
+    searchTopPadding: Dp = 24.dp,
     listState: LazyListState? = null,
     searchQuery: (query: String) -> Unit = {},
     focusRequester: FocusRequester? = null,
@@ -115,7 +115,7 @@ fun HomeHeader(
 
     Column(modifier = modifier) {
 
-        Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_5))
+        Spacer(modifier = Modifier.padding(top = 40.dp))
 
         Row(horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
@@ -135,7 +135,7 @@ fun HomeHeader(
                 Button(onClick = {
 
                 },
-                    contentPadding = PaddingValues(horizontal = AppTheme.dimensions.grid_2,
+                    contentPadding = PaddingValues(horizontal = 16.dp,
                         vertical = 14.dp),
                     elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
                     modifier = Modifier

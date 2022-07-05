@@ -25,6 +25,7 @@ import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -78,30 +79,30 @@ fun ChooseLocation(viewModel: ChooseLocationViewModel) {
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface
     ) {
-        Column(modifier = Modifier.padding(top = AppTheme.dimensions.grid_2)) {
+        Column(modifier = Modifier.padding(top = 4.dps)) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Image(
-                    modifier = Modifier.padding(start = AppTheme.dimensions.grid_1),
+                    modifier = Modifier.padding(start = 2.dps),
                     painter = painterResource(id = R.drawable.location_pin),
                     contentDescription = "",
                 )
                 Text(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
-                        .padding(start = AppTheme.dimensions.grid_1),
+                        .padding(start = 2.dps),
                     text = "Your Location",
                     color = AppTheme.colors.titleText,
                     style = AppTheme.typography.h7
                 )
             }
-            Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_2_5))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = AppTheme.dimensions.grid_1,
-                        end = AppTheme.dimensions.grid_1,
-                        bottom = AppTheme.dimensions.grid_1
+                        start = 2.dps,
+                        end = 2.dps,
+                        bottom = 2.dps
                     ),
                 shape = RoundedCornerShape(15.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.primary),
@@ -114,7 +115,7 @@ fun ChooseLocation(viewModel: ChooseLocationViewModel) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        modifier = Modifier.padding(vertical = AppTheme.dimensions.grid_1_5),
+                        modifier = Modifier.padding(vertical = 4.dps),
                         text = "Set Location",
                         style = AppTheme.typography.h7,
                         color = Color.White
@@ -131,37 +132,32 @@ fun ShowMap(viewModel: ChooseLocationViewModel, defaultLocation: LatLng) {
         position = CameraPosition.fromLatLngZoom(defaultLocation, 12f)
     }
 
-    Box(
+    GoogleMap(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.8f),
-        contentAlignment = Alignment.Center,
-    ) {
-        GoogleMap(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.9f),
-            cameraPositionState = cameraPositionState,
-            onMapClick = {
-                viewModel.selectedLocation.value = it
-            }
-        ) {
-            Marker(
-                visible = viewModel.selectedLocation.value != defaultLocation,
-                position = viewModel.selectedLocation.value
-            )
+            .height(150.dps),
+        cameraPositionState = cameraPositionState,
+        onMapClick = {
+            viewModel.selectedLocation.value = it
         }
-        if (viewModel.loading.value) {
-            Box(modifier = Modifier
-                .matchParentSize()
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() } // This is mandatory
-                ) { }, contentAlignment = Alignment.Center
-            ) {
-                CircleBallProgress()
-            }
+    ) {
+        Marker(
+            visible = viewModel.selectedLocation.value != defaultLocation,
+            position = viewModel.selectedLocation.value
+        )
+    }
+    if (viewModel.loading.value) {
+        Box(modifier = Modifier
+            .padding(top = 10.dps)
+            .fillMaxWidth()
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() } // This is mandatory
+            ) { }, contentAlignment = Alignment.Center
+        ) {
+            CircleBallProgress()
         }
     }
+
 
 }

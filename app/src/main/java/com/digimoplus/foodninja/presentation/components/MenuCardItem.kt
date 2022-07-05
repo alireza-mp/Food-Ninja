@@ -53,9 +53,10 @@ fun MenuCardItem(
             val image = loadPicture(url = model.imageUrl).value
             image?.let { img ->
                 Card(modifier = Modifier.padding(
-                    start = AppTheme.dimensions.grid_1_5,
-                    top = AppTheme.dimensions.grid_2,
-                    bottom = AppTheme.dimensions.grid_2),
+                    start = 12.dp,
+                    top = 16.dp,
+                    bottom = 16.dp
+                ),
                     elevation = 0.dp,
                     backgroundColor = Color.Transparent) {
                     Image(
@@ -74,13 +75,13 @@ fun MenuCardItem(
             LaunchedEffect(Unit) {
                 imageAnim.value = 1f
             }
-            Column(modifier = Modifier.padding(start = AppTheme.dimensions.grid_2_5)) {
+            Column(modifier = Modifier.padding(start = 20.dp)) {
                 Text(
                     text = model.name,
                     style = AppTheme.typography.h7,
                     color = AppTheme.colors.titleText
                 )
-                Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
+                Spacer(modifier = Modifier.padding(top = 4.dp))
                 Text(
                     text = model.restaurantName,
                     style = AppTheme.typography.body1,
@@ -89,7 +90,7 @@ fun MenuCardItem(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = model.price,
-                modifier = Modifier.padding(end = AppTheme.dimensions.grid_2_5),
+                modifier = Modifier.padding(end = 20.dp),
                 style = AppTheme.typography.h4M,
                 color = AppTheme.colors.primaryVariant)
         }
@@ -111,7 +112,6 @@ fun MenuCardItem(
 
     if (animationEnabled && index < 6) {
         Box(modifier = Modifier.animateToTop(
-            dpSize = 20.dp,
             durationMillis = 300,
             delayMillis = getDelayMillis(index)
         )) {
@@ -143,7 +143,7 @@ private fun MenuItem(
 ) {
     Card(
         modifier = Modifier.padding(
-            PaddingValues(top = AppTheme.dimensions.grid_1,
+            PaddingValues(top = 8.dp,
                 bottom = menuAnimatedItemPaddingBottom(index = index, viewModel = viewModel),
                 end = 2.dp,
                 start = 2.dp)
@@ -159,9 +159,10 @@ private fun MenuItem(
             }
             image?.let { img ->
                 Card(modifier = Modifier.padding(
-                    start = AppTheme.dimensions.grid_1_5,
-                    top = AppTheme.dimensions.grid_2,
-                    bottom = AppTheme.dimensions.grid_2),
+                    start = 12.dp,
+                    top = 16.dp,
+                    bottom = 16.dp
+                ),
                     elevation = 0.dp,
                     backgroundColor = Color.Transparent) {
                     Image(
@@ -180,13 +181,13 @@ private fun MenuItem(
             LaunchedEffect(Unit) {
                 imageAnim.value = 1f
             }
-            Column(modifier = Modifier.padding(start = AppTheme.dimensions.grid_2_5)) {
+            Column(modifier = Modifier.padding(start = 20.dp)) {
                 Text(
                     text = model.name,
                     style = AppTheme.typography.h7,
                     color = AppTheme.colors.titleText
                 )
-                Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
+                Spacer(modifier = Modifier.padding(top = 4.dp))
                 Text(
                     text = model.restaurantName,
                     style = AppTheme.typography.body1,
@@ -195,7 +196,7 @@ private fun MenuItem(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = model.price,
-                modifier = Modifier.padding(end = AppTheme.dimensions.grid_2_5),
+                modifier = Modifier.padding(end = 20.dp),
                 style = AppTheme.typography.h4M,
                 color = AppTheme.colors.primaryVariant)
         }
@@ -217,9 +218,10 @@ fun MenuCardItemShimmer(launchAnimState: MutableState<Float>, index: Int, count:
 
             Card(modifier = Modifier
                 .padding(
-                    start = AppTheme.dimensions.grid_1_5,
-                    top = AppTheme.dimensions.grid_2,
-                    bottom = AppTheme.dimensions.grid_2)
+                    start = 12.dp,
+                    top = 16.dp,
+                    bottom = 16.dp
+                )
                 .size(80.dp),
                 shape = RoundedCornerShape(20.dp),
                 elevation = 0.dp,
@@ -227,7 +229,7 @@ fun MenuCardItemShimmer(launchAnimState: MutableState<Float>, index: Int, count:
 
             }
 
-            Column(modifier = Modifier.padding(start = AppTheme.dimensions.grid_2_5)) {
+            Column(modifier = Modifier.padding(start = 20.dp)) {
                 Text(
                     modifier = Modifier.background(color = Color.LightGray,
                         shape = RoundedCornerShape(5.dp)),
@@ -235,7 +237,7 @@ fun MenuCardItemShimmer(launchAnimState: MutableState<Float>, index: Int, count:
                     style = AppTheme.typography.h7,
                     color = Color.Transparent
                 )
-                Spacer(modifier = Modifier.padding(top = AppTheme.dimensions.grid_0_5))
+                Spacer(modifier = Modifier.padding(top = 4.dp))
                 Text(
                     modifier = Modifier.background(color = Color.LightGray,
                         shape = RoundedCornerShape(5.dp)),
@@ -247,7 +249,7 @@ fun MenuCardItemShimmer(launchAnimState: MutableState<Float>, index: Int, count:
             Text(
                 text = "$15",
                 modifier = Modifier
-                    .padding(end = AppTheme.dimensions.grid_2_5)
+                    .padding(end = 20.dp)
                     .background(color = Color.LightGray, shape = RoundedCornerShape(5.dp)),
                 style = AppTheme.typography.h4M,
                 color = Color.Transparent)
@@ -262,16 +264,16 @@ private fun getPadding(index: Int, count: Int): PaddingValues {
     return when (index) {
 
         0 -> {
-            PaddingValues(bottom = AppTheme.dimensions.grid_1, end = 2.dp, start = 2.dp)
+            PaddingValues(bottom = 8.dp, end = 2.dp, start = 2.dp)
         }
         count - 1 -> {
-            PaddingValues(top = AppTheme.dimensions.grid_1,
+            PaddingValues(top = 8.dp,
                 bottom = 100.dp,
                 end = 2.dp,
                 start = 2.dp)
         }
         else -> {
-            PaddingValues(vertical = AppTheme.dimensions.grid_1, horizontal = 2.dp)
+            PaddingValues(vertical = 8.dp, horizontal = 2.dp)
         }
     }
 }
