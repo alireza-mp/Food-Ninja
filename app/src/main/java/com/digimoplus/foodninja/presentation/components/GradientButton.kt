@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.components.util.dpw
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallBeatProgressIndicator
 
@@ -41,7 +42,7 @@ fun GradientButton(
             modifier = Modifier
                 .background(gradient)
                 .padding(
-                    horizontal = 15.dps,
+                    horizontal = 27.dpw,
                     vertical = 8.dps
                 ).height(IntrinsicSize.Min),
             contentAlignment = Alignment.Center
@@ -85,7 +86,7 @@ fun GradientButton(
             modifier = modifier
                 .background(if (enabled) enableGradient else disableGradient)
                 .padding(
-                    horizontal = 15.dps,
+                    horizontal = 15.dpw,
                     vertical = 8.dps
                 ),
             contentAlignment = Alignment.Center
