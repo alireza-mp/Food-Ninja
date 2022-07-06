@@ -24,7 +24,6 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.BallProgress
-import com.digimoplus.foodninja.presentation.components.CircleBallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
