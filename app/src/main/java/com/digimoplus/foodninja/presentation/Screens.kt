@@ -12,11 +12,14 @@ sealed class Screens(val route: String) {
     object UploadProfile : Screens("upload_Profile/{user}")
     object ChooseLocation : Screens("choose_location")
     object SuccessPage : Screens("success_page")
+
+
     object RestaurantDetail : Screens("restaurant_detail/{id}") {
         fun createIdRoute(id: Int) = "restaurant_detail/$id"
     }
-
-
+    object MenuDetail : Screens("menu_detail/{id}") {
+        fun createIdRoute(id: Int) = "menu_detail/$id"
+    }
     object UserInformation : Screens("user_information?name={name}") {
         fun createRoute(name: String) = "user_information?name=$name"
     }

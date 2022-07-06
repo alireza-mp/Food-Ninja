@@ -92,4 +92,11 @@ interface AuthService {
         @Query("restaurant_id") id: Int,
     ): Response<RestoDetailDto>
 
+    @Headers("Accept: application/json")
+    @GET("menu_detail")
+    suspend fun menuDetails(
+        @Header("Authorization") token: String,
+        @Query("menu_id") id: Int,
+    ): Response<MenuDetailDto>
+
 }

@@ -25,6 +25,7 @@ import com.digimoplus.foodninja.presentation.components.util.screenPopExitTransi
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.digimoplus.foodninja.presentation.ui.main.MainPage
+import com.digimoplus.foodninja.presentation.ui.menu_detail.MenuDetailPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.introduction.IntroductionPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.forget_password.ForgetPasswordPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.sign_in.SingInPage
@@ -299,7 +300,28 @@ fun FoodNinja() {
         ) { backStackEntry ->
             RestaurantDetailPage(
                 navController = navController,
-                restaurantId = 2/*backStackEntry.arguments?.getInt("id") ?: 1*/
+                restaurantId = backStackEntry.arguments?.getInt("id") ?: 1
+            )
+        }
+        composable(
+            route = Screens.MenuDetail.route,
+            arguments = listOf(navArgument(name = "id") { defaultValue = 1 }),
+            enterTransition = {
+                screenEnterTransition()
+            },
+            exitTransition = {
+                screenExitTransition()
+            },
+            popEnterTransition = {
+                screenPopEnterTransition()
+            },
+            popExitTransition = {
+                screenPopExitTransition()
+            }
+        ) { backStackEntry ->
+            MenuDetailPage(
+                navController = navController,
+                menuId = backStackEntry.arguments?.getInt("id") ?: 1
             )
         }
     }

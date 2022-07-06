@@ -68,6 +68,7 @@ fun MainContent(
 
         items(count = 6) { index ->
             MenuListItem(
+                navController = navController,
                 state = viewModel.loadingMenu.value,
                 launchAnimState = homeViewModel.launchAnimState,
                 index = index,
@@ -210,6 +211,7 @@ fun RestaurantListItem(
 
 @Composable
 fun MenuListItem(
+    navController: NavController,
     launchAnimState: MutableState<Float>,
     state: Boolean,
     index: Int,
@@ -228,7 +230,7 @@ fun MenuListItem(
                 model = list[index],
                 count = count,
             ) { //onClick
-
+                navController.navigate(Screens.MenuDetail.createIdRoute(list[index].id))
             }
     }
 }

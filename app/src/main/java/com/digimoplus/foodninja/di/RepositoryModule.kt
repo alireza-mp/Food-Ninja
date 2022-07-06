@@ -3,6 +3,7 @@ package com.digimoplus.foodninja.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.digimoplus.foodninja.network.AuthService
+import com.digimoplus.foodninja.network.model.MenuDetailDtoMapper
 import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
@@ -89,4 +90,17 @@ object RepositoryModule {
             mapper = restoDetailDtoMapper,
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideMenuDetailRepository(
+        authService: AuthService,
+        menuDetailDtoMapper: MenuDetailDtoMapper,
+    ): MenuDetailRepository {
+        return MenuDetailRepositoryImpl(
+            authService = authService,
+            mapper = menuDetailDtoMapper,
+        )
+    }
+
 }

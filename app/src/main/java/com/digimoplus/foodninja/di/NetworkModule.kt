@@ -2,6 +2,7 @@ package com.digimoplus.foodninja.di
 
 import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.network.AuthService
+import com.digimoplus.foodninja.network.model.MenuDetailDtoMapper
 import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
@@ -51,6 +52,11 @@ object NetworkModule {
     @Provides
     fun provideRestoDetailDtoMapper(): RestoDetailDtoMapper {
         return RestoDetailDtoMapper()
+    }
+    @Singleton
+    @Provides
+    fun provideMenuDetailDtoMapper(): MenuDetailDtoMapper {
+        return MenuDetailDtoMapper()
     }
 
     @Singleton
