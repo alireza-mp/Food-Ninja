@@ -46,9 +46,6 @@ fun MenuCardItem(
         shape = RoundedCornerShape(20.dp),
         backgroundColor = AppTheme.colors.surface
     ) {
-        val imageAnim = remember {
-            mutableStateOf(0f)
-        }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             val image = loadPicture(url = model.imageUrl).value
             image?.let { img ->
@@ -64,7 +61,7 @@ fun MenuCardItem(
                         contentDescription = "",
                         modifier = Modifier
                             .size(80.dp)
-                            .animateAlpha(state = imageAnim,
+                            .animateAlpha(
                                 delayMillis = 500,
                                 durationMillis = 750)
                             .clip(RoundedCornerShape(15.dp)),
@@ -72,9 +69,7 @@ fun MenuCardItem(
                     )
                 }
             }
-            LaunchedEffect(Unit) {
-                imageAnim.value = 1f
-            }
+
             Column(modifier = Modifier.padding(start = 20.dp)) {
                 Text(
                     text = model.name,
@@ -154,9 +149,6 @@ private fun MenuItem(
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             val image = loadPicture(url = model.imageUrl).value
-            val imageAnim = remember {
-                mutableStateOf(0f)
-            }
             image?.let { img ->
                 Card(modifier = Modifier.padding(
                     start = 12.dp,
@@ -170,16 +162,13 @@ private fun MenuItem(
                         contentDescription = "",
                         modifier = Modifier
                             .size(80.dp)
-                            .animateAlpha(state = imageAnim,
+                            .animateAlpha(
                                 delayMillis = 500,
                                 durationMillis = 750)
                             .clip(RoundedCornerShape(15.dp)),
                         contentScale = ContentScale.Crop
                     )
                 }
-            }
-            LaunchedEffect(Unit) {
-                imageAnim.value = 1f
             }
             Column(modifier = Modifier.padding(start = 20.dp)) {
                 Text(

@@ -50,22 +50,18 @@ fun RestaurantCardItem(
         ) {
 
             val image = loadPicture(url = model.imageUrl).value
-            val imageAnim = remember {
-                mutableStateOf(0f)
-            }
+
             image?.let { img ->
                 Image(
                     bitmap = img.asImageBitmap(),
                     contentDescription = "",
                     modifier = Modifier
                         .size(100.dp)
-                        .animateAlpha(state = imageAnim, delayMillis = 500, durationMillis = 750),
+                        .animateAlpha(delayMillis = 500, durationMillis = 750),
                     contentScale = ContentScale.Crop
                 )
             }
-            LaunchedEffect(Unit) {
-                imageAnim.value = 1f
-            }
+
             Spacer(modifier = Modifier.padding(top = 4.dp))
             Text(text = model.name,
                 color = AppTheme.colors.titleText,
@@ -201,10 +197,6 @@ private fun RestaurantItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            val imageAnim = remember {
-                mutableStateOf(0f)
-            }
-
             val image = loadPicture(url = model.imageUrl).value
             image?.let { img ->
                 Image(
@@ -212,13 +204,11 @@ private fun RestaurantItem(
                     contentDescription = "",
                     modifier = Modifier
                         .size(100.dp)
-                        .animateAlpha(state = imageAnim, delayMillis = 500, durationMillis = 750),
+                        .animateAlpha(delayMillis = 500, durationMillis = 750),
                     contentScale = ContentScale.Crop
                 )
             }
-            LaunchedEffect(Unit) {
-                imageAnim.value = 1f
-            }
+
             Spacer(modifier = Modifier.padding(top = 4.dp))
             Text(text = model.name,
                 color = AppTheme.colors.titleText,

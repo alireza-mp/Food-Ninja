@@ -321,7 +321,7 @@ fun FoodNinja() {
         ) { backStackEntry ->
             MenuDetailPage(
                 navController = navController,
-                menuId = backStackEntry.arguments?.getInt("id") ?: 1
+                menuId = 1/* backStackEntry.arguments?.getInt("id") ?: 1*/
             )
         }
     }

@@ -93,9 +93,7 @@ private fun Details(
         Box(modifier = Modifier.fillMaxSize()) {
 
             val image = loadPictureNoneDefault(url = viewModel.restoInfo.imgDetail).value
-            val imageAnim = remember {
-                mutableStateOf(0f)
-            }
+
             // animate background image alpha
             image?.let { img ->
                 Image(
@@ -104,18 +102,13 @@ private fun Details(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(180.dps)
-                        .animateAlpha(state = imageAnim,
+                        .animateAlpha(
                             delayMillis = 0,
                             durationMillis = 1000
                         ),
                     contentScale = ContentScale.Crop
                 )
             }
-            LaunchedEffect(Unit) {
-                delay(500)
-                imageAnim.value = 1f
-            }
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),

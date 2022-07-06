@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 fun SplashPage(navController: NavController) {
 
     val viewModel: SplashViewModel = hiltViewModel()
-    val splashLaunchAnim = remember { mutableStateOf(0f) }
+
     val retryVisibility = remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -51,8 +51,8 @@ fun SplashPage(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .animateAlpha(
-                    state = splashLaunchAnim,
-                    durationMillis = 500),
+                    durationMillis = 500
+                ),
             painter = painterResource(id = if (AppTheme.colors.isLight) R.drawable.background_light else R.drawable.background_dark),
             contentScale = ContentScale.FillWidth,
             contentDescription = ""
@@ -66,8 +66,9 @@ fun SplashPage(navController: NavController) {
             Image(
                 modifier = Modifier
                     .animateAlpha(
-                        state = splashLaunchAnim,
-                        delayMillis = 500, durationMillis = 1000)
+                        delayMillis = 500,
+                        durationMillis = 1000
+                    )
                     .width(200.dp)
                     .height(200.dp),
                 painter = painterResource(id = R.drawable.logo),
@@ -104,10 +105,7 @@ fun SplashPage(navController: NavController) {
             }
         }
     }
-    //start launch anim
-    LaunchedEffect(Unit) {
-        splashLaunchAnim.value = 1f
-    }
+
 }
 
 private suspend fun checkUserIntroduction(

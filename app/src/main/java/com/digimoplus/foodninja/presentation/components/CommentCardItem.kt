@@ -42,22 +42,18 @@ fun CommentCardItem(
                 .fillMaxSize()
                 .padding(16.dp)) {
                 val image = loadPictureNoneDefault(url = model.imageUrl).value
-                val imageAnim = remember {
-                    mutableStateOf(0f)
-                }
                 image?.let { img ->
                     Image(
                         bitmap = img.asImageBitmap(),
                         contentDescription = "",
                         modifier = Modifier
                             .size(80.dp)
-                            .animateAlpha(state = imageAnim, delayMillis = 500, durationMillis = 750)
+                            .animateAlpha(
+                                delayMillis = 500,
+                                durationMillis = 750)
                             .clip(RoundedCornerShape(15.dp)),
                         contentScale = ContentScale.Crop
                     )
-                }
-                LaunchedEffect(Unit) {
-                    imageAnim.value = 1f
                 }
                 Column(modifier = Modifier
                     .fillMaxWidth()
@@ -119,37 +115,39 @@ fun CommentCardItem(
 @Composable
 fun CommentCardItem(
     model: MenuDetailComments,
+    isLastItem: Boolean,
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = AppTheme.colors.background)) {
         Card(modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 10.dp),
+            // set padding for last item list for button space
+            .padding(if (!isLastItem) PaddingValues(horizontal = 8.dp,
+                vertical = 10.dp) else PaddingValues(start = 8.dp, end = 8.dp, top = 10.dp,
+                bottom = 90.dp)),
             backgroundColor = AppTheme.colors.surface,
             shape = RoundedCornerShape(20.dp)
         ) {
             Row(modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)) {
+
                 val image = loadPictureNoneDefault(url = model.imageUrl).value
-                val imageAnim = remember {
-                    mutableStateOf(0f)
-                }
                 image?.let { img ->
                     Image(
                         bitmap = img.asImageBitmap(),
                         contentDescription = "",
                         modifier = Modifier
                             .size(80.dp)
-                            .animateAlpha(state = imageAnim, delayMillis = 500, durationMillis = 750)
+                            .animateAlpha(
+                                delayMillis = 500,
+                                durationMillis = 750)
                             .clip(RoundedCornerShape(15.dp)),
                         contentScale = ContentScale.Crop
                     )
                 }
-                LaunchedEffect(Unit) {
-                    imageAnim.value = 1f
-                }
+
                 Column(modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 12.dp)) {
