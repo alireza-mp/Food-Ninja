@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.AnimatedTopAppBar
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.MenuCardItem
@@ -37,6 +39,7 @@ import kotlinx.coroutines.launch
 fun MenuContent(
     homeViewModel: HomeViewModel,
     snackBarHostState: SnackbarHostState,
+    navController: NavController
 ) {
 
     val viewModel: HomeMenuViewModel = hiltViewModel()
@@ -95,7 +98,7 @@ fun MenuContent(
                                 disableAnim = {
                                     viewModel.listAnim = false
                                 }) {
-                                TODO("on menu item clicked")
+                                navController.navigate(Screens.MenuDetail.createIdRoute(item.id))
                             }
                         }
                     }

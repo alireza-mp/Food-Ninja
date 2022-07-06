@@ -21,13 +21,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.BallProgress
-import com.digimoplus.foodninja.presentation.components.CommentCardItem
-import com.digimoplus.foodninja.presentation.components.NoInternetContent
-import com.digimoplus.foodninja.presentation.components.RestaurantDetailMenuItem
+import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.util.UiState
 import kotlinx.coroutines.*
 
 
@@ -61,21 +59,21 @@ private fun RestaurantDetail(
     coroutineScope: CoroutineScope,
 ) {
     when (viewModel.loading.value) {
-        "false" -> {
+        UiState.Visible -> {
             // show details
             Details(
                 viewModel = viewModel,
                 navController = navController
             )
         }
-        "true" -> {
+        UiState.Loading -> {
             // show progress bar page
             ShowProgress()
         }
-        "no_internet" -> {
+        UiState.NoInternet -> {
             // show no internet page
             NoInternetContent {
-                viewModel.loading.value = "true"
+                viewModel.loading.value = UiState.Loading
                 coroutineScope.launch(Dispatchers.IO) {
                     viewModel.getDetails(restaurantId)
                 }
@@ -163,16 +161,11 @@ private fun Content(
     ) {
         Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
             Spacer(modifier = Modifier.padding(top = 10.dp))
+
             Row(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier.background(brush = buttonEnabledGradient(), alpha = 0.2f,
-                    shape = RoundedCornerShape(15.dp))) {
-                    Text(text = "Popular",
-                        modifier = Modifier
-                            .textBrush(gradientText())
-                            .padding(vertical = 8.dp, horizontal = 16.dp)
-                    )
-                }
+                TitleChips(title = "Popular")
             }
+
             Spacer(modifier = Modifier.padding(top = 16.dp))
             Text(
                 text = viewModel.restoInfo.title,

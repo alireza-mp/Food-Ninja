@@ -22,10 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.components.BallProgress
-import com.digimoplus.foodninja.presentation.components.BulletText
-import com.digimoplus.foodninja.presentation.components.CommentCardItem
-import com.digimoplus.foodninja.presentation.components.NoInternetContent
+import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.util.UiState
@@ -111,7 +108,7 @@ private fun Details(
                             delayMillis = 0,
                             durationMillis = 1000
                         ),
-                    contentScale = ContentScale.FillWidth
+                    contentScale = ContentScale.Crop
                 )
             }
             LaunchedEffect(Unit) {
@@ -163,16 +160,11 @@ private fun Content(
         shape = RoundedCornerShape(topStart = 35.dp, topEnd = 35.dp)
     ) {
         Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
+
             Spacer(modifier = Modifier.padding(top = 10.dp))
+
             Row(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier.background(brush = buttonEnabledGradient(), alpha = 0.2f,
-                    shape = RoundedCornerShape(15.dp))) {
-                    Text(text = "Popular",
-                        modifier = Modifier
-                            .textBrush(gradientText())
-                            .padding(vertical = 8.dp, horizontal = 16.dp)
-                    )
-                }
+                TitleChips(title = "Popular")
             }
             Spacer(modifier = Modifier.padding(top = 16.dp))
             Text(

@@ -10,6 +10,7 @@ import com.digimoplus.foodninja.domain.model.RestoDetailComment
 import com.digimoplus.foodninja.domain.model.RestoDetailInfo
 import com.digimoplus.foodninja.domain.model.RestoDetailMenu
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
+import com.digimoplus.foodninja.presentation.util.UiState
 import com.digimoplus.foodninja.repository.RestoDetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,7 @@ constructor(
 ) : ViewModel() {
 
     var token = ""
-    val loading = mutableStateOf("true")
+    val loading = mutableStateOf(UiState.Loading)
     lateinit var restoInfo: RestoDetailInfo
     val commentList = mutableStateListOf<RestoDetailComment>()
     val menuList = mutableStateListOf<RestoDetailMenu>()
@@ -40,12 +41,12 @@ constructor(
                         restoInfo = result.data.restoDetailInfo
                         menuList.addAll(result.data.restoDetailMenus)
                         commentList.addAll(result.data.restoDetailComment)
-                        loading.value = "false"
+                        loading.value = UiState.Visible
                     }
                 }
                 else -> {
                     withContext(Dispatchers.Main) {
-                        loading.value = "no_internet"
+                        loading.value = UiState.NoInternet
                     }
                 }
             }

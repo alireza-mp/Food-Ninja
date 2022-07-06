@@ -32,7 +32,7 @@ import kotlinx.coroutines.delay
 fun HomePage(
     snackBarHostState: SnackbarHostState,
     showBottomTab: (visibility: Boolean) -> Unit,
-    navController: NavController
+    navController: NavController,
 ) {
 
     val homeViewModel: HomeViewModel = hiltViewModel()
@@ -81,7 +81,8 @@ fun HomePage(
             backHandler.value = true
             MenuContent(
                 homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState
+                snackBarHostState = snackBarHostState,
+                navController = navController
             )
         }
 

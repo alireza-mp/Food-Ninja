@@ -27,6 +27,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.AnimatedTopAppBar
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
@@ -43,7 +44,7 @@ import kotlinx.coroutines.launch
 fun RestaurantContent(
     homeViewModel: HomeViewModel, // home viewModel for home header
     snackBarHostState: SnackbarHostState,
-    navController: NavController
+    navController: NavController,
 ) {
 
     val viewModel: HomeRestaurantViewModel = hiltViewModel()
@@ -117,7 +118,7 @@ fun RestaurantContent(
                                 disableAnim = {
                                     homeViewModel.contentListAnim = false
                                 }) {
-                                TODO("on restaurant item clicked")
+                                navController.navigate(Screens.RestaurantDetail.createIdRoute(item.id))
                             }
                         }
                     }
