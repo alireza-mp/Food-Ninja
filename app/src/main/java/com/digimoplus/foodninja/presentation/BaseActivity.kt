@@ -3,7 +3,6 @@
 package com.digimoplus.foodninja.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -15,9 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.navArgument
-import com.digimoplus.foodninja.presentation.ui.restaurant_detail.RestaurantDetailPage
 import com.digimoplus.foodninja.domain.model.UserInfo
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.util.screenEnterTransition
 import com.digimoplus.foodninja.presentation.components.util.screenExitTransition
 import com.digimoplus.foodninja.presentation.components.util.screenPopEnterTransition
@@ -35,6 +32,7 @@ import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.paym
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up.SignUpPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.upload_profile.UploadProfilePage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.success_notification.SuccessPage
+import com.digimoplus.foodninja.presentation.ui.restaurant_detail.RestaurantDetailPage
 import com.digimoplus.foodninja.presentation.ui.splash.SplashPage
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -321,7 +319,7 @@ fun FoodNinja() {
         ) { backStackEntry ->
             MenuDetailPage(
                 navController = navController,
-                menuId = 1/* backStackEntry.arguments?.getInt("id") ?: 1*/
+                menuId = backStackEntry.arguments?.getInt("id") ?: 1
             )
         }
     }

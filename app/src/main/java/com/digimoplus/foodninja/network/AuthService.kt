@@ -99,4 +99,16 @@ interface AuthService {
         @Query("menu_id") id: Int,
     ): Response<MenuDetailDto>
 
+
+    @Headers("Accept: application/json")
+    @FormUrlEncoded
+    @POST("add_to_basket")
+    suspend fun addToBasket(
+        @Header("Authorization") token: String,
+        @Field("user_id") userId: Int,
+        @Field("menu_id") menuId: Int,
+        @Field("count") count: Int,
+    ): Response<MessageDto>
+
+
 }

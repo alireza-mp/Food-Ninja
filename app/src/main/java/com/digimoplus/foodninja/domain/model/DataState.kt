@@ -1,6 +1,5 @@
 package com.digimoplus.foodninja.domain.model
 
-import androidx.compose.material.SnackbarHostState
 
 
 sealed class DataState<out R> {
@@ -10,6 +9,7 @@ sealed class DataState<out R> {
     data class SomeError(val message: String = "Some times Error !") : DataState<Nothing>()
     data class InvalidLoginError(val message: String = "Invalid Email or Password!") : DataState<Nothing>()
     data class NetworkError(val message: String = "No Internet Connection!") : DataState<Nothing>()
+    data class SuccessMessage(val message: String = "Success") : DataState<Nothing>()
 
 }
 
