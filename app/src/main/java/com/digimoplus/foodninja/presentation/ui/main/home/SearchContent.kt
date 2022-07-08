@@ -19,6 +19,7 @@ import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.SearchChips
 import com.digimoplus.foodninja.presentation.components.util.buttonDisabledGradient
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
+import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.util.HomePageState
 import com.digimoplus.foodninja.presentation.util.SearchCategory
@@ -74,11 +75,11 @@ fun SearchContent(
 fun SearchBody(viewModel: HomeViewModel) {
     Column {
 
-        Spacer(modifier = Modifier.padding(top =16.dp))
+        Spacer(modifier = Modifier.padding(top = 12.dps))
 
         Text(text = "Type", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = 12.dp))
+        Spacer(modifier = Modifier.padding(top = 10.dps))
 
         LazyRow {
             item {
@@ -101,13 +102,13 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = 16.dp))
+        Spacer(modifier = Modifier.padding(top = 12.dps))
 
         Text(text = "Location", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = 12.dp))
+        Spacer(modifier = Modifier.padding(top = 10.dps))
 
-        LazyRow {
+        LazyRow() {
             item {
                 SearchChips(
                     chipsValue = SearchCategory.OneKm,
@@ -136,13 +137,13 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = 16.dp))
+        Spacer(modifier = Modifier.padding(top = 12.dps))
 
         Text(text = "Food", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = 12.dp))
+        Spacer(modifier = Modifier.padding(top = 10.dps))
 
-        LazyRow {
+        LazyRow() {
             item {
                 SearchChips(
                     chipsValue =
@@ -172,9 +173,9 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = 12.dp))
+        Spacer(modifier = Modifier.padding(top = 8.dps))
 
-        LazyRow {
+        LazyRow() {
             item {
                 SearchChips(
                     chipsValue =
@@ -194,7 +195,7 @@ fun SearchBody(viewModel: HomeViewModel) {
                 }
             }
         }
-
+        Spacer(modifier = Modifier.padding(top = 80.dp))
     }
 }
 

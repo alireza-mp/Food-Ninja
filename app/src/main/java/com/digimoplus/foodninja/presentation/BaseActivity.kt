@@ -1,4 +1,5 @@
-@file:OptIn(ExperimentalPagerApi::class, ExperimentalAnimationApi::class)
+@file:OptIn(ExperimentalPagerApi::class, ExperimentalAnimationApi::class,
+    ExperimentalAnimationApi::class)
 
 package com.digimoplus.foodninja.presentation
 

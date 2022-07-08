@@ -34,11 +34,10 @@ import kotlinx.coroutines.*
 
 @Composable
 fun MenuDetailPage(
-    navController: NavController,
     menuId: Int,
+    navController: NavController,
 ) {
     val viewModel: MenuDetailViewModel = hiltViewModel()
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
@@ -49,8 +48,6 @@ fun MenuDetailPage(
     MenuDetail(
         viewModel = viewModel,
         menuId = menuId,
-        navController = navController,
-        coroutineScope = coroutineScope
     )
 }
 
@@ -58,8 +55,6 @@ fun MenuDetailPage(
 private fun MenuDetail(
     viewModel: MenuDetailViewModel,
     menuId: Int,
-    navController: NavController,
-    coroutineScope: CoroutineScope,
 ) {
     when (viewModel.loading.value) {
         UiState.Visible -> {
