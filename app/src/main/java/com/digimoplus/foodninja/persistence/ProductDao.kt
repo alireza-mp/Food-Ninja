@@ -19,10 +19,12 @@ interface ProductDao {
     suspend fun deleteBasketItem(userId: Int, menuId: Int)
 
     @Query("SELECT id FROM basket_tb WHERE restaurant_id != :restaurantId")
-    suspend fun checkOtherRestaurants(restaurantId: Int):List<Int>
+    suspend fun checkOtherRestaurants(restaurantId: Int): List<Int>
 
     @Query("DELETE FROM basket_tb WHERE restaurant_id != :restaurantId")
     suspend fun deleteOtherRestaurants(restaurantId: Int)
 
+    @Query("SELECT id FROM basket_tb WHERE user_id = :userId")
+    suspend fun checkBasketItemsCount(userId: Int): List<Int>
 
 }

@@ -22,6 +22,18 @@ object RepositoryModule {
 
     @Singleton
     @Provides
+    fun provideMainRepository(
+        productDao: ProductDao,
+        dataStore: DataStore<Preferences>,
+    ): MainRepository {
+        return MainRepositoryImpl(
+            productDao = productDao,
+            dataStore = dataStore,
+        )
+    }
+
+    @Singleton
+    @Provides
     fun provideSignUpRepository(
         authService: AuthService,
         dataStore: DataStore<Preferences>,
