@@ -46,20 +46,20 @@ constructor(
     }
 
 
-    private suspend fun login(navController: NavController,snackBarState: SnackbarHostState) {
+    private suspend fun login(navController: NavController, snackBarState: SnackbarHostState) {
         loading.value = true
         withContext(Dispatchers.IO) {
             val register = repository.loginUser(email.value, password.value)
             withContext(Dispatchers.Main) {
                 loading.value = false
-                if (register.message == Register.Successful.message){
+                if (register.message == Register.Successful.message) {
                     // remove signin page from backstack
                     navController.navigate(Screens.Main.route) {
                         popUpTo(Screens.SignIn.route) {
                             inclusive = true
                         }
                     }
-                }else{
+                } else {
                     snackBarState.showSnackbar(register.message)
                 }
             }

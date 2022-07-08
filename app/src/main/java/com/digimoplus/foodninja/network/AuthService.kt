@@ -22,7 +22,7 @@ interface AuthService {
     @Headers("Accept: application/json")
     @FormUrlEncoded
     @POST("auth/login")
-    suspend fun signUp(
+    suspend fun signIn(
         @Field("email") email: String,
         @Field("password") password: String,
     ): Response<RegisterDto>

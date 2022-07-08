@@ -21,9 +21,8 @@ constructor(
 
     override suspend fun loginUser(email: String, password: String): Register {
         try {
-            val response = authService.signUp(email, password)
-            Log.i(TAG, "loginUser: ${response.code()}")
-            return when (response.code()) {
+            val results = authService.signIn(email, password)
+            return when (results.code()) {
                 422 -> {
                     Register.WrongError
                 }
@@ -31,8 +30,10 @@ constructor(
                     Register.InvalidError
                 }
                 200 -> {
-                    saveUser(response.body()?.accessToken)
-                    Log.d(TAG, "loginUser: ${response.body()?.accessToken}")
+                    saveUser(
+                        token = results.body()?.accessToken,
+                        userId = results.body()?.id
+                    )
                     Register.Successful
                 }
                 else -> {
@@ -46,10 +47,11 @@ constructor(
 
     // save user authentication key
     // save user information key
-    private suspend fun saveUser(token: String?) {
+    private suspend fun saveUser(token: String?, userId: Int?) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.authenticationKey] = "Bearer $token"
             preferences[PreferencesKeys.userInformation] = "OK"
+            preferences[PreferencesKeys.userId] = userId ?: 0
         }
     }
 

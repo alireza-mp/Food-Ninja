@@ -44,7 +44,7 @@ fun SingInPage(navController: NavController) {
             end = 24.dp
         )
     ) {
-        Box (modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -107,7 +107,8 @@ fun SingInPage(navController: NavController) {
                             ),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Image(painterResource(id = R.drawable.facebook), contentDescription = "")
+                            Image(painterResource(id = R.drawable.facebook),
+                                contentDescription = "")
                             Text(
                                 color = AppTheme.colors.titleText,
                                 style = AppTheme.typography.h7,
