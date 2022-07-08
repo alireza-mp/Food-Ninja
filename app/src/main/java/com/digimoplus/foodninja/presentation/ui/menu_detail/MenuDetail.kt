@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -141,6 +140,7 @@ private fun Details(
                     .padding(start = 6.dp, end = 6.dp, bottom = 16.dp)
                     .align(Alignment.BottomCenter),
                 shape = RoundedCornerShape(15.dp),
+                backgroundColor = AppTheme.colors.surface
             ) {
                 if (viewModel.basketCount.value == 0) {
                     Box(
@@ -162,87 +162,15 @@ private fun Details(
                         )
                     }
                 } else {
-                    Row(modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically) {
-                        basketNumber(
-                            text = viewModel.basketCount.value.toString(),
-                            name = viewModel.menuInfo.name,
-                            onMinus = viewModel::onMinus,
-                            onPlus = viewModel::onPlus
-                        )
-                    }
+                    BasketNumbers(
+                        text = viewModel.basketCount.value.toString(),
+                        name = viewModel.menuInfo.name,
+                        onMinus = viewModel::onMinus,
+                        onPlus = viewModel::onPlus
+                    )
                 }
             }
-
-
         }
-    }
-}
-
-@Composable
-fun basketNumber(
-    text: String,
-    name: String,
-    onPlus: () -> Unit,
-    onMinus: () -> Unit,
-) {
-    Row(modifier = Modifier.fillMaxSize(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(modifier = Modifier.padding(start = 16.dp))
-        Text(
-            text = name,
-            color = AppTheme.colors.titleText,
-            style = AppTheme.typography.h7
-        )
-        Spacer(Modifier.weight(1f))
-        Card(
-            modifier = Modifier.size(36.dp),
-            backgroundColor = Color.Transparent,
-            shape = RoundedCornerShape(10.dp),
-            onClick = onMinus
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(
-                        brush = buttonEnabledGradient()),
-                contentAlignment = Alignment.Center,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_minus),
-                    modifier = Modifier.size(18.dp),
-                    contentDescription = null)
-            }
-        }
-
-        Spacer(modifier = Modifier.padding(end = 12.dp))
-        Text(
-            text = text,
-            color = AppTheme.colors.titleText,
-            style = AppTheme.typography.h7,
-            modifier = Modifier.width(24.dp),
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.padding(end = 12.dp))
-        Card(
-            modifier = Modifier.size(36.dp),
-            backgroundColor = Color.Transparent,
-            shape = RoundedCornerShape(10.dp),
-            onClick = onPlus
-        ) {
-            Box(
-                modifier = Modifier
-                    .background(
-                        brush = buttonEnabledGradient()),
-                contentAlignment = Alignment.Center,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_plus),
-                    modifier = Modifier.size(18.dp),
-                    contentDescription = null)
-            }
-        }
-        Spacer(modifier = Modifier.padding(end = 16.dp))
     }
 }
 
