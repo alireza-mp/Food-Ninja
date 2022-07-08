@@ -87,5 +87,13 @@ constructor(
         productDao.deleteBasketItem(userId = userId, menuId = menuId)
     }
 
+    override suspend fun checkRestaurants(restaurantId: Int): Boolean =
+        productDao.checkOtherRestaurants(restaurantId).isNotEmpty()
+
+
+    override suspend fun removeOtherRestaurants(restaurantId: Int) {
+        productDao.deleteOtherRestaurants(restaurantId)
+    }
+
 
 }

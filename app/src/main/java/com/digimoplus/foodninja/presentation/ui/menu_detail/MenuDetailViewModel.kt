@@ -32,6 +32,7 @@ constructor(
     val commentList = mutableStateListOf<MenuDetailComments>()
     val materialsList = mutableStateListOf<String>()
     val basketCount = mutableStateOf(0)
+    val alertDialogVisibility = mutableStateOf(false)
 
     suspend fun getDetails(menuId: Int) {
         if (materialsList.size == 0) {
@@ -57,6 +58,15 @@ constructor(
         }
     }
 
+    fun firstPlus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (repository.checkRestaurants(menuInfo.restaurantId)) {
+                alertDialogVisibility.value = true
+            } else {
+                onPlus()
+            }
+        }
+    }
 
     fun onPlus() {
         viewModelScope.launch {
@@ -80,6 +90,18 @@ constructor(
             }
 
         }
+    }
+
+    fun alertDialogOnYes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.removeOtherRestaurants(menuInfo.restaurantId)
+            onPlus()
+        }
+        alertDialogVisibility.value = false
+    }
+
+    fun alertDialogOnNo() {
+        alertDialogVisibility.value = false
     }
 
     private fun deleteBasketItem() {
@@ -126,6 +148,13 @@ constructor(
     private suspend fun getUserId() {
         if (userId == 0) {
             userId = dataStore.data.first()[PreferencesKeys.userId]?.toInt() ?: 0
+        }
+    }
+
+    fun noInternetConnection(menuId: Int) {
+        loading.value = UiState.Loading
+        viewModelScope.launch(Dispatchers.IO) {
+            getDetails(menuId)
         }
     }
 

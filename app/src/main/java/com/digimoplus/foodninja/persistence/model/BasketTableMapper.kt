@@ -29,7 +29,8 @@ class BasketTableMapper() : EntityMapper<BasketTable, MenuDetailInfo> {
             name = model.name,
             restoName = model.restaurantName,
             price = model.price,
-            imageUrl = model.imageUrl
+            imageUrl = model.imageUrl,
+            restoId = model.restaurantId
         )
     }
 

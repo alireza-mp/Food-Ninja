@@ -19,7 +19,7 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
 fun NoInternetContent(
-    onclick: () -> Unit,
+    onRetry: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -45,7 +45,7 @@ fun NoInternetContent(
                 fontSize = 20.sp
             )
             Spacer(modifier = Modifier.padding(top = 10.dp))
-            TextButton(onClick = onclick) {
+            TextButton(onClick = onRetry) {
                 Text(text = "tap to try again", color = AppTheme.colors.primaryText,
                     style = AppTheme.typography.body
                 )

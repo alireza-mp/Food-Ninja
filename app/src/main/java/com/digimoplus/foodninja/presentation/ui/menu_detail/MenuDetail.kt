@@ -67,8 +67,6 @@ private fun MenuDetail(
             // show details
             Details(
                 viewModel = viewModel,
-                navController = navController,
-                coroutineScope = coroutineScope
             )
         }
         UiState.Loading -> {
@@ -77,21 +75,22 @@ private fun MenuDetail(
         }
         UiState.NoInternet -> {
             // show no internet page
-            NoInternetContent {
-                viewModel.loading.value = UiState.Loading
-                coroutineScope.launch(Dispatchers.IO) {
-                    viewModel.getDetails(menuId)
-                }
-            }
+            NoInternetContent(
+                onRetry = { viewModel.noInternetConnection(menuId) }
+            )
         }
     }
+
+    CustomAlertDialog(
+        state = viewModel.alertDialogVisibility,
+        onNoClick = viewModel::alertDialogOnNo,
+        onYesClick = viewModel::alertDialogOnYes
+    )
 }
 
 @Composable
 private fun Details(
     viewModel: MenuDetailViewModel,
-    navController: NavController,
-    coroutineScope: CoroutineScope,
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
@@ -151,7 +150,7 @@ private fun Details(
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = rememberRipple(bounded = false),
-                                onClick = viewModel::onPlus
+                                onClick = viewModel::firstPlus
                             ),
                         contentAlignment = Alignment.Center,
 

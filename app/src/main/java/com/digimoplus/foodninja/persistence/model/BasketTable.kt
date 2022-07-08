@@ -12,6 +12,8 @@ data class BasketTable(
     var id: Int,
     @ColumnInfo(name = "user_id")
     var userId: Int,
+    @ColumnInfo(name = "restaurant_id")
+    var restoId: Int,
     @ColumnInfo(name = "menu_id")
     val menuId: Int,
     @ColumnInfo(name = "count")
