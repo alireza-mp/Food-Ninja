@@ -4,12 +4,15 @@ package com.digimoplus.foodninja.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,42 +27,35 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 @Composable
 fun BasketNumbers(
     text: String,
-    name: String,
     onPlus: () -> Unit,
     onMinus: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = Modifier.padding(start = 16.dp))
-        Text(
-            text = name,
-            color = AppTheme.colors.titleText,
-            style = AppTheme.typography.h7
-        )
-        Spacer(Modifier.weight(1f))
-        Card(
-            modifier = Modifier.size(36.dp),
-            backgroundColor = Color.Transparent,
-            shape = RoundedCornerShape(10.dp),
-            onClick = onMinus
+        Box(
+            modifier = Modifier
+                .size(30.dp)
+                .background(
+                    color = AppTheme.colors.onPrimary.copy(alpha = 0.3f),
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onMinus
+                ),
+            contentAlignment = Alignment.Center,
         ) {
-            Box(
+            Image(
+                painter = painterResource(id = R.drawable.ic_minus),
                 modifier = Modifier
-                    .background(
-                        brush = buttonEnabledGradient()),
-                contentAlignment = Alignment.Center,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_minus),
-                    modifier = Modifier.size(18.dp),
-                    contentDescription = null)
-            }
+                    .width(12.dp),
+                contentDescription = null)
+
         }
 
-        Spacer(modifier = Modifier.padding(end = 12.dp))
+        Spacer(modifier = Modifier.padding(end = 6.dp))
         Text(
             text = text,
             color = AppTheme.colors.titleText,
@@ -67,9 +63,9 @@ fun BasketNumbers(
             modifier = Modifier.width(24.dp),
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.padding(end = 12.dp))
+        Spacer(modifier = Modifier.padding(end = 6.dp))
         Card(
-            modifier = Modifier.size(36.dp),
+            modifier = Modifier.size(30.dp),
             backgroundColor = Color.Transparent,
             shape = RoundedCornerShape(10.dp),
             onClick = onPlus
@@ -82,10 +78,9 @@ fun BasketNumbers(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_plus),
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(12.dp),
                     contentDescription = null)
             }
         }
-        Spacer(modifier = Modifier.padding(end = 16.dp))
     }
 }

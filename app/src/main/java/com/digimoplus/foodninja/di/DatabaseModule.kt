@@ -3,8 +3,10 @@ package com.digimoplus.foodninja.di
 import android.app.Application
 import androidx.room.Room
 import com.digimoplus.foodninja.persistence.AppDatabase
+import com.digimoplus.foodninja.persistence.BasketDao
 import com.digimoplus.foodninja.persistence.ProductDao
 import com.digimoplus.foodninja.persistence.model.BasketTableMapper
+import com.digimoplus.foodninja.persistence.model.BasketTableMenuMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,9 +32,20 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideBasketDao(db: AppDatabase): BasketDao {
+        return db.getBasketDao()
+    }
+
+    @Singleton
+    @Provides
     fun provideBasketTableMapper(): BasketTableMapper {
         return BasketTableMapper()
     }
 
+    @Singleton
+    @Provides
+    fun provideBasketTableMenuMapper(): BasketTableMenuMapper {
+        return BasketTableMenuMapper()
+    }
 
 }

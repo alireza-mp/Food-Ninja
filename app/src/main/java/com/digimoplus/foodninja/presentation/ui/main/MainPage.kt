@@ -1,12 +1,9 @@
 @file:OptIn(ExperimentalPagerApi::class,
-    ExperimentalMaterialApi::class,
-    ExperimentalFoundationApi::class)
+    ExperimentalMaterialApi::class)
 
 package com.digimoplus.foodninja.presentation.ui.main
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
+import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.bottomNavigationTabValues
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -95,9 +92,10 @@ fun MainPage(navController: NavController) {
                             basketBadge = viewModel.basketBadge.value,
                             chatBadge = viewModel.chatBadge.value
                         ),
-                        onTabClickListener = {
-                            if (it == 2) { // if basket clicked
-                                TODO("go to basket page")
+                        onTabClickListener = { position ->
+                            // basket clicked
+                            if (position == 2) {
+                                navController.navigate(Screens.BasketPage.route)
                             }
                         }
                     )

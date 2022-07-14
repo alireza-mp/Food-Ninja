@@ -32,3 +32,13 @@ fun screenPopExitTransition(): ExitTransition {
     return slideOutHorizontally(targetOffsetX = { 1000 },
         animationSpec = tween(durationMillis = 350, easing = LinearEasing))
 }
+
+fun screenSlideInVerticalTransition(): EnterTransition {
+    return slideInVertically(initialOffsetY = { 1000 },
+        animationSpec = tween(durationMillis = 350, easing = LinearEasing))
+}
+
+fun screenSlideOutVerticalTransition(): ExitTransition {
+    return slideOutVertically(targetOffsetY = { 1000 },
+        animationSpec = tween(durationMillis = 350, easing = LinearEasing))
+}

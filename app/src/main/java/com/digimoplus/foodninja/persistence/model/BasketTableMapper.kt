@@ -1,50 +1,39 @@
 package com.digimoplus.foodninja.persistence.model
 
-import com.digimoplus.foodninja.domain.model.MenuDetailInfo
+import com.digimoplus.foodninja.domain.model.Basket
 
-class BasketTableMapper() : EntityMapper<BasketTable, MenuDetailInfo> {
-    override fun mapToDomainModel(model: BasketTable): MenuDetailInfo {
-        return MenuDetailInfo(
-            descriptionTop = "",
-            descriptionBottom = "",
+class BasketTableMapper : EntityMapper<BasketTable, Basket> {
+
+    override fun mapToDomainModel(model: BasketTable): Basket {
+        return Basket(
             id = model.id,
-            imageUrl = model.imageUrl,
-            imageDetail = "",
-            locationKm = "",
+            userId = model.userId,
+            restoId = model.restoId,
+            menuId = model.menuId,
+            count = model.count,
             name = model.name,
+            restoName = model.restoName,
             price = model.price,
-            rate = "",
-            restaurantName = model.restoName,
-            restaurantId = -1,
-            title = ""
+            imageUrl = model.imageUrl
         )
     }
 
-    override fun mapFromDomainModel(model: MenuDetailInfo): BasketTable {
+    override fun mapFromDomainModel(model: Basket): BasketTable {
         return BasketTable(
-            id = 0,
-            userId = 0,
-            menuId = model.id,
-            count = 0,
+            id = model.id,
+            userId = model.userId,
+            restoId = model.restoId,
+            menuId = model.menuId,
+            count = model.count,
             name = model.name,
-            restoName = model.restaurantName,
+            restoName = model.restoName,
             price = model.price,
-            imageUrl = model.imageUrl,
-            restoId = model.restaurantId
+            imageUrl = model.imageUrl
         )
     }
 
-    fun mapFromDomainModel(
-        model: MenuDetailInfo,
-        userId: Int,
-        count: Int,
-        tableId: Int,
-    ): BasketTable {
-        val entityModel = mapFromDomainModel(model)
-        entityModel.id = tableId
-        entityModel.userId = userId
-        entityModel.count = count
-        return entityModel
+    fun mapToDomainList(list: List<BasketTable>): List<Basket> {
+        return list.map { mapToDomainModel(it) }
     }
 
 }

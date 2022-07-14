@@ -7,6 +7,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,13 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.navArgument
 import com.digimoplus.foodninja.domain.model.UserInfo
-import com.digimoplus.foodninja.presentation.components.util.screenEnterTransition
-import com.digimoplus.foodninja.presentation.components.util.screenExitTransition
-import com.digimoplus.foodninja.presentation.components.util.screenPopEnterTransition
-import com.digimoplus.foodninja.presentation.components.util.screenPopExitTransition
+import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.digimoplus.foodninja.presentation.ui.main.MainPage
+import com.digimoplus.foodninja.presentation.ui.main.basket.BasketPage
 import com.digimoplus.foodninja.presentation.ui.menu_detail.MenuDetailPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.introduction.IntroductionPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.forget_password.ForgetPasswordPage
@@ -154,16 +157,28 @@ fun FoodNinja() {
         }
         composable(route = Screens.Main.route,
             enterTransition = {
-                screenEnterTransition()
+                when (initialState.destination.route) {
+                    Screens.BasketPage.route -> null
+                    else -> screenEnterTransition()
+                }
             },
             exitTransition = {
-                screenExitTransition()
+                when (initialState.destination.route) {
+                    Screens.BasketPage.route -> null
+                    else -> screenExitTransition()
+                }
             },
             popEnterTransition = {
-                screenPopEnterTransition()
+                when (initialState.destination.route) {
+                    Screens.BasketPage.route -> null
+                    else -> screenPopEnterTransition()
+                }
             },
             popExitTransition = {
-                screenPopExitTransition()
+                when (initialState.destination.route) {
+                    Screens.BasketPage.route -> null
+                    else -> screenPopExitTransition()
+                }
             }) {
             MainPage(
                 navController = navController
@@ -322,6 +337,23 @@ fun FoodNinja() {
                 navController = navController,
                 menuId = backStackEntry.arguments?.getInt("id") ?: 1
             )
+        }
+        composable(
+            route = Screens.BasketPage.route,
+            enterTransition = {
+                screenSlideInVerticalTransition()
+            },
+            exitTransition = {
+                null
+            },
+            popEnterTransition = {
+                null
+            },
+            popExitTransition = {
+                screenSlideOutVerticalTransition()
+            }
+        ) {
+            BasketPage(navController = navController)
         }
     }
 }

@@ -7,8 +7,10 @@ import com.digimoplus.foodninja.network.model.MenuDetailDtoMapper
 import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
+import com.digimoplus.foodninja.persistence.BasketDao
 import com.digimoplus.foodninja.persistence.ProductDao
 import com.digimoplus.foodninja.persistence.model.BasketTableMapper
+import com.digimoplus.foodninja.persistence.model.BasketTableMenuMapper
 import com.digimoplus.foodninja.repository.*
 import dagger.Module
 import dagger.Provides
@@ -111,14 +113,26 @@ object RepositoryModule {
     fun provideMenuDetailRepository(
         authService: AuthService,
         menuDetailDtoMapper: MenuDetailDtoMapper,
-        basketTableMapper: BasketTableMapper,
+        basketTableMenuMapper: BasketTableMenuMapper,
         productDao: ProductDao,
     ): MenuDetailRepository {
         return MenuDetailRepositoryImpl(
             authService = authService,
             menuDetailDtoMapper = menuDetailDtoMapper,
             productDao = productDao,
-            basketTableMapper = basketTableMapper
+            basketTableMenuMapper = basketTableMenuMapper
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideBasketRepository(
+        basketDao: BasketDao,
+        mapper: BasketTableMapper,
+    ): BasketRepository {
+        return BasketRepositoryImpl(
+            basketDao = basketDao,
+            mapper = mapper
         )
     }
 

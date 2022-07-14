@@ -8,6 +8,7 @@ import com.digimoplus.foodninja.persistence.model.BasketTable
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getProductDao(): ProductDao
+    abstract fun getBasketDao(): BasketDao
 
     companion object {
         const val DATABASE_NAME = "foodninja_db"
