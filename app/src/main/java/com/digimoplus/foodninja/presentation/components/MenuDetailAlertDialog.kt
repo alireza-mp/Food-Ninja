@@ -15,11 +15,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 
 @Composable
-fun CustomAlertDialog(
+fun MenuDetailAlertDialog(
     state: MutableState<Boolean>,
     onNoClick: () -> Unit,
     onYesClick: () -> Unit,
@@ -38,7 +39,6 @@ private fun CustomAlertDialogUi(
     onNoClick: () -> Unit,
     onYesClick: () -> Unit,
 ) {
-
     Card(
         backgroundColor = AppTheme.colors.surface,
         shape = RoundedCornerShape(15.dp),
@@ -102,12 +102,11 @@ private fun CustomAlertDialogUi(
                 }
             }
         }
-
-
     }
-
-
 }
+
+
+
 
 
 
