@@ -68,7 +68,7 @@ fun RestaurantDetailMenuItem(
                 color = AppTheme.colors.titleText,
                 style = AppTheme.typography.h7)
             Spacer(modifier = Modifier.padding(top = 4.dp))
-            Text(text = model.price,
+            Text(text = "${model.price}$",
                 style = AppTheme.typography.body1,
                 color = AppTheme.colors.onTitleText)
             Spacer(modifier = Modifier.padding(top = 4.dp))

@@ -75,7 +75,7 @@ private fun MenuDetail(
         }
     }
 
-    CustomAlertDialog(
+    MenuDetailAlertDialog(
         state = viewModel.alertDialogVisibility,
         onNoClick = viewModel::alertDialogOnNo,
         onYesClick = viewModel::alertDialogOnYes
@@ -157,12 +157,23 @@ private fun Details(
                         )
                     }
                 } else {
-                    BasketNumbers(
-                        text = viewModel.basketCount.value.toString(),
-                        name = viewModel.menuInfo.name,
-                        onMinus = viewModel::onMinus,
-                        onPlus = viewModel::onPlus
-                    )
+                    Row(modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        Spacer(modifier = Modifier.padding(start = 16.dp))
+                        Text(
+                            text = viewModel.menuInfo.name,
+                            color = AppTheme.colors.titleText,
+                            style = AppTheme.typography.h7
+                        )
+                        Spacer(Modifier.weight(1f))
+                        BasketNumbers(
+                            text = viewModel.basketCount.value.toString(),
+                            onMinus = viewModel::onMinus,
+                            onPlus = viewModel::onPlus
+                        )
+                        Spacer(modifier = Modifier.padding(start = 16.dp))
+                    }
+
                 }
             }
         }

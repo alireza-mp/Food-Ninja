@@ -84,7 +84,7 @@ fun MenuCardItem(
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = model.price,
+                text = "${model.price}$",
                 modifier = Modifier.padding(end = 20.dp),
                 style = AppTheme.typography.h4M,
                 color = AppTheme.colors.primaryVariant)
@@ -184,7 +184,7 @@ private fun MenuItem(
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = model.price,
+                text = "${model.price}$",
                 modifier = Modifier.padding(end = 20.dp),
                 style = AppTheme.typography.h4M,
                 color = AppTheme.colors.primaryVariant)

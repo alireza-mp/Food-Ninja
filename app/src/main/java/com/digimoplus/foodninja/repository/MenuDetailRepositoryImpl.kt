@@ -6,7 +6,7 @@ import com.digimoplus.foodninja.domain.model.MenuDetailInfo
 import com.digimoplus.foodninja.network.AuthService
 import com.digimoplus.foodninja.network.model.MenuDetailDtoMapper
 import com.digimoplus.foodninja.persistence.ProductDao
-import com.digimoplus.foodninja.persistence.model.BasketTableMapper
+import com.digimoplus.foodninja.persistence.model.BasketTableMenuMapper
 import javax.inject.Inject
 
 
@@ -16,7 +16,7 @@ constructor(
     private val authService: AuthService,
     private val menuDetailDtoMapper: MenuDetailDtoMapper,
     private val productDao: ProductDao,
-    private val basketTableMapper: BasketTableMapper,
+    private val basketTableMenuMapper: BasketTableMenuMapper,
 
     ) : MenuDetailRepository {
 
@@ -54,14 +54,13 @@ constructor(
         count: Int,
     ): DataState<Nothing> {
         return try {
-
-            val a = basketTableMapper.mapFromDomainModel(
+            val result = basketTableMenuMapper.mapFromDomainModel(
                 model = menuDetailInfo,
                 tableId = basketId.toInt(),
                 userId = userId,
                 count = count
             )
-            basketId = productDao.addToBasket(a)
+            basketId = productDao.addToBasket(result)
             DataState.SuccessMessage()
         } catch (e: Exception) {
             DataState.SomeError()
