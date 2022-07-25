@@ -7,11 +7,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +19,7 @@ import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
+import com.digimoplus.foodninja.presentation.ui.chat_detail.ChatDetailPage
 import com.digimoplus.foodninja.presentation.ui.main.MainPage
 import com.digimoplus.foodninja.presentation.ui.main.basket.BasketPage
 import com.digimoplus.foodninja.presentation.ui.menu_detail.MenuDetailPage
@@ -91,6 +87,7 @@ fun FoodNinja() {
             enterTransition = {
                 screenEnterTransition()
             },
+
             exitTransition = {
                 screenExitTransition()
             },
@@ -354,6 +351,23 @@ fun FoodNinja() {
             }
         ) {
             BasketPage(navController = navController)
+        }
+        composable(
+            route = Screens.ChatDetail.route,
+            enterTransition = {
+                screenEnterTransition()
+            },
+            exitTransition = {
+                screenExitTransition()
+            },
+            popEnterTransition = {
+                screenPopEnterTransition()
+            },
+            popExitTransition = {
+                screenPopExitTransition()
+            }
+        ) {
+            ChatDetailPage(navController = navController)
         }
     }
 }

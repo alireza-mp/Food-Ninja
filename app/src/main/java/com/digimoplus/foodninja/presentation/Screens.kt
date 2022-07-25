@@ -13,6 +13,7 @@ sealed class Screens(val route: String) {
     object ChooseLocation : Screens("choose_location")
     object SuccessPage : Screens("success_page")
     object BasketPage : Screens("basket_page")
+    object ChatDetail : Screens("chat_detail")
 
     object RestaurantDetail : Screens("restaurant_detail/{id}") {
         fun createIdRoute(id: Int) = "restaurant_detail/$id"

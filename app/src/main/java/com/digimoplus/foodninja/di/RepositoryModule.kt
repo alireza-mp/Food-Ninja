@@ -7,15 +7,18 @@ import com.digimoplus.foodninja.network.model.MenuDetailDtoMapper
 import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
+import com.digimoplus.foodninja.network.soketio.MessageDtoMapper
 import com.digimoplus.foodninja.persistence.BasketDao
 import com.digimoplus.foodninja.persistence.ProductDao
 import com.digimoplus.foodninja.persistence.model.BasketTableMapper
 import com.digimoplus.foodninja.persistence.model.BasketTableMenuMapper
 import com.digimoplus.foodninja.repository.*
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.socket.client.Socket
 import javax.inject.Singleton
 
 @Module
@@ -132,6 +135,20 @@ object RepositoryModule {
     ): BasketRepository {
         return BasketRepositoryImpl(
             basketDao = basketDao,
+            mapper = mapper
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideChatDetailRepository(
+        socket: Socket,
+        gson: Gson,
+        mapper: MessageDtoMapper,
+    ): ChatDetailRepository {
+        return ChatDetailRepositoryImpl(
+            socket = socket,
+            gson = gson,
             mapper = mapper
         )
     }
