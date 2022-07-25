@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.sign_in
 
 import androidx.compose.foundation.Image
@@ -11,19 +13,24 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.Screens
-import com.digimoplus.foodninja.presentation.components.CustomTextField
 import com.digimoplus.foodninja.presentation.components.GradientButton
-import com.digimoplus.foodninja.presentation.components.TextFieldIcon
-import com.digimoplus.foodninja.presentation.components.TextFieldType
+import com.digimoplus.foodninja.presentation.components.IconTextField
+import com.digimoplus.foodninja.presentation.components.SignInPasswordTextField
+import com.digimoplus.foodninja.presentation.components.TEXT_FIELD_ICON_EMAIL
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
@@ -36,6 +43,9 @@ fun SingInPage(navController: NavController) {
     val snackBarState = remember {
         SnackbarHostState()
     }
+    val (emailFocus, passwordFocus) = remember { FocusRequester.createRefs() }
+    val focusManager = LocalFocusManager.current
+
 
     PageMainBackgroundImage(
         snackBarState = snackBarState, paddingValues = PaddingValues(
@@ -62,18 +72,24 @@ fun SingInPage(navController: NavController) {
                     lineHeight = 25.sp,
                 )
                 Spacer(modifier = Modifier.padding(top = 10.dps))
-                CustomTextField(
+                IconTextField(
                     placeHolder = "Email",
-                    textFieldType = TextFieldType.Email,
-                    textFieldIcon = TextFieldIcon.Email,
-                    value = viewModel.email
+                    value = viewModel.email,
+                    focusRequester = emailFocus,
+                    nextFocusRequester = passwordFocus,
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Email,
+                    iconId = TEXT_FIELD_ICON_EMAIL
                 )
                 Spacer(modifier = Modifier.padding(4.dps))
-                CustomTextField(
+                SignInPasswordTextField(
                     placeHolder = "Password",
-                    textFieldType = TextFieldType.SignInPassword,
-                    textFieldIcon = TextFieldIcon.Password,
-                    value = viewModel.password
+                    value = viewModel.password,
+                    focusRequester = passwordFocus,
+                    onFocusDown = {
+                        focusManager.clearFocus()
+                        viewModel.loginUser(snackBarState, navController)
+                    }
                 )
                 Spacer(modifier = Modifier.padding(4.dps))
                 Text(

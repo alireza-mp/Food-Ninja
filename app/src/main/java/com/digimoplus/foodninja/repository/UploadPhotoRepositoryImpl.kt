@@ -5,9 +5,8 @@ import androidx.datastore.preferences.core.Preferences
 import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.network.AuthService
-import com.digimoplus.foodninja.network.model.MessageDto
+import com.digimoplus.foodninja.network.model.ResponseStateDto
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -21,7 +20,7 @@ class UploadPhotoRepositoryImpl
 @Inject
 constructor(
     private val authService: AuthService,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : UploadPhotoRepository {
 
     override suspend fun uploadProfile(inputStream: InputStream): Register {
@@ -49,7 +48,7 @@ constructor(
         return dataStore.data.first()[PreferencesKeys.userId].toString()
     }
 
-    private suspend fun uploadUserProfile(inputStream: InputStream): Response<MessageDto> {
+    private suspend fun uploadUserProfile(inputStream: InputStream): Response<ResponseStateDto> {
         val id = getId()
         val partRequest = MultipartBody.Part.createFormData(
             "image",

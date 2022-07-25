@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalComposeUiApi::class)
+
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up
 
 import android.util.Log
@@ -9,9 +11,14 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,6 +39,9 @@ fun SignUpPage(navController: NavController) {
     val snackBarState = remember {
         SnackbarHostState()
     }
+    val (nameFocus, emailFocus, passwordFocus) = remember { FocusRequester.createRefs() }
+    val focusManager = LocalFocusManager.current
+
     PageMainBackgroundImage(
         snackBarState = snackBarState,
         paddingValues = PaddingValues(
@@ -63,27 +73,39 @@ fun SignUpPage(navController: NavController) {
                     color = AppTheme.colors.titleText,
                 )
                 Spacer(modifier = Modifier.padding(top = 10.dps))
-                CustomTextField(
+                IconTextField(
                     placeHolder = "Alireza Momenpour",
-                    textFieldType = TextFieldType.Name,
-                    textFieldIcon = TextFieldIcon.Person,
-                    value = viewModel.name
+                    value = viewModel.name,
+                    focusRequester = nameFocus,
+                    nextFocusRequester = emailFocus,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                    iconId = TEXT_FIELD_ICON_PERSON
                 )
                 Spacer(modifier = Modifier.padding(4.dps))
-                CustomTextField(
+                IconTextField(
                     placeHolder = "Email",
-                    textFieldType = TextFieldType.Email,
-                    textFieldIcon = TextFieldIcon.Email,
-                    value = viewModel.email
+                    value = viewModel.email,
+                    focusRequester = emailFocus,
+                    nextFocusRequester = passwordFocus,
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
+                    iconId = TEXT_FIELD_ICON_EMAIL,
                 )
                 Spacer(modifier = Modifier.padding(4.dps))
-                CustomTextField(
+                IconTextField(
                     placeHolder = "Password",
-                    textFieldType = TextFieldType.SignUpPassword,
-                    textFieldIcon = TextFieldIcon.Password,
-                    value = viewModel.password
+                    value = viewModel.password,
+                    focusRequester = passwordFocus,
+                    nextFocusRequester = FocusRequester(),
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password,
+                    iconId = TEXT_FIELD_ICON_PASSWORD,
+                    onFocusDown = {
+                        focusManager.clearFocus()
+                        viewModel.register(state = snackBarState, navController = navController)
+                    }
                 )
-
                 Spacer(modifier = Modifier.padding(top = 8.dps))
                 CustomCheckBox(
                     modifier = Modifier
