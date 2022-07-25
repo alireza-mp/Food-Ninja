@@ -36,7 +36,7 @@ interface AuthService {
         @Field("family") family: String,
         @Field("phone") phone: String,
         @Field("location") location: String,
-    ): Response<MessageDto>
+    ): Response<ResponseStateDto>
 
     @Headers("Accept: application/json")
     @Multipart
@@ -44,7 +44,7 @@ interface AuthService {
     suspend fun uploadUserProfile(
         @Part part: MultipartBody.Part,
         @Part("id") id: RequestBody,
-    ): Response<MessageDto>
+    ): Response<ResponseStateDto>
 
 
     @Headers("Accept: application/json")
@@ -108,7 +108,7 @@ interface AuthService {
         @Field("user_id") userId: Int,
         @Field("menu_id") menuId: Int,
         @Field("count") count: Int,
-    ): Response<MessageDto>
+    ): Response<ResponseStateDto>
 
 
 }
