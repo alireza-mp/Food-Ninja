@@ -101,12 +101,12 @@ fun SearchAppBar(
             }
         },
             contentPadding = PaddingValues(horizontal = 16.dp,
-                vertical = 14.dp),
+                vertical = 17.dp),
             elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.onSecondary),
-            shape = RoundedCornerShape(18.dp)) {
-
+            shape = RoundedCornerShape(18.dp)
+        ) {
             Icon(painter = painterResource(id = R.drawable.ic_filtter_light),
                 tint = AppTheme.colors.secondary,
                 modifier = Modifier.padding(vertical = 2.dp),

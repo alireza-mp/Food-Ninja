@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
-const val TEXT_FIELD_ICON_PASSWORD = R.drawable.lock
+const val TEXT_FIELD_ICON_PASSWORD = R.drawable.ic_lock
 const val TEXT_FIELD_ICON_PERSON = R.drawable.ic_profile
-const val TEXT_FIELD_ICON_EMAIL = R.drawable.message
+const val TEXT_FIELD_ICON_EMAIL = R.drawable.ic_message
 
 
 // no icon

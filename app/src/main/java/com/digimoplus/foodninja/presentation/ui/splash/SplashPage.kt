@@ -44,7 +44,7 @@ fun SplashPage(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.background),
+            .background(color = AppTheme.colors.background),
         contentAlignment = Alignment.Center,
     ) {
         Image(
