@@ -19,6 +19,7 @@ constructor(
     private val dataStore: DataStore<Preferences>,
 ) : SignInRepository {
 
+    // request to server for login user
     override suspend fun loginUser(email: String, password: String): Register {
         try {
             val results = authService.signIn(email, password)
@@ -30,6 +31,7 @@ constructor(
                     Register.InvalidError
                 }
                 200 -> {
+                    // save user auth token and id
                     saveUser(
                         token = results.body()?.accessToken,
                         userId = results.body()?.id

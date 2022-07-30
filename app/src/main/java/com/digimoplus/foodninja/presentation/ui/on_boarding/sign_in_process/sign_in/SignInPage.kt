@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -40,15 +39,14 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 fun SingInPage(navController: NavController) {
 
     val viewModel: SignInViewModel = hiltViewModel()
-    val snackBarState = remember {
-        SnackbarHostState()
-    }
+    // focus request references
     val (emailFocus, passwordFocus) = remember { FocusRequester.createRefs() }
+    // focus manager
     val focusManager = LocalFocusManager.current
 
 
     PageMainBackgroundImage(
-        snackBarState = snackBarState, paddingValues = PaddingValues(
+        snackBarState = viewModel.snackBarState, paddingValues = PaddingValues(
             top = 0.dp,
             start = 24.dp,
             end = 24.dp
@@ -58,20 +56,25 @@ fun SingInPage(navController: NavController) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+
                 Image(
                     modifier = Modifier
                         .width(100.dps)
                         .height(100.dps),
                     painter = painterResource(id = R.drawable.logo), contentDescription = ""
                 )
+
                 Spacer(modifier = Modifier.padding(top = 10.dps))
+
                 Text(
                     text = "Login To Your Account",
                     style = AppTheme.typography.h5,
                     color = AppTheme.colors.titleText,
                     lineHeight = 25.sp,
                 )
+
                 Spacer(modifier = Modifier.padding(top = 10.dps))
+
                 IconTextField(
                     placeHolder = "Email",
                     value = viewModel.email,
@@ -81,24 +84,30 @@ fun SingInPage(navController: NavController) {
                     keyboardType = KeyboardType.Email,
                     iconId = TEXT_FIELD_ICON_EMAIL
                 )
+
                 Spacer(modifier = Modifier.padding(4.dps))
+
                 SignInPasswordTextField(
                     placeHolder = "Password",
                     value = viewModel.password,
                     focusRequester = passwordFocus,
                     onFocusDown = {
                         focusManager.clearFocus()
-                        viewModel.loginUser(snackBarState, navController)
+                        viewModel.loginUser(navController)
                     }
                 )
+
                 Spacer(modifier = Modifier.padding(4.dps))
+
                 Text(
                     text = "Or Continue With",
                     style = AppTheme.typography.descBold,
                     color = AppTheme.colors.titleText,
                     lineHeight = 25.sp,
                 )
+
                 Spacer(modifier = Modifier.padding(4.dps))
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -165,7 +174,9 @@ fun SingInPage(navController: NavController) {
                         }
                     }
                 }
+
                 Spacer(modifier = Modifier.padding(top = 5.dps))
+
                 TextButton(
                     enabled = !viewModel.loading.value,
                     onClick = {
@@ -178,6 +189,7 @@ fun SingInPage(navController: NavController) {
                         lineHeight = 25.sp,
                     )
                 }
+
                 GradientButton(
                     modifier = Modifier.padding(vertical = 5.dps),
                     gradient = buttonEnabledGradient(),
@@ -185,8 +197,9 @@ fun SingInPage(navController: NavController) {
                     textColor = Color.White,
                     loading = viewModel.loading.value
                 ) { // onClick
-                    viewModel.loginUser(snackBarState, navController)
+                    viewModel.loginUser(navController)
                 }
+
             }
         }
     }

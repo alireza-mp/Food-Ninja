@@ -14,9 +14,12 @@ class IntroductionViewModel
 constructor(
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
+
+    // save user looked introduction to datastore
     suspend fun saveIntroduction() {
         dataStore.edit { preferences ->
             preferences[introductionKey] = "OK"
         }
     }
+
 }

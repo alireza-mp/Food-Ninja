@@ -24,7 +24,7 @@ import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.components.util.dpw
-import com.digimoplus.foodninja.presentation.theme.*
+import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.delay
@@ -33,6 +33,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun IntroductionPageOne(pagerState: PagerState) {
 
+    val coroutineScope = rememberCoroutineScope()
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = AppTheme.colors.background),
@@ -40,6 +42,7 @@ fun IntroductionPageOne(pagerState: PagerState) {
 
         ConstraintLayout {
 
+            // constraint references
             val (
                 imageOne, imageTwo, imageThree, imageFour, backImage, titleText, descriptionText,
             ) = createRefs()
@@ -164,7 +167,7 @@ fun IntroductionPageOne(pagerState: PagerState) {
                 lineHeight = 25.sp
             )
         }
-        val coroutineScope = rememberCoroutineScope()
+
         GradientButton(
             modifier = Modifier
                 .align(Alignment.BottomCenter)

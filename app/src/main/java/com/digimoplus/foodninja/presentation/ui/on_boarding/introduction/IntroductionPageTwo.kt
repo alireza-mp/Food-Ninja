@@ -1,9 +1,7 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.introduction
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,10 +20,10 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
-import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.components.util.dpw
+import com.digimoplus.foodninja.presentation.theme.AppTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -34,9 +32,13 @@ fun IntroductionPageTwo(
     navController: NavController,
 ) {
 
+    val coroutineScope = rememberCoroutineScope()
+
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
 
         ConstraintLayout {
+
+            // constraint references
             val (
                 imageOne, imageTwo, imageThree, backImage, titleText, descriptionText,
             ) = createRefs()
@@ -143,7 +145,6 @@ fun IntroductionPageTwo(
 
         }
 
-        val coroutineScope = rememberCoroutineScope()
         GradientButton(
             gradient = buttonEnabledGradient(),
             textColor = Color.White,
