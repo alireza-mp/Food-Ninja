@@ -2,7 +2,6 @@
 
 package com.digimoplus.foodninja.presentation.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,25 +9,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Menu
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.HomeMenuViewModel
 import com.valentinilk.shimmer.shimmer
 
 
+// menu card item // without animation // main content
 @Composable
 fun MenuCardItem(
     launchAnimState: MutableState<Float>,
@@ -94,12 +92,11 @@ fun MenuCardItem(
 
 }
 
-// menu card item + animation
+// menu card item + animation // menuContent list
 @Composable
 fun MenuCardItem(
     index: Int,
     model: Menu,
-    viewModel: HomeMenuViewModel,
     animationEnabled: Boolean,
     disableAnim: () -> Unit,
     onClick: () -> Unit,
@@ -111,35 +108,30 @@ fun MenuCardItem(
             delayMillis = getDelayMillis(index)
         )) {
             MenuItem(
-                index = index,
                 model = model,
                 onClick = onClick,
-                viewModel = viewModel
             )
         }
     } else {
         disableAnim()
         MenuItem(
-            index = index,
             model = model,
             onClick = onClick,
-            viewModel = viewModel
         )
     }
 
 }
 
+// private menu card item for menu list
 @Composable
 private fun MenuItem(
     model: Menu,
-    index: Int,
-    viewModel: HomeMenuViewModel,
     onClick: () -> Unit,
 ) {
     Card(
         modifier = Modifier.padding(
             PaddingValues(top = 8.dp,
-                bottom = menuAnimatedItemPaddingBottom(index = index, viewModel = viewModel),
+                bottom = 0.dp,
                 end = 2.dp,
                 start = 2.dp)
         ),
@@ -192,6 +184,7 @@ private fun MenuItem(
     }
 }
 
+// menu item shimmer
 @Composable
 fun MenuCardItemShimmer(launchAnimState: MutableState<Float>, index: Int, count: Int) {
     Card(
@@ -263,23 +256,6 @@ private fun getPadding(index: Int, count: Int): PaddingValues {
         }
         else -> {
             PaddingValues(vertical = 8.dp, horizontal = 2.dp)
-        }
-    }
-}
-
-@Composable
-private fun menuAnimatedItemPaddingBottom(index: Int, viewModel: HomeMenuViewModel): Dp {
-    return when {
-        viewModel.checkIsLastPage() && (index == viewModel.menuAllList.size - 1) -> {
-            Log.d(TAG, "menuAnimatedItemPaddingBottom: 100")
-            100.dp
-        }
-        index == viewModel.menuAllList.size - 1 -> {
-            Log.d(TAG, "menuAnimatedItemPaddingBottom: 150")
-            150.dp
-        }
-        else -> {
-            0.dp
         }
     }
 }

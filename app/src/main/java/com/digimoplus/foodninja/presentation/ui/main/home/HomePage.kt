@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.digimoplus.foodninja.presentation.ui.main.home
 
 import androidx.activity.compose.BackHandler
@@ -38,6 +36,7 @@ fun HomePage(
     val homeViewModel: HomeViewModel = hiltViewModel()
     val backHandler = remember { mutableStateOf(false) }
 
+    // handle back press
     BackHandler(backHandler.value) {
         homeViewModel.contentListAnim = true
         when (homeViewModel.pageState.value) {
@@ -57,6 +56,7 @@ fun HomePage(
         }
     }
 
+    // update display state
     when (homeViewModel.pageState.value) {
 
         HomePageState.MainContent -> {

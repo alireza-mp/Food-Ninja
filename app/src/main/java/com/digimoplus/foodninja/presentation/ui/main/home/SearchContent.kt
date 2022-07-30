@@ -24,6 +24,7 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.util.HomePageState
 import com.digimoplus.foodninja.presentation.util.SearchCategory
 
+// search content not have viewModel // used home viewModel
 @Composable
 fun SearchContent(
     viewModel: HomeViewModel,
@@ -45,7 +46,10 @@ fun SearchContent(
                 SearchBody(viewModel)
             }
         }
+
+        // update button state to enabled or disable
         viewModel.checkEnabledButton()
+
         Box(modifier = Modifier
             .fillMaxWidth()
             .align(Alignment.BottomCenter)) {

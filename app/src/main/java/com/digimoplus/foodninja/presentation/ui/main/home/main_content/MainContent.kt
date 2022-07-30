@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Menu
@@ -197,7 +196,6 @@ fun RestaurantListItem(
     } else {
         if (list.size == 6)
             RestaurantCardItem(
-                index = index,
                 model = list[index],
                 onClick = {
                     // navigate to restaurant Detail page & send id
@@ -205,8 +203,6 @@ fun RestaurantListItem(
                 }
             )
     }
-
-
 }
 
 @Composable

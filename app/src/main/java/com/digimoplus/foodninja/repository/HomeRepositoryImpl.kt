@@ -10,8 +10,10 @@ import com.digimoplus.foodninja.network.model.MenuDtoMapper
 import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
 import javax.inject.Inject
 
+// number of items in one request
 const val PAGE_SIZE = 16
 
+// home repository used in : mainContent & restaurant content & menu content & search content
 class HomeRepositoryImpl
 @Inject
 constructor(
@@ -21,8 +23,10 @@ constructor(
     private val menuMapper: MenuDtoMapper,
 ) : HomeRepository {
 
+    // number of pages
     var lastPage = -1
 
+    //get restaurants list : main content
     override suspend fun getRestaurantList(token: String): DataState<List<Restaurant>> {
         return try {
             val results = authService.restaurantList(token)
@@ -45,6 +49,29 @@ constructor(
 
     }
 
+    //get menu list : main content
+    override suspend fun getMenuList(token: String): DataState<List<Menu>> {
+        return try {
+            val results = authService.menuList(token)
+            when (results.code()) {
+                404 -> {
+                    DataState.SomeError()
+                }
+                200 -> {
+                    DataState.Success(
+                        menuMapper.mapToDomainList(results.body() ?: listOf())
+                    )
+                }
+                else -> {
+                    DataState.SomeError()
+                }
+            }
+        } catch (e: Exception) {
+            DataState.NetworkError()
+        }
+    }
+
+    // search in restaurants  : restaurant content
     override suspend fun restaurantSearch(
         token: String,
         search: String,
@@ -71,6 +98,7 @@ constructor(
         }
     }
 
+    //get all restaurants list with page : restaurant content
     override suspend fun getAllRestaurantsList(
         token: String,
         page: Int,
@@ -96,27 +124,7 @@ constructor(
         }
     }
 
-    override suspend fun getMenuList(token: String): DataState<List<Menu>> {
-        return try {
-            val results = authService.menuList(token)
-            when (results.code()) {
-                404 -> {
-                    DataState.SomeError()
-                }
-                200 -> {
-                    DataState.Success(
-                        menuMapper.mapToDomainList(results.body() ?: listOf())
-                    )
-                }
-                else -> {
-                    DataState.SomeError()
-                }
-            }
-        } catch (e: Exception) {
-            DataState.NetworkError()
-        }
-    }
-
+    // search in menus  : menu content
     override suspend fun menuSearch(
         token: String,
         search: String,
@@ -143,6 +151,7 @@ constructor(
         }
     }
 
+    //get all menu list with page : menu content
     override suspend fun getAllMenuList(token: String, page: Int): DataState<List<Menu>> {
         return try {
             val results = authService.allMenuList(token, page)
@@ -164,6 +173,5 @@ constructor(
             DataState.NetworkError()
         }
     }
-
 
 }

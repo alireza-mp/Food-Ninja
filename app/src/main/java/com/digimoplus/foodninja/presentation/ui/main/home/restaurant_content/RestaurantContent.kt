@@ -6,11 +6,9 @@ package com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
@@ -89,8 +87,7 @@ fun RestaurantContent(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-
-            when (viewModel.loadingRestaurant.value) {
+            when (viewModel.uiState.value) {
                 // loading
                 LoadingSearchState.Loading -> {
                     BallProgress()
@@ -112,7 +109,6 @@ fun RestaurantContent(
                             // Restaurant Card
                             RestaurantCardItem(
                                 index = index,
-                                viewModel = viewModel,
                                 model = item,
                                 animationEnabled = homeViewModel.contentListAnim,
                                 disableAnim = {
@@ -121,16 +117,29 @@ fun RestaurantContent(
                                 navController.navigate(Screens.RestaurantDetail.createIdRoute(item.id))
                             }
                         }
+                        item(
+                            span = {
+                                GridItemSpan(maxCurrentLineSpan)
+                            }
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 100.dp, top = 16.dp)
+                                    .align(
+                                        Alignment.BottomCenter),
+                            ) {
+                                if (viewModel.pageLoading.value) {
+                                    BallPulseSyncProgressIndicator(
+                                        modifier = Modifier
+                                            .align(Alignment.Center),
+                                        color = AppTheme.colors.primary,
+                                    )
+                                }
+                            }
+                        }
                     }
-                    if (viewModel.pageLoading.value) {
-                        BallPulseSyncProgressIndicator(
-                            modifier = Modifier
-                                .padding(bottom = 100.dp)
-                                .align(
-                                    Alignment.BottomCenter),
-                            color = AppTheme.colors.primary,
-                        )
-                    }
+
                 }
 
                 // show lottie animation not found

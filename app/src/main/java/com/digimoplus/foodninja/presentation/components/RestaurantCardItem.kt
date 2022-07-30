@@ -1,8 +1,5 @@
 package com.digimoplus.foodninja.presentation.components
 
-import android.util.Log
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,27 +7,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.loadPicture
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.HomeRestaurantViewModel
 import com.valentinilk.shimmer.shimmer
 
 // Restaurant Card in home display
 @ExperimentalMaterialApi
 @Composable
 fun RestaurantCardItem(
-    index: Int,
     model: Restaurant,
     onClick: () -> Unit,
 ) {
@@ -44,7 +38,7 @@ fun RestaurantCardItem(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .size(170.dp, 200.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -119,7 +113,6 @@ fun RestaurantCardItemShimmer() {
 @Composable
 fun RestaurantCardItem(
     index: Int,
-    viewModel: HomeRestaurantViewModel,
     model: Restaurant,
     animationEnabled: Boolean,
     disableAnim: () -> Unit,
@@ -133,26 +126,12 @@ fun RestaurantCardItem(
                 durationMillis = 300,
                 delayMillis = getDelayMillis(index)
             ),
-            padding = PaddingValues(
-                start = 14.dp,
-                end = 14.dp,
-                top = 12.dp,
-                bottom = restaurantListPaddingBottom(index = index,
-                    viewModel = viewModel)
-            ),
             model = model,
             onClick = onClick
         )
     } else {
         disableAnim()
         RestaurantItem(
-            padding = PaddingValues(
-                start = 14.dp,
-                end = 14.dp,
-                top = 12.dp,
-                bottom = restaurantListPaddingBottom(index = index,
-                    viewModel = viewModel)
-            ),
             model = model,
             onClick = onClick
         )
@@ -179,7 +158,6 @@ private fun getDelayMillis(index: Int): Int {
 @Composable
 private fun RestaurantItem(
     modifier: Modifier = Modifier,
-    padding: PaddingValues,
     model: Restaurant,
     onClick: () -> Unit,
 ) {
@@ -187,12 +165,19 @@ private fun RestaurantItem(
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
-            .padding(padding),
+            .padding(
+                start = 14.dp,
+                end = 14.dp,
+                top = 12.dp,
+                bottom = 0.dp
+            ),
         onClick = onClick, backgroundColor = AppTheme.colors.surface,
         shape = RoundedCornerShape(20.dp),
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -222,17 +207,3 @@ private fun RestaurantItem(
     }
 }
 
-@Composable
-private fun restaurantListPaddingBottom(index: Int, viewModel: HomeRestaurantViewModel): Dp {
-    return when {
-        viewModel.checkIsLastPage() && (index == viewModel.restaurantAllList.size - 1) -> {
-            100.dp
-        }
-        index == viewModel.restaurantAllList.size - 1 -> {
-            150.dp
-        }
-        else -> {
-            0.dp
-        }
-    }
-}

@@ -1,6 +1,5 @@
 package com.digimoplus.foodninja.presentation.ui.main.home.menu_content
 
-import android.util.Log
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.model.DataState
 import com.digimoplus.foodninja.domain.model.Menu
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.presentation.util.LoadingSearchState
 import com.digimoplus.foodninja.presentation.util.showSnackBarError
@@ -25,7 +23,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class HomeMenuViewModel
@@ -34,23 +31,43 @@ constructor(
     private val repository: HomeRepositoryImpl,
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
-
+    // snack bar state
     var snackBarHostState: SnackbarHostState? = null
-    val loadingMenu = mutableStateOf(LoadingSearchState.Loading)
+
+    // ui state / loading / not loading / not found
+    val uiState = mutableStateOf(LoadingSearchState.Loading)
+
+    // next page loading progress
     val pageLoading = mutableStateOf(false)
+
+    // menus list
     val menuAllList = mutableStateListOf<Menu>()
+
+    // list position for check next page
+    private var restaurantListScrollPosition = 0
+
+    // page number
+    val page = mutableStateOf(1)
+
+    // token
+    private var token = ""
+
+    // animate items state
+    var listAnim = true
+
+    // backPress listener state
+    val backState = mutableStateOf(false)
+
+    // search state
+    var searchIng = false
+
+    // update topAppBar animation
     private val _scrollUp = MutableLiveData(false)
     val scrollUp: LiveData<Boolean> get() = _scrollUp
-    private var restaurantListScrollPosition = 0
-    val page = mutableStateOf(1)
-    private var token = ""
-    var listAnim = true
     private var lastScrollIndex = 0
-    val backState = mutableStateOf(false)
-    var searchIng = false
-    val a = false
 
-
+    // get token
+    // request for get menus list with page number
     init {
         viewModelScope.launch(Dispatchers.Main) {
             getToken()
@@ -58,21 +75,24 @@ constructor(
         }
     }
 
+    //request for search from restaurants list
     fun searchQuery(query: String) {
         searchIng = true
         backState.value = true
         newSearch(query = query)
     }
 
+    // remove search items and show all
     suspend fun resetList() {
         resetPage()
         getAllMenuList()
     }
 
+    // new search request to server with page number
     private fun newSearch(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             resetPage()
-            loadingMenu.value = LoadingSearchState.Loading
+            uiState.value = LoadingSearchState.Loading
             when (val result = repository.menuSearch(
                 token = token,
                 search = query,
@@ -81,9 +101,9 @@ constructor(
                 is DataState.Success -> {
                     menuAllList.addAll(result.data)
                     if (menuAllList.size == 0) {
-                        loadingMenu.value = LoadingSearchState.NotFound
+                        uiState.value = LoadingSearchState.NotFound
                     } else {
-                        loadingMenu.value = LoadingSearchState.NotLoading
+                        uiState.value = LoadingSearchState.NotLoading
                     }
                 }
                 else -> {
@@ -104,12 +124,14 @@ constructor(
         }
     }
 
+    // update scrollUp for animated appbar
     fun updateScrollPosition(newScrollIndex: Int) {
         if (newScrollIndex == lastScrollIndex) return
         _scrollUp.value = newScrollIndex > lastScrollIndex
         lastScrollIndex = newScrollIndex
     }
 
+    // get token
     private suspend fun getToken() {
         withContext(Dispatchers.IO) {
             token = dataStore.data.first()[PreferencesKeys.authenticationKey].toString()
@@ -117,16 +139,18 @@ constructor(
         }
     }
 
+    // get all menus list with page
     private suspend fun getAllMenuList() {
+        // if menu list is empty || search  state is ture
         if (menuAllList.size == 0 || searchIng) {
-            loadingMenu.value = LoadingSearchState.Loading
+            uiState.value = LoadingSearchState.Loading
             withContext(Dispatchers.IO) {
                 delay(1000)
                 when (val result = repository.getAllMenuList(token, page = 1)) {
                     is DataState.Success -> {
                         withContext(Dispatchers.Main) {
                             menuAllList.addAll(result.data)
-                            loadingMenu.value = LoadingSearchState.NotLoading
+                            uiState.value = LoadingSearchState.NotLoading
                         }
                     }
                     else -> {
@@ -139,10 +163,11 @@ constructor(
         }
     }
 
+    // request  to next page
     fun onNextPage() {
         viewModelScope.launch(Dispatchers.IO) {
+            if (checkIsLastPage()) {
 
-            if (repository.lastPage > page.value) {
                 if ((restaurantListScrollPosition + 1) >= page.value * PAGE_SIZE) {
 
                     pageLoading.value = true
@@ -167,13 +192,14 @@ constructor(
         }
     }
 
+    // update scroll position
     fun onChangeMenuScrollPosition(position: Int) {
         restaurantListScrollPosition = position
     }
 
-    fun checkIsLastPage(): Boolean {
-        Log.d(TAG, "checkIsLastPage: repo : ${repository.lastPage} /// page : ${page.value}")
-        return repository.lastPage == page.value
+    // is last page
+    private fun checkIsLastPage(): Boolean {
+        return repository.lastPage > page.value
     }
 
 }
