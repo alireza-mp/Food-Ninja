@@ -5,7 +5,8 @@ import com.digimoplus.foodninja.domain.model.RestoDetail
 
 interface RestoDetailRepository {
 
-    suspend fun getDetails(token: String, restaurantId: Int): DataState<RestoDetail>
+    // get page details from server
+    suspend fun getRestaurantDetails(token: String, restaurantId: Int): DataState<RestoDetail>
 
 
 }

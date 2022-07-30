@@ -18,11 +18,19 @@ constructor(
     private val repository: MainRepository,
 ) : ViewModel() {
 
+    // basket badge
     val basketBadge = mutableStateOf(0)
+
+    // chat badge
     val chatBadge = mutableStateOf(0)
+
+    // snack bar state
     val snackBarState = SnackbarHostState()
+
+    //bottom navigation visibility
     val showBottomTab = mutableStateOf(true)
 
+    // check basket table items & update basket badge in bottom navigation bar
     fun updateBasketBadge() {
         viewModelScope.launch(Dispatchers.IO) {
             val count = repository.checkBasketItemsCount()

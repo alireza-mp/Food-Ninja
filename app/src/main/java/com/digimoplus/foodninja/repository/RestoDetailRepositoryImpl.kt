@@ -1,10 +1,8 @@
 package com.digimoplus.foodninja.repository
 
-import androidx.datastore.core.DataStore
 import com.digimoplus.foodninja.domain.model.DataState
 import com.digimoplus.foodninja.domain.model.RestoDetail
 import com.digimoplus.foodninja.network.AuthService
-import androidx.datastore.preferences.core.Preferences
 import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
 import javax.inject.Inject
 
@@ -14,7 +12,10 @@ class RestoDetailRepositoryImpl
     private val mapper: RestoDetailDtoMapper,
 ) : RestoDetailRepository {
 
-    override suspend fun getDetails(token: String, restaurantId: Int): DataState<RestoDetail> {
+    override suspend fun getRestaurantDetails(
+        token: String,
+        restaurantId: Int,
+    ): DataState<RestoDetail> {
         return try {
             val result = authService.restaurantDetails(token = token, id = restaurantId)
             when (result.code()) {

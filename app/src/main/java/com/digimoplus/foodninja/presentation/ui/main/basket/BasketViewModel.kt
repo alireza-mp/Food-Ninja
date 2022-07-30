@@ -22,8 +22,13 @@ constructor(
     private val repository: BasketRepository,
 ) : ViewModel() {
 
+    // basket list
     val basketList = mutableStateListOf<Basket>()
+
+    // snack bar state
     val snackBarState = SnackbarHostState()
+
+    // total of items price
     val totalPrice = mutableStateOf(0)
 
     // get all basket list items
@@ -75,6 +80,7 @@ constructor(
         }
     }
 
+    // calculation total price
     private fun calculationTotalPrice() {
         viewModelScope.launch(Dispatchers.IO) {
             var total = 0

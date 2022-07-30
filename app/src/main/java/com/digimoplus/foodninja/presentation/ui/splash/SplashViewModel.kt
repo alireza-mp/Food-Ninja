@@ -22,12 +22,14 @@ constructor(
     private val onlineChecker: OnlineChecker,
 ) : ViewModel() {
 
+    // ping google to check internet connection
     suspend fun isOnline(): Boolean {
         return withContext(Dispatchers.IO) {
             onlineChecker.isOnline
         }
     }
 
+    // check user looked Introduction pages or not
     val checkIntroduction: Flow<String> = dataStore.data
         .map { preferences ->
             preferences[introductionKey] ?: "null"

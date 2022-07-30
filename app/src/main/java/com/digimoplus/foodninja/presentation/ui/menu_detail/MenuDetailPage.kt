@@ -13,7 +13,9 @@ import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +31,8 @@ import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.util.UiState
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 @Composable
@@ -56,7 +59,7 @@ private fun MenuDetail(
     viewModel: MenuDetailViewModel,
     menuId: Int,
 ) {
-    when (viewModel.loading.value) {
+    when (viewModel.uiState.value) {
         UiState.Visible -> {
             // show details
             Details(

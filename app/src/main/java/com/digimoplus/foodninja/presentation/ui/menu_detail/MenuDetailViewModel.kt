@@ -6,7 +6,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digimoplus.foodninja.domain.model.*
+import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.model.MenuDetailComments
+import com.digimoplus.foodninja.domain.model.MenuDetailInfo
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.presentation.util.UiState
 import com.digimoplus.foodninja.repository.MenuDetailRepository
@@ -25,15 +27,32 @@ constructor(
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
 
+    // token
     var token = ""
+
+    // user id
     var userId: Int = 0
-    val loading = mutableStateOf(UiState.Loading)
+
+    // uiState : loading / visible / noInternet
+    val uiState = mutableStateOf(UiState.Loading)
+
+    // menu details info
     lateinit var menuInfo: MenuDetailInfo
+
+    // comment list
     val commentList = mutableStateListOf<MenuDetailComments>()
+
+    //list material items in description text
     val materialsList = mutableStateListOf<String>()
+
+    // basket item count
     val basketCount = mutableStateOf(0)
+
+    // alert dialog ui state
     val alertDialogVisibility = mutableStateOf(false)
 
+
+    // get display details // menu info & comments list & description materials list
     suspend fun getDetails(menuId: Int) {
         if (materialsList.size == 0) {
             getToken()
@@ -43,7 +62,7 @@ constructor(
                         menuInfo = result.data.menuDetailInfo
                         materialsList.addAll(result.data.menuDetailMaterials)
                         commentList.addAll(result.data.menuDetailComments)
-                        loading.value = UiState.Visible
+                        uiState.value = UiState.Visible
                     }
                     getUserId()
                     // check if menu exist in basket and get count
@@ -51,13 +70,14 @@ constructor(
                 }
                 else -> {
                     withContext(Dispatchers.Main) {
-                        loading.value = UiState.NoInternet
+                        uiState.value = UiState.NoInternet
                     }
                 }
             }
         }
     }
 
+    // on add to cart button clicked
     fun firstPlus() {
         viewModelScope.launch(Dispatchers.IO) {
             if (repository.checkRestaurants(menuInfo.restaurantId)) {
@@ -68,6 +88,7 @@ constructor(
         }
     }
 
+    // on basket plus clicked
     fun onPlus() {
         viewModelScope.launch {
             addToBasket(
@@ -77,6 +98,7 @@ constructor(
         }
     }
 
+    // on basket minus clicked
     fun onMinus() {
         viewModelScope.launch {
             if (basketCount.value != 1)
@@ -92,6 +114,7 @@ constructor(
         }
     }
 
+    // alert dialog on yes click
     fun alertDialogOnYes() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.removeOtherRestaurants(menuInfo.restaurantId)
@@ -100,16 +123,19 @@ constructor(
         alertDialogVisibility.value = false
     }
 
+    // alert dialog on no click
     fun alertDialogOnNo() {
         alertDialogVisibility.value = false
     }
 
+    // remove basket item in database
     private fun deleteBasketItem() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteBasketItem(userId, menuInfo.id)
         }
     }
 
+    // add basket item in database & update ui
     private suspend fun addToBasket(isMinus: Boolean, count: Int) {
         getUserId()
         val result = repository.addToBasket(
@@ -126,7 +152,7 @@ constructor(
                 }
             }
             else -> {
-                //snack bar
+                //show snack bar to error
             }
         }
     }
@@ -139,20 +165,23 @@ constructor(
         }
     }
 
+    // get token from datastore
     private suspend fun getToken() {
         if (token == "") {
             token = dataStore.data.first()[PreferencesKeys.authenticationKey].toString()
         }
     }
 
+    // get user id from datastore
     private suspend fun getUserId() {
         if (userId == 0) {
             userId = dataStore.data.first()[PreferencesKeys.userId]?.toInt() ?: 0
         }
     }
 
+    // on retry button no intent clicked
     fun noInternetConnection(menuId: Int) {
-        loading.value = UiState.Loading
+        uiState.value = UiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             getDetails(menuId)
         }

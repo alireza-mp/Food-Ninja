@@ -26,33 +26,46 @@ constructor(
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
 
+    // token
     var token = ""
-    val loading = mutableStateOf(UiState.Loading)
+
+    // ui state : loading / visible / noIntent
+    val uiState = mutableStateOf(UiState.Loading)
+
+    // resto info
     lateinit var restoInfo: RestoDetailInfo
+
+    // comments list
     val commentList = mutableStateListOf<RestoDetailComment>()
+
+    // menu lists
     val menuList = mutableStateListOf<RestoDetailMenu>()
 
+    // get details from server // resto info & commentsList & MenusList
     suspend fun getDetails(restaurantId: Int) {
         if (menuList.size == 0) {
             getToken()
-            when (val result = repository.getDetails(token, restaurantId)) {
+            when (val result = repository.getRestaurantDetails(token, restaurantId)) {
                 is DataState.Success -> {
                     withContext(Dispatchers.Main) {
                         restoInfo = result.data.restoDetailInfo
                         menuList.addAll(result.data.restoDetailMenus)
                         commentList.addAll(result.data.restoDetailComment)
-                        loading.value = UiState.Visible
+                        // update ui
+                        uiState.value = UiState.Visible
                     }
                 }
                 else -> {
                     withContext(Dispatchers.Main) {
-                        loading.value = UiState.NoInternet
+                        // update ui
+                        uiState.value = UiState.NoInternet
                     }
                 }
             }
         }
     }
 
+    // get token
     private suspend fun getToken() {
         if (token == "") {
             token = dataStore.data.first()[PreferencesKeys.authenticationKey].toString()

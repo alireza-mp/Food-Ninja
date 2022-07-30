@@ -8,8 +8,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,11 +27,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
-import com.digimoplus.foodninja.presentation.components.util.*
+import com.digimoplus.foodninja.presentation.components.util.animateAlpha
+import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.components.util.loadPictureNoneDefault
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.util.UiState
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @Composable
@@ -37,6 +47,7 @@ fun RestaurantDetailPage(
     val viewModel: RestaurantDetailViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
 
+    // get details from server
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             viewModel.getDetails(restaurantId)
@@ -58,7 +69,8 @@ private fun RestaurantDetail(
     navController: NavController,
     coroutineScope: CoroutineScope,
 ) {
-    when (viewModel.loading.value) {
+    // update ui
+    when (viewModel.uiState.value) {
         UiState.Visible -> {
             // show details
             Details(
@@ -73,7 +85,7 @@ private fun RestaurantDetail(
         UiState.NoInternet -> {
             // show no internet page
             NoInternetContent {
-                viewModel.loading.value = UiState.Loading
+                viewModel.uiState.value = UiState.Loading
                 coroutineScope.launch(Dispatchers.IO) {
                     viewModel.getDetails(restaurantId)
                 }

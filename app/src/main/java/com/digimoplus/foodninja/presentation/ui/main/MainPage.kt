@@ -3,7 +3,6 @@
 
 package com.digimoplus.foodninja.presentation.ui.main
 
-import com.digimoplus.foodninja.presentation.ui.main.chat.ChatPage
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,6 +22,7 @@ import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.bottomNavigationTabValues
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.ui.main.chat.ChatPage
 import com.digimoplus.foodninja.presentation.ui.main.home.HomePage
 import com.digimoplus.foodninja.presentation.ui.main.profile.ProfilePage
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -36,6 +36,7 @@ fun MainPage(navController: NavController) {
     val viewModel: MainViewModel = hiltViewModel()
     val pagerState = rememberPagerState(pageCount = 3)
 
+    // update basket badge
     LaunchedEffect(Unit) {
         viewModel.updateBasketBadge()
     }
@@ -72,6 +73,7 @@ fun MainPage(navController: NavController) {
                     2 -> ChatPage(navController = navController)
                 }
             }
+
             AnimatedVisibility(modifier = Modifier.align(Alignment.BottomCenter),
                 visible = viewModel.showBottomTab.value) {
                 Card(

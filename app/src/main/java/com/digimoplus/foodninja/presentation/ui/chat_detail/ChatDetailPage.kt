@@ -52,12 +52,16 @@ fun ChatDetailPage(navController: NavController) {
     val view = LocalView.current
 
     DisposableEffect(view) {
+
         viewModel.registerTypeIng()
         viewModel.connect()
+
+        // move page to top when keyboard opened
         val listener = ViewTreeObserver.OnGlobalLayoutListener {
             scope.launch { bringIntoViewRequester.bringIntoView() }
         }
         view.viewTreeObserver.addOnGlobalLayoutListener(listener)
+
         onDispose {
             viewModel.disconnect()
             view.viewTreeObserver.removeOnGlobalLayoutListener(listener)
@@ -102,7 +106,7 @@ fun ChatDetailPage(navController: NavController) {
 
             Box(modifier = Modifier.align(Alignment.BottomCenter)) {
                 Column {
-                    if (viewModel.visibleTypeIng.value) {
+                    if (viewModel.typeIngState.value) {
                         Text(
                             modifier = Modifier.padding(start = 8.dp),
                             text = "is typeing ...",
