@@ -1,12 +1,10 @@
 package com.digimoplus.foodninja.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
+import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.network.AuthService
 import javax.inject.Inject
 
@@ -16,6 +14,7 @@ class SignUpRepositoryImpl
     private val dataStore: DataStore<Preferences>,
 ) : SignUpRepository {
 
+    // register user to server
     override suspend fun registerUser(name: String, email: String, password: String): Register {
         try {
             val response = authService.signUp(name, email, password, password)
@@ -24,8 +23,10 @@ class SignUpRepositoryImpl
                     Register.WrongError
                 }
                 200 -> {
-                    saveAuthenticationToken(response.body()?.accessToken ?: "",
-                        response.body()?.id ?: 0)
+                    // save auth token and user id
+                    saveToDataStore(
+                        token = response.body()?.accessToken ?: "",
+                        id = response.body()?.id ?: 0)
                     Register.Successful
                 }
                 else -> {
@@ -37,7 +38,8 @@ class SignUpRepositoryImpl
         }
     }
 
-    private suspend fun saveAuthenticationToken(token: String, id: Int) {
+    // save auth token and user id to datastore
+    private suspend fun saveToDataStore(token: String, id: Int) {
 
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.userId] = id

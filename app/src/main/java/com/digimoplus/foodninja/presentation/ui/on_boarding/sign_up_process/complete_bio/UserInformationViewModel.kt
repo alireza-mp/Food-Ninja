@@ -16,24 +16,36 @@ class UserInformationViewModel
 @Inject
 constructor() : ViewModel() {
 
+    // snack bar state
+    val snackBarState = SnackbarHostState()
+
+    // loading ui state
     val loading = mutableStateOf(false)
+
+    // name textField
     val name = mutableStateOf("")
+
+    // family textField
     val family = mutableStateOf("")
+
+    // phone textField
     val phone = mutableStateOf("")
 
-    fun addInfo(snackBarHost: SnackbarHostState, navController: NavController) {
+    //check name & family & phone
+    fun addInfo(navController: NavController) {
         viewModelScope.launch {
             when {
                 name.value.length < 5 -> {
-                    snackBarHost.showSnackbar("name")
+                    snackBarState.showSnackbar("name")
                 }
                 family.value.length < 5 -> {
-                    snackBarHost.showSnackbar("family")
+                    snackBarState.showSnackbar("family")
                 }
                 phone.value.length < 11 -> {
-                    snackBarHost.showSnackbar("phone")
+                    snackBarState.showSnackbar("phone")
                 }
                 else -> {
+                    // save data to model
                     val userInfo = UserInfo(name.value, family.value, phone.value)
                     // send object of user to payment page
                     navController.currentBackStackEntry?.arguments?.putParcelable("user",

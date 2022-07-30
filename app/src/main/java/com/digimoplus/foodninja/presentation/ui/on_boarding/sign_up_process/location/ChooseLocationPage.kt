@@ -1,6 +1,5 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.location
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,7 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.UserInfo
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
@@ -34,12 +32,14 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.launch
 
+// user info is a model that sent to the next page
 @Composable
 fun ChooseLocationPage(
     navController: NavController,
     userInfo: UserInfo?,
 ) {
     val viewModel: ChooseLocationViewModel = hiltViewModel()
+    // default location in qom
     val defaultLocation = LatLng(34.64, 50.88)
     val coroutineScope = rememberCoroutineScope()
 
@@ -51,12 +51,14 @@ fun ChooseLocationPage(
         loading = viewModel.loading.value,
         navController = navController,
         onClick = {
+            // on button clicked
+            // is user choose the location
             if (viewModel.mapIsVisible.value) {
+                // go to next page
                 viewModel.saveLocation(userInfo, navController)
-
             } else {
+                // show map
                 if (viewModel.selectedLocation.value == defaultLocation) {
-                    Log.i(TAG, "ChooseLocationPage: DefaultLocation")
                     coroutineScope.launch {
                         viewModel.snackBarState.showSnackbar("please choose a location")
                     }
@@ -64,11 +66,13 @@ fun ChooseLocationPage(
             }
         }) {
 
+        // map visibility
         if (viewModel.mapIsVisible.value) {
             ShowMap(viewModel, defaultLocation)
         } else {
             ChooseLocation(viewModel)
         }
+
     }
 }
 

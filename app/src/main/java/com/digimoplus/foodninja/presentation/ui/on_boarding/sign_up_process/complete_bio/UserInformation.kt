@@ -1,10 +1,9 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
+@file:OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeUiApi::class)
 
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,23 +19,24 @@ import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMai
 import com.digimoplus.foodninja.presentation.components.util.dps
 
 @Composable
-fun UserInformationPage(navController: NavController, name: String/* onBackPress: () -> Unit*/) {
+fun UserInformationPage(navController: NavController, name: String) {
 
     val viewModel: UserInformationViewModel = hiltViewModel()
+    //set name from last page
     viewModel.name.value = name
-    val snackBarState = remember { SnackbarHostState() }
+    // focus request references
     val (nameFocus, familyFocus, phoneFocus) = remember { FocusRequester.createRefs() }
+    //focus manager
     val focusManager = LocalFocusManager.current
 
     OnBoardingMainPage(
         title = "Fill in your bio to get started",
         description = "This data will be displayed in your account profile for security",
-        snackBarState = snackBarState,
+        snackBarState = viewModel.snackBarState,
         loading = viewModel.loading.value,
         navController = navController,
         onClick = {
-            viewModel.addInfo(snackBarHost = snackBarState, navController = navController)
-            //navController.navigate(R.id.action_userInformationFragment_to_paymentFragment)
+            viewModel.addInfo(navController = navController)
         }
     ) {
         NoneTextField(
@@ -47,7 +47,9 @@ fun UserInformationPage(navController: NavController, name: String/* onBackPress
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next,
         )
+
         Spacer(modifier = Modifier.padding(top = 8.dps))
+
         NoneTextField(
             placeHolder = "Last Name",
             value = viewModel.family,
@@ -56,7 +58,9 @@ fun UserInformationPage(navController: NavController, name: String/* onBackPress
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Next,
         )
+
         Spacer(modifier = Modifier.padding(top = 8.dps))
+
         NoneTextField(
             placeHolder = "Mobile Number",
             value = viewModel.phone,
@@ -66,9 +70,10 @@ fun UserInformationPage(navController: NavController, name: String/* onBackPress
             imeAction = ImeAction.Done,
             onFocusDown = {
                 focusManager.clearFocus()
-                viewModel.addInfo(snackBarHost = snackBarState, navController = navController)
+                viewModel.addInfo(navController = navController)
             }
         )
+
     }
 }
 

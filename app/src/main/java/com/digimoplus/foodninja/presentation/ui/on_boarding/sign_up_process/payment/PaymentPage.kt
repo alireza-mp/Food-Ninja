@@ -8,8 +8,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.UserInfo
-import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.PayButton
+import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
@@ -29,6 +29,7 @@ fun PaymentPage(
             viewModel.savePaymentMethod(navController, userInfo)
         },
     ) {
+
         PayButton(
             id = if (AppTheme.colors.isLight) R.drawable.pay1_light else R.drawable.pay1_dark,
             isPressed = viewModel.isPress.value,
@@ -36,7 +37,9 @@ fun PaymentPage(
         ) {
             viewModel.isPress.value = "paypal"
         }
+
         Spacer(modifier = Modifier.padding(top = 2.dps))
+
         PayButton(
             id = if (AppTheme.colors.isLight) R.drawable.pay2_light else R.drawable.pay2_dark,
             isPressed = viewModel.isPress.value,
@@ -44,7 +47,9 @@ fun PaymentPage(
         ) {
             viewModel.isPress.value = "visa"
         }
+
         Spacer(modifier = Modifier.padding(top = 2.dps))
+
         PayButton(
             id = if (AppTheme.colors.isLight) R.drawable.pay3_light else R.drawable.pay3_dark,
             isPressed = viewModel.isPress.value,
@@ -54,6 +59,5 @@ fun PaymentPage(
         }
 
     }
-
 
 }

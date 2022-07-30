@@ -1,13 +1,11 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up
 
-import android.os.Bundle
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.repository.SignUpRepository
@@ -24,46 +22,61 @@ constructor(
     private val repository: SignUpRepository,
 ) : ViewModel() {
 
+    // snack bar state
+    val snackBarState = SnackbarHostState()
 
+    // name textField
     val name: MutableState<String> = mutableStateOf("")
+
+    // email textField
     val email: MutableState<String> = mutableStateOf("")
+
+    // password textFiled
     val password: MutableState<String> = mutableStateOf("")
+
+    // loading ui state
     val loading: MutableState<Boolean> = mutableStateOf(false)
+
+    // checkBox one state
     val checkOne: MutableState<Boolean> = mutableStateOf(false)
+
+    // check box two state
     val checkTwo: MutableState<Boolean> = mutableStateOf(false)
 
-    fun register(navController: NavController, state: SnackbarHostState) {
+    // check name & email & password & check one & check two
+    fun register(navController: NavController) {
         viewModelScope.launch {
             when {
                 name.value.length < 4 -> {
-                    state.showSnackbar("Invalid Name")
+                    snackBarState.showSnackbar("Invalid Name")
                 }
                 email.value.length < 9 -> {
-                    state.showSnackbar("Invalid Email")
+                    snackBarState.showSnackbar("Invalid Email")
                 }
                 password.value.length < 7 -> {
-                    state.showSnackbar("Invalid Password")
+                    snackBarState.showSnackbar("Invalid Password")
                 }
                 !checkOne.value -> {
-                    state.showSnackbar("Invalid checkOne")
+                    snackBarState.showSnackbar("Invalid checkOne")
                 }
                 !checkTwo.value -> {
-                    state.showSnackbar("Invalid checkTwo")
+                    snackBarState.showSnackbar("Invalid checkTwo")
                 }
                 else -> {
-                    registerUser(navController, state)
+                    registerUser(navController)
                 }
             }
         }
     }
 
-    private suspend fun registerUser(navController: NavController, state: SnackbarHostState) {
+    // register user to server 
+    private suspend fun registerUser(navController: NavController) {
         loading.value = true
         withContext(Dispatchers.IO) {
             val register = repository.registerUser(name.value, email.value, password.value)
             withContext(Dispatchers.Main) {
+                // update ui
                 loading.value = false
-                // state.showSnackbar(message = register.message)
                 if (register.message == Register.Successful.message) {
                     // put name to user information page
                     navController.navigate(Screens.UserInformation.createRoute(name.value)) {
@@ -72,8 +85,8 @@ constructor(
                             inclusive = true
                         }
                     }
-                }else{
-                    state.showSnackbar(register.message)
+                } else {
+                    snackBarState.showSnackbar(register.message)
                 }
             }
         }

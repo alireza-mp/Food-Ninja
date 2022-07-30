@@ -2,10 +2,8 @@
 
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -24,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
@@ -36,14 +33,13 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 fun SignUpPage(navController: NavController) {
 
     val viewModel: SignUpViewModel = hiltViewModel()
-    val snackBarState = remember {
-        SnackbarHostState()
-    }
+    // focus request references
     val (nameFocus, emailFocus, passwordFocus) = remember { FocusRequester.createRefs() }
+    // focus manager
     val focusManager = LocalFocusManager.current
 
     PageMainBackgroundImage(
-        snackBarState = snackBarState,
+        snackBarState = viewModel.snackBarState,
         paddingValues = PaddingValues(
             top = 0.dp,
             start = 24.dp,
@@ -52,27 +48,31 @@ fun SignUpPage(navController: NavController) {
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter) {
-            val max = maxHeight
-            Log.i(Constants.TAG, "SignUpTwo: $max")
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
 
             ) {
+
                 Image(
                     modifier = Modifier
                         .width(100.dps)
                         .height(100.dps),
                     painter = painterResource(id = R.drawable.logo), contentDescription = ""
                 )
+
                 Spacer(modifier = Modifier.padding(top = 10.dps))
+
                 Text(
                     text = "Sign Up For Free",
                     style = AppTheme.typography.h5,
                     color = AppTheme.colors.titleText,
                 )
+
                 Spacer(modifier = Modifier.padding(top = 10.dps))
+
                 IconTextField(
                     placeHolder = "Alireza Momenpour",
                     value = viewModel.name,
@@ -82,7 +82,9 @@ fun SignUpPage(navController: NavController) {
                     imeAction = ImeAction.Next,
                     iconId = TEXT_FIELD_ICON_PERSON
                 )
+
                 Spacer(modifier = Modifier.padding(4.dps))
+
                 IconTextField(
                     placeHolder = "Email",
                     value = viewModel.email,
@@ -92,7 +94,9 @@ fun SignUpPage(navController: NavController) {
                     imeAction = ImeAction.Next,
                     iconId = TEXT_FIELD_ICON_EMAIL,
                 )
+
                 Spacer(modifier = Modifier.padding(4.dps))
+
                 IconTextField(
                     placeHolder = "Password",
                     value = viewModel.password,
@@ -103,10 +107,12 @@ fun SignUpPage(navController: NavController) {
                     iconId = TEXT_FIELD_ICON_PASSWORD,
                     onFocusDown = {
                         focusManager.clearFocus()
-                        viewModel.register(state = snackBarState, navController = navController)
+                        viewModel.register(navController = navController)
                     }
                 )
+
                 Spacer(modifier = Modifier.padding(top = 8.dps))
+
                 CustomCheckBox(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -115,7 +121,9 @@ fun SignUpPage(navController: NavController) {
                 ) {
                     viewModel.checkOne.value = !viewModel.checkOne.value
                 }
+
                 Spacer(modifier = Modifier.padding(1.dps))
+
                 CustomCheckBox(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -124,6 +132,7 @@ fun SignUpPage(navController: NavController) {
                 ) {
                     viewModel.checkTwo.value = !viewModel.checkTwo.value
                 }
+
                 Spacer(modifier = Modifier.padding(top = 4.dps))
 
                 GradientButton(
@@ -132,9 +141,10 @@ fun SignUpPage(navController: NavController) {
                     text = "Create Account",
                     textColor = Color.White,
                 ) { // onClick
-                    viewModel.register(state = snackBarState, navController = navController)
+                    viewModel.register(navController = navController)
                     //navController.navigate(Screens.Main.route)
                 }
+
                 TextButton(
                     enabled = !viewModel.loading.value,
                     onClick = {
@@ -148,7 +158,6 @@ fun SignUpPage(navController: NavController) {
                         lineHeight = 25.sp,
                     )
                 }
-
 
             }
         }

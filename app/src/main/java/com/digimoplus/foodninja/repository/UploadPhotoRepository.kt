@@ -5,6 +5,7 @@ import java.io.InputStream
 
 interface UploadPhotoRepository {
 
-    suspend fun uploadProfile(inputStream: InputStream):Register
+    // upload profile image to server and get profile image url
+    suspend fun uploadProfile(inputStream: InputStream): Register
 
 }

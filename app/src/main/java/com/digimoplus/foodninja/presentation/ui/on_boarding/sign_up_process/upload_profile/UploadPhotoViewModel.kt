@@ -15,7 +15,7 @@ import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
-import com.digimoplus.foodninja.repository.UploadPhotoRepositoryImpl
+import com.digimoplus.foodninja.repository.UploadPhotoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -31,12 +31,17 @@ import javax.inject.Inject
 class UploadPhotoViewModel
 @Inject
 constructor(
-    private val repository: UploadPhotoRepositoryImpl,
+    private val repository: UploadPhotoRepository,
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
 
+    // profile image url
     val imageUrl = mutableStateOf("none")
+
+    // snack bar state
     val snackBarState = SnackbarHostState()
+
+    // loading ui state
     val loading = mutableStateOf(false)
 
     init {
@@ -47,6 +52,7 @@ constructor(
         }
     }
 
+    // upload profile image to server from gallery
     fun uploadProfile(context: Context, uri: Uri) {
         loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
@@ -60,7 +66,9 @@ constructor(
                 loading.value = false
                 if (register != null) {
                     if (register?.message == Register.Successful.message) {
+                        // show profile image with url
                         imageUrl.value = "${Constants.BASE_URL}${register?.value.toString()}"
+                        //save profile image url
                         saveProfileUrl(register?.value as String)
                     } else {
                         snackBarState.showSnackbar(register?.message ?: Register.SomeError.message)
@@ -72,6 +80,7 @@ constructor(
         }
     }
 
+    // upload profile image to server from camera
     fun uploadProfile(bitmap: Bitmap) {
         loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
@@ -84,8 +93,10 @@ constructor(
             val register = repository.uploadProfile(inputStream)
             withContext(Dispatchers.Main) {
                 if (register == Register.Successful) {
-                    saveProfileUrl(register.value as String)
+                    // show profile image with url
                     imageUrl.value = "${Constants.BASE_URL}${register.value.toString()}"
+                    // save profile image url
+                    saveProfileUrl(register.value as String)
                 } else {
                     snackBarState.showSnackbar(register.message)
                 }
@@ -94,11 +105,12 @@ constructor(
         }
     }
 
-
+    // check profile image url is exist in datastore
     private suspend fun profileUrlIsExist(): String? {
         return dataStore.data.first()[PreferencesKeys.userProfileUrl]
     }
 
+    // save profile image url to datastore
     private suspend fun saveProfileUrl(url: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.userProfileUrl] = "${Constants.BASE_URL}${url}"

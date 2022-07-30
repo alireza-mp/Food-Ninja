@@ -1,15 +1,11 @@
 package com.digimoplus.foodninja.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.network.AuthService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SignInRepositoryImpl
@@ -32,7 +28,7 @@ constructor(
                 }
                 200 -> {
                     // save user auth token and id
-                    saveUser(
+                    saveToDataStore(
                         token = results.body()?.accessToken,
                         userId = results.body()?.id
                     )
@@ -47,9 +43,9 @@ constructor(
         }
     }
 
-    // save user authentication key
-    // save user information key
-    private suspend fun saveUser(token: String?, userId: Int?) {
+    // save user auth token and user id
+    // save user information
+    private suspend fun saveToDataStore(token: String?, userId: Int?) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.authenticationKey] = "Bearer $token"
             preferences[PreferencesKeys.userInformation] = "OK"

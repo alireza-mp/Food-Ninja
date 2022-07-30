@@ -7,21 +7,21 @@ import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.network.AuthService
 import kotlinx.coroutines.flow.first
-import java.lang.Exception
 import javax.inject.Inject
 
 class RegisterUserRepositoryImpl
 @Inject
 constructor(
     private val authService: AuthService,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : RegisterUserRepository {
 
+    // save name & family & phone & location to server
     override suspend fun addUserInformation(
         name: String,
         family: String,
         phone: String,
-        location: String
+        location: String,
     ): Register {
         try {
             val id = dataStore.data.first()[PreferencesKeys.userId] ?: 0
@@ -43,6 +43,7 @@ constructor(
         }
     }
 
+    // save information state to datastore
     private suspend fun saveInformationKey() {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.userInformation] = "OK"

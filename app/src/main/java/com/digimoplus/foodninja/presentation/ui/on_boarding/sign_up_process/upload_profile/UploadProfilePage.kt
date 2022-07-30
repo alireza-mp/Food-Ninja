@@ -41,10 +41,12 @@ fun UploadProfilePage(
     navController: NavController,
     userInfo: UserInfo?,
 ) {
+
     val viewModel: UploadPhotoViewModel = hiltViewModel()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
+    // gallery result
     val resultGallery =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -56,6 +58,7 @@ fun UploadProfilePage(
             }
         }
 
+    // camera result
     val resultCamera =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -76,12 +79,10 @@ fun UploadProfilePage(
         navController = navController,
         loading = viewModel.loading.value,
         onClick = {
+            // on button click
             if (viewModel.imageUrl.value == "none") {
                 coroutineScope.launch {
                     viewModel.snackBarState.showSnackbar("please set your profile image")
-//                    navController.currentBackStackEntry?.arguments?.putParcelable("user",
-//                        userInfo)
-//                    navController.navigate(Screens.ChooseLocation.route)
                 }
             } else {
                 // send object of user to choose location page

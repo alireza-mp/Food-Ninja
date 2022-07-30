@@ -1,16 +1,14 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.location
 
-import android.os.Bundle
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.Screens
-import com.digimoplus.foodninja.repository.RegisterUserRepositoryImpl
+import com.digimoplus.foodninja.repository.RegisterUserRepository
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,19 +20,31 @@ import javax.inject.Inject
 class ChooseLocationViewModel
 @Inject
 constructor(
-    private val repository: RegisterUserRepositoryImpl,
+    private val repository: RegisterUserRepository,
 ) : ViewModel() {
 
+    //  selected map location
     val selectedLocation = mutableStateOf(LatLng(34.64, 50.88))
+
+    // map ui state
     val mapIsVisible = mutableStateOf(false)
+
+    // loading ui state
     val loading = mutableStateOf(false)
+
+    // snack bar state
     val snackBarState = SnackbarHostState()
 
+    // save location and received model to server
     fun saveLocation(userInfo: UserInfo?, navController: NavController) {
+        // update ui
         loading.value = true
+
         viewModelScope.launch(Dispatchers.IO) {
+
             val location = "${selectedLocation.value.latitude}:${selectedLocation.value.longitude}"
 
+            // save location
             if (userInfo != null) {
                 val registerMessage = repository.addUserInformation(
                     name = userInfo.name.toString(),

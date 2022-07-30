@@ -19,17 +19,25 @@ import javax.inject.Inject
 class PaymentViewModel
 @Inject
 constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
+
+    // payment method model
     val isPress = mutableStateOf("paypal")
+
+    // save payment method to datastore
     fun savePaymentMethod(navController: NavController, userInfo: UserInfo?) {
         viewModelScope.launch {
+
             dataStore.edit { preferences ->
                 preferences[PreferencesKeys.userPaymentMethod] = isPress.value
             }
+
+            // go to next page
             // send object of user to upload profile page
-            navController.currentBackStackEntry?.arguments?.putParcelable("user",
-                userInfo)
+            navController.currentBackStackEntry?.arguments?.putParcelable(
+                "user", userInfo
+            )
             navController.navigate(Screens.UploadProfile.route)
         }
     }
