@@ -7,9 +7,11 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.presentation.Screens
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_FAMILY
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_NAME
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_PHONE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,7 +28,12 @@ constructor(
     val isPress = mutableStateOf("paypal")
 
     // save payment method to datastore
-    fun savePaymentMethod(navController: NavController, userInfo: UserInfo?) {
+    fun savePaymentMethod(
+        navController: NavController,
+        name: String?,
+        family: String?,
+        phone: String?,
+    ) {
         viewModelScope.launch {
 
             dataStore.edit { preferences ->
@@ -34,10 +41,10 @@ constructor(
             }
 
             // go to next page
-            // send object of user to upload profile page
-            navController.currentBackStackEntry?.arguments?.putParcelable(
-                "user", userInfo
-            )
+            // send user information to upload profile page
+            navController.currentBackStackEntry?.arguments?.putString(USER_INFO_NAME, name)
+            navController.currentBackStackEntry?.arguments?.putString(USER_INFO_FAMILY, family)
+            navController.currentBackStackEntry?.arguments?.putString(USER_INFO_PHONE, phone)
             navController.navigate(Screens.UploadProfile.route)
         }
     }

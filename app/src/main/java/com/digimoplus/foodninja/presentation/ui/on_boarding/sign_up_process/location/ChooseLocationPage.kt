@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
@@ -32,11 +31,13 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.launch
 
-// user info is a model that sent to the next page
+// name & family & phone is user information that save to server
 @Composable
 fun ChooseLocationPage(
     navController: NavController,
-    userInfo: UserInfo?,
+    name: String?,
+    family: String?,
+    phone: String?,
 ) {
     val viewModel: ChooseLocationViewModel = hiltViewModel()
     // default location in qom
@@ -55,7 +56,7 @@ fun ChooseLocationPage(
             // is user choose the location
             if (viewModel.mapIsVisible.value) {
                 // go to next page
-                viewModel.saveLocation(userInfo, navController)
+                viewModel.saveLocation(name, family, phone, navController)
             } else {
                 // show map
                 if (viewModel.selectedLocation.value == defaultLocation) {

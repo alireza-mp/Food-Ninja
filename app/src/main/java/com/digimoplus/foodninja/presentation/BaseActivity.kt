@@ -15,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.navArgument
-import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
@@ -26,6 +25,9 @@ import com.digimoplus.foodninja.presentation.ui.menu_detail.MenuDetailPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.introduction.IntroductionPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.forget_password.ForgetPasswordPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_in_process.sign_in.SingInPage
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_FAMILY
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_NAME
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_PHONE
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.UserInformationPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.location.ChooseLocationPage
 import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.payment.PaymentPage
@@ -234,8 +236,9 @@ fun FoodNinja() {
             }) {
             PaymentPage(
                 navController = navController,
-                userInfo = navController.previousBackStackEntry?.arguments?.getParcelable<UserInfo>(
-                    "user")
+                name = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_NAME),
+                family = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_FAMILY),
+                phone = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_PHONE),
             )
         }
         composable(route = Screens.UploadProfile.route,
@@ -253,8 +256,9 @@ fun FoodNinja() {
             }) {
             UploadProfilePage(
                 navController = navController,
-                userInfo = navController.previousBackStackEntry?.arguments?.getParcelable<UserInfo>(
-                    "user")
+                name = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_NAME),
+                family = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_FAMILY),
+                phone = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_PHONE),
             )
         }
         composable(route = Screens.ChooseLocation.route,
@@ -272,8 +276,9 @@ fun FoodNinja() {
             }) {
             ChooseLocationPage(
                 navController = navController,
-                userInfo = navController.previousBackStackEntry?.arguments?.getParcelable<UserInfo>(
-                    "user")
+                name = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_NAME),
+                family = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_FAMILY),
+                phone = navController.previousBackStackEntry?.arguments?.getString(USER_INFO_PHONE),
             )
         }
         composable(route = Screens.SuccessPage.route,

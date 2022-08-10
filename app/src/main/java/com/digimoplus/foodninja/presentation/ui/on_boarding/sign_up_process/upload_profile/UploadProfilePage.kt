@@ -23,23 +23,29 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.CardUploadPhoto
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_FAMILY
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_NAME
+import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_PHONE
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 
+// name & family & phone is user information that sent to next page
+
 @Composable
 fun UploadProfilePage(
     navController: NavController,
-    userInfo: UserInfo?,
+    name: String?,
+    family: String?,
+    phone: String?,
 ) {
 
     val viewModel: UploadPhotoViewModel = hiltViewModel()
@@ -50,7 +56,9 @@ fun UploadProfilePage(
     val resultGallery =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                viewModel.uploadProfile(context, result.data?.data!!)
+                result.data?.data?.let {
+                    viewModel.uploadProfile(context, it)
+                }
             } else {
                 coroutineScope.launch {
                     viewModel.snackBarState.showSnackbar("Error Please try again")
@@ -85,9 +93,10 @@ fun UploadProfilePage(
                     viewModel.snackBarState.showSnackbar("please set your profile image")
                 }
             } else {
-                // send object of user to choose location page
-                navController.currentBackStackEntry?.arguments?.putParcelable("user",
-                    userInfo)
+                // send user info to choose location page
+                navController.currentBackStackEntry?.arguments?.putString(USER_INFO_NAME, name)
+                navController.currentBackStackEntry?.arguments?.putString(USER_INFO_FAMILY, family)
+                navController.currentBackStackEntry?.arguments?.putString(USER_INFO_PHONE, phone)
                 navController.navigate(Screens.ChooseLocation.route)
             }
         }) {

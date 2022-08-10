@@ -5,11 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+const val USER_INFO_NAME = "name";
+const val USER_INFO_FAMILY = "family";
+const val USER_INFO_PHONE = "phone";
 
 @HiltViewModel
 class UserInformationViewModel
@@ -45,11 +48,14 @@ constructor() : ViewModel() {
                     snackBarState.showSnackbar("phone")
                 }
                 else -> {
-                    // save data to model
-                    val userInfo = UserInfo(name.value, family.value, phone.value)
-                    // send object of user to payment page
-                    navController.currentBackStackEntry?.arguments?.putParcelable("user",
-                        userInfo)
+
+                    // send  user info to payment page
+                    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_NAME,
+                        name.value)
+                    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_FAMILY,
+                        family.value)
+                    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_PHONE,
+                        phone.value)
                     navController.navigate(Screens.Payment.route)
                 }
             }

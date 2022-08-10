@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.components.PayButton
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
@@ -16,7 +15,9 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 @Composable
 fun PaymentPage(
     navController: NavController,
-    userInfo: UserInfo?,
+    name: String?,
+    family: String?,
+    phone: String?,
 ) {
 
     val viewModel: PaymentViewModel = hiltViewModel()
@@ -26,7 +27,7 @@ fun PaymentPage(
         description = "This data will be displayed in your account profile for security",
         navController = navController,
         onClick = {
-            viewModel.savePaymentMethod(navController, userInfo)
+            viewModel.savePaymentMethod(navController, name, family, phone)
         },
     ) {
 

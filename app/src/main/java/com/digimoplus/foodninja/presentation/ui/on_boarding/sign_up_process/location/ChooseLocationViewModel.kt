@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.domain.model.UserInfo
 import com.digimoplus.foodninja.presentation.Screens
 import com.digimoplus.foodninja.repository.RegisterUserRepository
 import com.google.android.gms.maps.model.LatLng
@@ -35,8 +34,8 @@ constructor(
     // snack bar state
     val snackBarState = SnackbarHostState()
 
-    // save location and received model to server
-    fun saveLocation(userInfo: UserInfo?, navController: NavController) {
+    // save location and received user information to server
+    fun saveLocation(name: String?, family: String?, phone: String?, navController: NavController) {
         // update ui
         loading.value = true
 
@@ -45,29 +44,24 @@ constructor(
             val location = "${selectedLocation.value.latitude}:${selectedLocation.value.longitude}"
 
             // save location
-            if (userInfo != null) {
-                val registerMessage = repository.addUserInformation(
-                    name = userInfo.name.toString(),
-                    family = userInfo.family.toString(),
-                    phone = userInfo.phone.toString(),
-                    location = location
-                )
-                loading.value = false
-                // if successful added
-                if (registerMessage == Register.Successful) {
-                    withContext(Dispatchers.Main) {
-                        // navigate to success page
-                        navController.navigate(Screens.SuccessPage.route) {
-                            //remove all lasts pages form backstack
-                            popUpTo(0)
-                        }
+            val registerMessage = repository.addUserInformation(
+                name = name ?: "null",
+                family = family ?: "null",
+                phone = phone ?: "null",
+                location = location
+            )
+            loading.value = false
+            // if successful added
+            if (registerMessage == Register.Successful) {
+                withContext(Dispatchers.Main) {
+                    // navigate to success page
+                    navController.navigate(Screens.SuccessPage.route) {
+                        //remove all lasts pages form backstack
+                        popUpTo(0)
                     }
-                } else {
-                    snackBarState.showSnackbar(registerMessage.message)
                 }
             } else {
-                snackBarState.showSnackbar(Register.SomeError.message)
-                loading.value = false
+                snackBarState.showSnackbar(registerMessage.message)
             }
         }
     }
