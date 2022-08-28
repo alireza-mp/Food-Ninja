@@ -10,8 +10,8 @@ import com.digimoplus.foodninja.domain.model.RestoDetailComment
 import com.digimoplus.foodninja.domain.model.RestoDetailInfo
 import com.digimoplus.foodninja.domain.model.RestoDetailMenu
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
-import com.digimoplus.foodninja.presentation.util.UiState
-import com.digimoplus.foodninja.repository.RestoDetailRepository
+import com.digimoplus.foodninja.domain.util.UiState
+import com.digimoplus.foodninja.domain.repository.RestoDetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first

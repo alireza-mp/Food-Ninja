@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.presentation.Screens
-import com.digimoplus.foodninja.repository.SignUpRepository
+import com.digimoplus.foodninja.presentation.navigation.Screens
+import com.digimoplus.foodninja.domain.repository.SignUpRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,8 +47,8 @@ constructor(
     fun register(navController: NavController) {
         viewModelScope.launch {
             when {
-                name.value.length < 4 -> {
-                    snackBarState.showSnackbar("Invalid Name")
+                name.value.length < 2 -> {
+                    snackBarState.showSnackbar("The name must not be less than two letters")
                 }
                 email.value.length < 9 -> {
                     snackBarState.showSnackbar("Invalid Email")
@@ -56,12 +56,12 @@ constructor(
                 password.value.length < 7 -> {
                     snackBarState.showSnackbar("Invalid Password")
                 }
-                !checkOne.value -> {
+                /*!checkOne.value -> {
                     snackBarState.showSnackbar("Invalid checkOne")
                 }
                 !checkTwo.value -> {
                     snackBarState.showSnackbar("Invalid checkTwo")
-                }
+                }*/
                 else -> {
                     registerUser(navController)
                 }

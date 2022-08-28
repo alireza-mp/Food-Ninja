@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.presentation.components.util.searchChipsGradient
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.util.SearchCategory
+import com.digimoplus.foodninja.domain.util.SearchCategory
 
 @ExperimentalMaterialApi
 @Composable

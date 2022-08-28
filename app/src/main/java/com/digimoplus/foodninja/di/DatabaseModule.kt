@@ -2,11 +2,11 @@ package com.digimoplus.foodninja.di
 
 import android.app.Application
 import androidx.room.Room
-import com.digimoplus.foodninja.persistence.AppDatabase
-import com.digimoplus.foodninja.persistence.BasketDao
-import com.digimoplus.foodninja.persistence.ProductDao
-import com.digimoplus.foodninja.persistence.model.BasketTableMapper
-import com.digimoplus.foodninja.persistence.model.BasketTableMenuMapper
+import com.digimoplus.foodninja.data.db.AppDatabase
+import com.digimoplus.foodninja.data.db.BasketDao
+import com.digimoplus.foodninja.data.db.ProductDao
+import com.digimoplus.foodninja.data.db.model.BasketTableMapper
+import com.digimoplus.foodninja.data.db.model.BasketTableMenuMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

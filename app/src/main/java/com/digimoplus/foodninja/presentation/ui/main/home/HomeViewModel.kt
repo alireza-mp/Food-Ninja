@@ -2,8 +2,8 @@ package com.digimoplus.foodninja.presentation.ui.main.home
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.digimoplus.foodninja.presentation.util.HomePageState
-import com.digimoplus.foodninja.presentation.util.SearchCategory
+import com.digimoplus.foodninja.domain.util.HomePageState
+import com.digimoplus.foodninja.domain.util.SearchCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

@@ -21,8 +21,8 @@ import com.digimoplus.foodninja.presentation.components.util.buttonDisabledGradi
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.util.HomePageState
-import com.digimoplus.foodninja.presentation.util.SearchCategory
+import com.digimoplus.foodninja.domain.util.HomePageState
+import com.digimoplus.foodninja.domain.util.SearchCategory
 
 // search content not have viewModel // used home viewModel
 @Composable

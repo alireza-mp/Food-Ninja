@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.model.Message
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
-import com.digimoplus.foodninja.network.soketio.MessageType
-import com.digimoplus.foodninja.repository.ChatDetailRepository
+import com.digimoplus.foodninja.data.api.soketio.MessageType
+import com.digimoplus.foodninja.domain.repository.ChatDetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

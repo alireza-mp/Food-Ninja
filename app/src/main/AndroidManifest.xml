@@ -19,7 +19,7 @@
         android:theme="@style/Theme.FoodNinja"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".presentation.BaseActivity"
+            android:name=".presentation.navigation.BaseActivity"
             android:exported="true"
             android:theme="@style/Theme.FoodNinja">
             <intent-filter>

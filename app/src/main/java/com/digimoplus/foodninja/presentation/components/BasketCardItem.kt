@@ -26,7 +26,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Basket
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.util.vibrator
+import com.digimoplus.foodninja.domain.util.vibrator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

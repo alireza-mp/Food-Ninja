@@ -23,7 +23,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.Screens
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.components.AnimatableBasketCardItem
 import com.digimoplus.foodninja.presentation.components.BackButton
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage

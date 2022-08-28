@@ -22,7 +22,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
-import com.digimoplus.foodninja.presentation.util.HomePageState
+import com.digimoplus.foodninja.domain.util.HomePageState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

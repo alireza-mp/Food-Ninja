@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
-import com.digimoplus.foodninja.presentation.Screens
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.components.MenuCardItem
 import com.digimoplus.foodninja.presentation.components.MenuCardItemShimmer
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
@@ -33,7 +33,7 @@ import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
-import com.digimoplus.foodninja.presentation.util.HomePageState
+import com.digimoplus.foodninja.domain.util.HomePageState
 import kotlinx.coroutines.launch
 
 @Composable

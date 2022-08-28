@@ -1,6 +1,6 @@
 package com.digimoplus.foodninja.domain.model
 
-import com.digimoplus.foodninja.network.soketio.MessageType
+import com.digimoplus.foodninja.data.api.soketio.MessageType
 
 data class Message(
     val userName: String,

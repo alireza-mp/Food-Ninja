@@ -1,7 +1,7 @@
 package com.digimoplus.foodninja.di
 
 import com.digimoplus.foodninja.domain.util.Constants
-import com.digimoplus.foodninja.network.soketio.MessageDtoMapper
+import com.digimoplus.foodninja.data.api.soketio.MessageDtoMapper
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

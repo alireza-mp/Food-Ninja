@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.presentation.Screens
-import com.digimoplus.foodninja.repository.SignInRepository
-import com.digimoplus.foodninja.repository.SignInRepositoryImpl
+import com.digimoplus.foodninja.presentation.navigation.Screens
+import com.digimoplus.foodninja.domain.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

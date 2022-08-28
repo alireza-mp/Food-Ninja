@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.presentation.Screens
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,14 +38,14 @@ constructor() : ViewModel() {
     fun addInfo(navController: NavController) {
         viewModelScope.launch {
             when {
-                name.value.length < 5 -> {
-                    snackBarState.showSnackbar("name")
+                name.value.length < 2 -> {
+                    snackBarState.showSnackbar("The name must not be less than two letters")
                 }
-                family.value.length < 5 -> {
-                    snackBarState.showSnackbar("family")
+                family.value.length <2 -> {
+                    snackBarState.showSnackbar("The family must not be less than two letters")
                 }
                 phone.value.length < 11 -> {
-                    snackBarState.showSnackbar("phone")
+                    snackBarState.showSnackbar("TThe phone number must not be less than eleven digits")
                 }
                 else -> {
 

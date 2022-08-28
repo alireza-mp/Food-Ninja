@@ -12,10 +12,10 @@ import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.model.DataState
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
-import com.digimoplus.foodninja.presentation.util.LoadingSearchState
-import com.digimoplus.foodninja.presentation.util.showSnackBarError
-import com.digimoplus.foodninja.repository.HomeRepositoryImpl
-import com.digimoplus.foodninja.repository.PAGE_SIZE
+import com.digimoplus.foodninja.domain.util.LoadingSearchState
+import com.digimoplus.foodninja.domain.util.showSnackBarError
+import com.digimoplus.foodninja.data.repository.HomeRepositoryImpl
+import com.digimoplus.foodninja.data.repository.PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

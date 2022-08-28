@@ -1,11 +1,11 @@
 package com.digimoplus.foodninja.di
 
 import com.digimoplus.foodninja.domain.util.Constants
-import com.digimoplus.foodninja.network.AuthService
-import com.digimoplus.foodninja.network.model.MenuDetailDtoMapper
-import com.digimoplus.foodninja.network.model.MenuDtoMapper
-import com.digimoplus.foodninja.network.model.RestaurantDtoMapper
-import com.digimoplus.foodninja.network.model.RestoDetailDtoMapper
+import com.digimoplus.foodninja.data.api.AuthService
+import com.digimoplus.foodninja.data.api.model.MenuDetailDtoMapper
+import com.digimoplus.foodninja.data.api.model.MenuDtoMapper
+import com.digimoplus.foodninja.data.api.model.RestaurantDtoMapper
+import com.digimoplus.foodninja.data.api.model.RestoDetailDtoMapper
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides

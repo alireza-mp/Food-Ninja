@@ -2,8 +2,8 @@ package com.digimoplus.foodninja.presentation.components.util
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.unit.Dp
-import com.digimoplus.foodninja.presentation.appHeight
-import com.digimoplus.foodninja.presentation.appWidth
+import com.digimoplus.foodninja.presentation.navigation.appHeight
+import com.digimoplus.foodninja.presentation.navigation.appWidth
 
 //app height is 1/1000 % of display height
 // value  * 0.001

@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.model.Basket
 import com.digimoplus.foodninja.domain.model.DataState
-import com.digimoplus.foodninja.presentation.util.showSnackBarError
-import com.digimoplus.foodninja.repository.BasketRepository
+import com.digimoplus.foodninja.domain.util.showSnackBarError
+import com.digimoplus.foodninja.domain.repository.BasketRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

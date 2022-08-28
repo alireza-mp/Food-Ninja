@@ -22,7 +22,7 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.main_content.MainContent
 import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.MenuContent
 import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.RestaurantContent
-import com.digimoplus.foodninja.presentation.util.HomePageState
+import com.digimoplus.foodninja.domain.util.HomePageState
 import kotlinx.coroutines.delay
 
 

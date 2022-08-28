@@ -30,7 +30,7 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.util.UiState
+import com.digimoplus.foodninja.domain.util.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

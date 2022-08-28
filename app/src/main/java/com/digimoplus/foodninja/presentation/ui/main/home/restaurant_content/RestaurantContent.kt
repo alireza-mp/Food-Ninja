@@ -25,14 +25,14 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.Screens
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.components.AnimatedTopAppBar
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
-import com.digimoplus.foodninja.presentation.util.LoadingSearchState
-import com.digimoplus.foodninja.repository.PAGE_SIZE
+import com.digimoplus.foodninja.domain.util.LoadingSearchState
+import com.digimoplus.foodninja.data.repository.PAGE_SIZE
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.job

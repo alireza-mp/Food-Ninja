@@ -3,14 +3,6 @@ package com.digimoplus.foodninja.presentation.components.util
 import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.Composable
-import androidx.navigation.NamedNavArgument
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavDeepLink
-import androidx.navigation.NavGraphBuilder
-import com.digimoplus.foodninja.presentation.Screens
-import com.digimoplus.foodninja.presentation.ui.splash.SplashPage
-import com.google.accompanist.navigation.animation.composable
 
 
 fun screenEnterTransition(): EnterTransition {

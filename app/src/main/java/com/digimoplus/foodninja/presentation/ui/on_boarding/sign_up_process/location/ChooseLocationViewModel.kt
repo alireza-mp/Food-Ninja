@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.domain.model.Register
-import com.digimoplus.foodninja.presentation.Screens
-import com.digimoplus.foodninja.repository.RegisterUserRepository
+import com.digimoplus.foodninja.presentation.navigation.Screens
+import com.digimoplus.foodninja.domain.repository.RegisterUserRepository
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

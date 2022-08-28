@@ -13,8 +13,8 @@ import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
-import com.digimoplus.foodninja.presentation.util.showSnackBarError
-import com.digimoplus.foodninja.repository.HomeRepositoryImpl
+import com.digimoplus.foodninja.domain.util.showSnackBarError
+import com.digimoplus.foodninja.data.repository.HomeRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

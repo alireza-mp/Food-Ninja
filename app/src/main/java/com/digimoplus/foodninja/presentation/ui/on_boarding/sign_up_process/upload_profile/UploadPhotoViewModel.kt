@@ -15,7 +15,7 @@ import com.digimoplus.foodninja.domain.model.Register
 import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
-import com.digimoplus.foodninja.repository.UploadPhotoRepository
+import com.digimoplus.foodninja.domain.repository.UploadPhotoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
