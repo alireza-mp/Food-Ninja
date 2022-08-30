@@ -10,6 +10,7 @@ sealed class DataState<out R> {
     data class InvalidLoginError(val message: String = "Invalid Email or Password!") : DataState<Nothing>()
     data class NetworkError(val message: String = "No Internet Connection!") : DataState<Nothing>()
     data class SuccessMessage(val message: String = "Success") : DataState<Nothing>()
+    object Loading : DataState<Nothing>()
 
 }
 

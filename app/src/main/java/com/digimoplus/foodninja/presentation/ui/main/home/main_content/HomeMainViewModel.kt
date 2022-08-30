@@ -1,6 +1,5 @@
 package com.digimoplus.foodninja.presentation.ui.main.home.main_content
 
-import android.util.Log
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -8,16 +7,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.digimoplus.foodninja.data.repository.HomeRepositoryImpl
 import com.digimoplus.foodninja.domain.model.DataState
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
-import com.digimoplus.foodninja.domain.util.Constants.Companion.TAG
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.domain.util.showSnackBarError
-import com.digimoplus.foodninja.data.repository.HomeRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,44 +27,63 @@ class HomeMainViewModel
     private val dataStore: DataStore<Preferences>,
 ) : ViewModel() {
 
-    val loadingMenu = mutableStateOf(true)
+    val loadingMenu = mutableStateOf(UiState.Loading)
     val restaurantList = mutableStateListOf<Restaurant>()
     val menuList = mutableStateListOf<Menu>()
-    val loadingRestaurant = mutableStateOf(true)
+    val loadingRestaurant = mutableStateOf(UiState.Loading)
     private var token = ""
     var snackBarState: SnackbarHostState? = null
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        callRequests()
+    }
+
+    fun callRequests(){
+        viewModelScope.launch {
             getToken()
-            getRestaurantList()
             getMenuList()
+            getRestaurantList()
         }
     }
 
-
-    private suspend fun getRestaurantList() {
-        delay(250)
-        when (val result = repository.getRestaurantList(token)) {
-            is DataState.Success -> {
-                restaurantList.addAll(result.data)
-                loadingRestaurant.value = false
-            }
-            else -> {
-                result.showSnackBarError(snackBarState)
+    private fun getRestaurantList() {
+        viewModelScope.launch {
+            val result = repository.getRestaurantList(token)
+            result.collect { dataState ->
+                when (dataState) {
+                    is DataState.Loading -> {
+                        loadingRestaurant.value = UiState.Loading
+                    }
+                    is DataState.Success -> {
+                        restaurantList.addAll(dataState.data)
+                        loadingRestaurant.value = UiState.Visible
+                    }
+                    else -> {
+                        dataState.showSnackBarError(snackBarState)
+                        loadingRestaurant.value = UiState.NoInternet
+                    }
+                }
             }
         }
     }
 
-    private suspend fun getMenuList() {
-        delay(250)
-        when (val result = repository.getMenuList(token)) {
-            is DataState.Success -> {
-                menuList.addAll(result.data)
-                loadingMenu.value = false
-            }
-            else -> {
-                result.showSnackBarError(snackBarState)
+    private fun getMenuList() {
+        viewModelScope.launch {
+            val result = repository.getMenuList(token)
+            result.collect { dataState ->
+                when (dataState) {
+                    is DataState.Loading -> {
+                        loadingMenu.value = UiState.Loading
+                    }
+                    is DataState.Success -> {
+                        menuList.addAll(dataState.data)
+                        loadingMenu.value = UiState.Visible
+                    }
+                    else -> {
+                        dataState.showSnackBarError(snackBarState)
+                        loadingMenu.value = UiState.NoInternet
+                    }
+                }
             }
         }
     }

@@ -2,13 +2,18 @@ package com.digimoplus.foodninja.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.digimoplus.foodninja.data.api.AuthService
+import com.digimoplus.foodninja.data.api.model.MenuDtoMapper
+import com.digimoplus.foodninja.data.api.model.RestaurantDtoMapper
 import com.digimoplus.foodninja.domain.model.DataState
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.repository.HomeRepository
-import com.digimoplus.foodninja.data.api.AuthService
-import com.digimoplus.foodninja.data.api.model.MenuDtoMapper
-import com.digimoplus.foodninja.data.api.model.RestaurantDtoMapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 // number of items in one request
@@ -28,49 +33,57 @@ constructor(
     var lastPage = -1
 
     //get restaurants list : main content
-    override suspend fun getRestaurantList(token: String): DataState<List<Restaurant>> {
-        return try {
-            val results = authService.restaurantList(token)
-            when (results.code()) {
-                404 -> {
-                    DataState.SomeError()
+    override suspend fun getRestaurantList(token: String) = withContext(Dispatchers.IO) {
+        flow<DataState<List<Restaurant>>> {
+            emit(DataState.Loading)
+            try {
+                val results = authService.restaurantList(token)
+                when (results.code()) {
+                    404 -> {
+                        emit(DataState.SomeError())
+                    }
+                    200 -> {
+                        emit(DataState.Success(
+                            restaurantMapper.mapToDomainList(results.body() ?: listOf())
+                        ))
+                    }
+                    else -> {
+                        emit(DataState.SomeError())
+                    }
                 }
-                200 -> {
-                    DataState.Success(
-                        restaurantMapper.mapToDomainList(results.body() ?: listOf())
-                    )
-                }
-                else -> {
-                    DataState.SomeError()
-                }
+            } catch (e: Exception) {
+                emit(DataState.NetworkError())
             }
-        } catch (e: Exception) {
-            DataState.NetworkError()
         }
-
     }
 
     //get menu list : main content
-    override suspend fun getMenuList(token: String): DataState<List<Menu>> {
-        return try {
-            val results = authService.menuList(token)
-            when (results.code()) {
-                404 -> {
-                    DataState.SomeError()
-                }
-                200 -> {
-                    DataState.Success(
-                        menuMapper.mapToDomainList(results.body() ?: listOf())
-                    )
-                }
-                else -> {
-                    DataState.SomeError()
+    override suspend fun getMenuList(token: String): Flow<DataState<List<Menu>>> {
+        return withContext(Dispatchers.IO) {
+            flow {
+                emit(DataState.Loading)
+                try {
+                    val results = authService.menuList(token)
+                    when (results.code()) {
+                        404 -> {
+                            emit(DataState.SomeError())
+                        }
+                        200 -> {
+                            emit(DataState.Success(
+                                menuMapper.mapToDomainList(results.body() ?: listOf())
+                            ))
+                        }
+                        else -> {
+                            emit(DataState.SomeError())
+                        }
+                    }
+                } catch (e: Exception) {
+                    emit(DataState.NetworkError())
                 }
             }
-        } catch (e: Exception) {
-            DataState.NetworkError()
         }
     }
+
 
     // search in restaurants  : restaurant content
     override suspend fun restaurantSearch(
