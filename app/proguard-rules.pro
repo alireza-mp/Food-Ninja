@@ -62,12 +62,11 @@
 # is used.
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
 
-
-
-
+#********************************************************
 
 # this is for retrofit dto models dont copy this!!!
--keep public class com.digimoplus.foodninja.network.model.** {*;}
+-keep public class com.digimoplus.foodninja.data.api.model.** {*;}
+-keep public class com.digimoplus.foodninja.data.api.soketio.** {*;}
 #room
 -dontwarn android.arch.util.paging.CountedDataSource
 -dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource
