@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.domain.model
+package com.digimoplus.foodninja.domain.util
 
 
 

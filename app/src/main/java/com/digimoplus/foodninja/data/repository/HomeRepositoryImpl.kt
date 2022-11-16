@@ -5,12 +5,11 @@ import androidx.datastore.preferences.core.Preferences
 import com.digimoplus.foodninja.data.api.AuthService
 import com.digimoplus.foodninja.data.api.model.MenuDtoMapper
 import com.digimoplus.foodninja.data.api.model.RestaurantDtoMapper
-import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.repository.HomeRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext

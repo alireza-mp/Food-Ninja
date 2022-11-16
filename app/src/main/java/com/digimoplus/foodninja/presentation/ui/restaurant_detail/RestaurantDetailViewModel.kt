@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
-import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.model.RestoDetailComment
 import com.digimoplus.foodninja.domain.model.RestoDetailInfo
 import com.digimoplus.foodninja.domain.model.RestoDetailMenu

@@ -3,11 +3,6 @@ package com.digimoplus.foodninja.domain.util
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import com.digimoplus.foodninja.domain.model.DataState
-import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.HomeRestaurantViewModel
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

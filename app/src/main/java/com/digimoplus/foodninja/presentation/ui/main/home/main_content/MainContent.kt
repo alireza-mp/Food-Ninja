@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
-
 package com.digimoplus.foodninja.presentation.ui.main.home.main_content
 
 import androidx.compose.foundation.Image

@@ -6,7 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.model.MenuDetailComments
 import com.digimoplus.foodninja.domain.model.MenuDetailInfo
 import com.digimoplus.foodninja.domain.util.PreferencesKeys

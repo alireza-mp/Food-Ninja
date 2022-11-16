@@ -1,6 +1,6 @@
 package com.digimoplus.foodninja.data.repository
 
-import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.model.RestoDetail
 import com.digimoplus.foodninja.domain.repository.RestoDetailRepository
 import com.digimoplus.foodninja.data.api.AuthService

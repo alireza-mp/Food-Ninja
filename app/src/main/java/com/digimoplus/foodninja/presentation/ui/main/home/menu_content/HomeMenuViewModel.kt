@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.domain.util.LoadingSearchState

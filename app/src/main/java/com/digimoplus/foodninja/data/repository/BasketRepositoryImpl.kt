@@ -1,7 +1,7 @@
 package com.digimoplus.foodninja.data.repository
 
 import com.digimoplus.foodninja.domain.model.Basket
-import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.repository.BasketRepository
 import com.digimoplus.foodninja.data.db.BasketDao
 import com.digimoplus.foodninja.data.db.model.BasketTableMapper

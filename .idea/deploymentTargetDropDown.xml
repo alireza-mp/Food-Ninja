@@ -15,8 +15,8 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="SERIAL_NUMBER" />
-            <value value="R9BM803H7MJ" />
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\alire\.android\avd\Pixel_2_API_3222.avd" />
           </Key>
         </deviceKey>
       </Target>

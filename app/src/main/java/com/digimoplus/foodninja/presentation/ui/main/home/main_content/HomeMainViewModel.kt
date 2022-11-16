@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.data.repository.HomeRepositoryImpl
-import com.digimoplus.foodninja.domain.model.DataState
+import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.model.Menu
 import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.util.PreferencesKeys
