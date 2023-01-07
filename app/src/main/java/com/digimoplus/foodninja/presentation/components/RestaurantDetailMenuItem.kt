@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.digimoplus.foodninja.domain.model.RestoDetailMenu
+import com.digimoplus.foodninja.domain.model.RestaurantDetailMenu
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.loadPictureNoneDefault
 import com.digimoplus.foodninja.presentation.theme.AppTheme
@@ -29,7 +29,7 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 // item card in restaurantDetail.kt
 @Composable
 fun RestaurantDetailMenuItem(
-    model: RestoDetailMenu,
+    model: RestaurantDetailMenu,
     onClick: () -> Unit,
 ) {
     Card(

@@ -1,125 +1,153 @@
 package com.digimoplus.foodninja.presentation.ui.menu_detail
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.digimoplus.foodninja.domain.model.MenuDetail
+import com.digimoplus.foodninja.domain.useCase.basket.BasketUseCases
+import com.digimoplus.foodninja.domain.useCase.menus.GetMenuDetailsUseCase
 import com.digimoplus.foodninja.domain.util.DataState
-import com.digimoplus.foodninja.domain.model.MenuDetailComments
-import com.digimoplus.foodninja.domain.model.MenuDetailInfo
-import com.digimoplus.foodninja.domain.util.PreferencesKeys
 import com.digimoplus.foodninja.domain.util.UiState
-import com.digimoplus.foodninja.domain.repository.MenuDetailRepository
+import com.digimoplus.foodninja.domain.util.showSnackBarError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MenuDetailViewModel
 @Inject
 constructor(
-    private val repository: MenuDetailRepository,
-    private val dataStore: DataStore<Preferences>,
+    private val getMenuDetailsUseCase: GetMenuDetailsUseCase,
+    private val basketUseCases: BasketUseCases,
 ) : ViewModel() {
 
-    // token
-    var token = ""
+    private var itemBasketId = -1L
 
-    // user id
-    var userId: Int = 0
+    val snackBarHost = SnackbarHostState()
 
     // uiState : loading / visible / noInternet
-    val uiState = mutableStateOf(UiState.Loading)
+    var uiState by mutableStateOf(UiState.Loading)
+        private set
 
-    // menu details info
-    lateinit var menuInfo: MenuDetailInfo
-
-    // comment list
-    val commentList = mutableStateListOf<MenuDetailComments>()
-
-    //list material items in description text
-    val materialsList = mutableStateListOf<String>()
+    var menuDetails by mutableStateOf<MenuDetail?>(null)
+        private set
 
     // basket item count
-    val basketCount = mutableStateOf(0)
+    var basketCount by mutableStateOf(0)
+        private set
 
     // alert dialog ui state
     val alertDialogVisibility = mutableStateOf(false)
 
-
     // get display details // menu info & comments list & description materials list
-    suspend fun getDetails(menuId: Int) {
-        if (materialsList.size == 0) {
-            getToken()
-            when (val result = repository.getMenuDetails(token, menuId)) {
-                is DataState.Success -> {
-                    withContext(Dispatchers.Main) {
-                        menuInfo = result.data.menuDetailInfo
-                        materialsList.addAll(result.data.menuDetailMaterials)
-                        commentList.addAll(result.data.menuDetailComments)
-                        uiState.value = UiState.Visible
+    fun getDetails(menuId: Int) {
+        if (menuDetails == null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                getMenuDetailsUseCase(menuId).onEach { result ->
+                    when (result) {
+                        is DataState.Loading -> {
+                            uiState = UiState.Loading
+                        }
+                        is DataState.Success -> {
+
+                            menuDetails = result.data
+
+                            // ui state visible in this method
+                            getItemCountFromDb(result.data.menuDetailInfo.id)
+                        }
+                        else -> {
+                            uiState = UiState.NoInternet
+                            result.showSnackBarError(snackBarHost)
+                        }
                     }
-                    getUserId()
-                    // check if menu exist in basket and get count
-                    checkIsExist(userId = userId, menuId = menuInfo.id)
-                }
-                else -> {
-                    withContext(Dispatchers.Main) {
-                        uiState.value = UiState.NoInternet
-                    }
-                }
+                }.launchIn(viewModelScope)
             }
         }
     }
 
-    // on add to cart button clicked
-    fun firstPlus() {
+    // get item count form db
+    private fun getItemCountFromDb(menuId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (repository.checkRestaurants(menuInfo.restaurantId)) {
-                alertDialogVisibility.value = true
-            } else {
-                onPlus()
-            }
+            basketUseCases.getBasketItemCountUseCase(menuId).onEach { result ->
+                when (result) {
+                    is DataState.Loading -> {}
+                    is DataState.Success -> {
+                        result.data?.let {
+                            basketCount = result.data.count
+                            itemBasketId = result.data.id.toLong()
+                        }
+                        uiState = UiState.Visible
+                    }
+                    else -> {
+                        uiState = UiState.NoInternet
+                    }
+                }
+            }.launchIn(viewModelScope)
+
+        }
+    }
+
+    // on add to cart button clicked
+    fun addToCart() {
+        val restaurantId = menuDetails!!.menuDetailInfo.restaurantId
+        // check is current restaurant or not
+        viewModelScope.launch(Dispatchers.IO) {
+            basketUseCases.getCurrentRestaurantUseCase(restaurantId).onEach { result ->
+                when (result) {
+                    is DataState.Loading -> {}
+                    is DataState.Success -> {
+                        if (result.data) {
+                            alertDialogVisibility.value = true
+                        } else {
+                            addItemToBasket()
+                        }
+                    }
+                    else -> {
+                        result.showSnackBarError(snackBarHostState = snackBarHost)
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
     }
 
     // on basket plus clicked
     fun onPlus() {
         viewModelScope.launch {
-            addToBasket(
-                isMinus = false,
-                count = basketCount.value + 1
-            )
+            if (basketCount != 0) {
+                updateItemCount(
+                    isMinus = false
+                )
+            } else {
+                addItemToBasket()
+            }
         }
     }
 
     // on basket minus clicked
     fun onMinus() {
         viewModelScope.launch {
-            if (basketCount.value != 1)
-                addToBasket(
-                    isMinus = true,
-                    count = basketCount.value - 1
+            if (basketCount != 1) {
+                updateItemCount(
+                    isMinus = true
                 )
-            else {
-                basketCount.value = 0
+            } else {
+                basketCount = 0
                 deleteBasketItem()
             }
-
         }
     }
 
     // alert dialog on yes click
     fun alertDialogOnYes() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeOtherRestaurants(menuInfo.restaurantId)
-            onPlus()
-        }
+        val restaurantId = menuDetails!!.menuDetailInfo.restaurantId
+        deleteCurrentRestaurant(restaurantId)
+        addItemToBasket()
         alertDialogVisibility.value = false
     }
 
@@ -131,60 +159,46 @@ constructor(
     // remove basket item in database
     private fun deleteBasketItem() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteBasketItem(userId, menuInfo.id)
+            basketUseCases.deleteBasketItemUseCase(itemBasketId.toInt())
+        }
+    }
+
+    private fun deleteCurrentRestaurant(restaurantId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            basketUseCases.deleteCurrentRestaurantUseCase(restaurantId)
         }
     }
 
     // add basket item in database & update ui
-    private suspend fun addToBasket(isMinus: Boolean, count: Int) {
-        getUserId()
-        val result = repository.addToBasket(
-            menuDetailInfo = menuInfo,
-            userId = userId,
-            count = count
-        )
-        when (result) {
-            is DataState.SuccessMessage -> {
-                if (isMinus) {
-                    basketCount.value = basketCount.value - 1
-                } else {
-                    basketCount.value = basketCount.value + 1
+    private fun addItemToBasket() {
+        val menuDetailInfo = menuDetails!!.menuDetailInfo
+        viewModelScope.launch(Dispatchers.IO) {
+            basketUseCases.addNewItemToBasketUseCase(menuDetailInfo).onEach { result ->
+                when (result) {
+                    is DataState.Loading -> {}
+                    is DataState.Success -> {
+                        itemBasketId = result.data
+                        basketCount++
+                    }
+                    else -> {
+                        result.showSnackBarError(snackBarHostState = snackBarHost)
+                    }
                 }
-            }
-            else -> {
-                //show snack bar to error
-            }
+            }.launchIn(viewModelScope)
         }
     }
 
-    // check if menu exist in basket & get count
-    private suspend fun checkIsExist(userId: Int, menuId: Int) {
-        val count = repository.checkIsExist(userId = userId, menuId = menuId)
-        withContext(Dispatchers.Main) {
-            basketCount.value = count
-        }
-    }
-
-    // get token from datastore
-    private suspend fun getToken() {
-        if (token == "") {
-            token = dataStore.data.first()[PreferencesKeys.authenticationKey].toString()
-        }
-    }
-
-    // get user id from datastore
-    private suspend fun getUserId() {
-        if (userId == 0) {
-            userId = dataStore.data.first()[PreferencesKeys.userId]?.toInt() ?: 0
+    private fun updateItemCount(isMinus: Boolean) {
+        if (isMinus) basketCount-- else basketCount++
+        val count = basketCount
+        viewModelScope.launch(Dispatchers.IO) {
+            basketUseCases.updateBasketItemCountUseCase(itemBasketId.toInt(), count)
         }
     }
 
     // on retry button no intent clicked
-    fun noInternetConnection(menuId: Int) {
-        uiState.value = UiState.Loading
-        viewModelScope.launch(Dispatchers.IO) {
-            getDetails(menuId)
-        }
+    fun refresh(menuId: Int) {
+        getDetails(menuId)
     }
 
 

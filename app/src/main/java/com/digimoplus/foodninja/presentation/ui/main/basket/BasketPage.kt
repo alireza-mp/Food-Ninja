@@ -7,7 +7,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +26,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.components.AnimatableBasketCardItem
 import com.digimoplus.foodninja.presentation.components.BackButton
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
@@ -31,6 +33,7 @@ import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradie
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.components.util.gradientText
 import com.digimoplus.foodninja.presentation.components.util.textBrush
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -166,7 +169,7 @@ private fun PayContent(viewModel: BasketViewModel) {
                         fontSize = 15.sp
                     )
                     Text(
-                        text = "${viewModel.totalPrice.value} $",
+                        text = "${viewModel.totalPrice} $",
                         color = Color.White,
                         style = AppTheme.typography.h7,
                         fontSize = 15.sp
@@ -220,7 +223,7 @@ private fun PayContent(viewModel: BasketViewModel) {
                         fontSize = 20.sp
                     )
                     Text(
-                        text = "${(viewModel.totalPrice.value + 20)} $",
+                        text = "${(viewModel.totalPrice + 20)} $",
                         color = Color.White,
                         style = AppTheme.typography.h7,
                         fontSize = 20.sp

@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
-import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.HomeMenuViewModel
-import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.HomeRestaurantViewModel
+import com.digimoplus.foodninja.presentation.ui.main.home.home_menu_page.HomeMenuViewModel
+import com.digimoplus.foodninja.presentation.ui.main.home.home_restaurant_page.HomeRestaurantViewModel
 
 // animated search app bar & title & notification icon
 @Composable

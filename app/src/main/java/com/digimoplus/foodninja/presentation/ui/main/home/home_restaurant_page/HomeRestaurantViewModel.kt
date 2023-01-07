@@ -1,6 +1,5 @@
-package com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content
+package com.digimoplus.foodninja.presentation.ui.main.home.home_restaurant_page
 
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -15,7 +14,6 @@ import com.digimoplus.foodninja.domain.useCase.restaurants.SearchRestaurantUseCa
 import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.util.LoadingSearchState
-import com.digimoplus.foodninja.domain.util.showSnackBarError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -33,12 +31,12 @@ constructor(
     private val searchRestaurantUseCase: SearchRestaurantUseCase,
 ) : ViewModel() {
 
-    // snack bar state
-    var snackBarState: SnackbarHostState? = null
 
     // ui state // loading / notFound / not loading
     var uiState by mutableStateOf(LoadingSearchState.Loading)
         private set
+
+    var handleErrorsState by mutableStateOf<DataState<Any>>(DataState.Loading)
 
     // restaurant list
     private val _restaurantsList = mutableStateListOf<Restaurant>()
@@ -64,6 +62,9 @@ constructor(
 
     private var lastPage = -1
 
+    // save search query to use no internet refresh method
+    private var searchRefreshQuery = ""
+
     // update topAppBar animation
     private val _scrollUp = MutableLiveData(false)
     val scrollUp: LiveData<Boolean> get() = _scrollUp
@@ -72,7 +73,7 @@ constructor(
 
     init {
         //request for restaurants list
-        getAllRestaurantsList()
+        getRestaurantsList()
 
     }
 
@@ -88,11 +89,12 @@ constructor(
     suspend fun disableSearch() {
         isSearchIng = false
         resetPage()
-        getAllRestaurantsList()
+        getRestaurantsList()
     }
 
     // new search request to server with page number
     private fun newSearch(query: String) {
+        searchRefreshQuery = query
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 resetPage()
@@ -117,7 +119,8 @@ constructor(
                     }
                     else -> {
                         lastPage = -1
-                        result.showSnackBarError(snackBarState)
+                        uiState = LoadingSearchState.NotInternet
+                        handleErrorsState = result
                     }
                 }
             }.launchIn(viewModelScope)
@@ -137,7 +140,7 @@ constructor(
 
 
     // get all restaurants list with page number
-    private fun getAllRestaurantsList() {
+    private fun getRestaurantsList() {
         if (_restaurantsList.isEmpty() || isSearchIng) {
             viewModelScope.launch(Dispatchers.IO) {
                 delay(1000)
@@ -153,7 +156,8 @@ constructor(
                         }
                         else -> {
                             lastPage = -1
-                            result.showSnackBarError(snackBarState)
+                            uiState = LoadingSearchState.NotInternet
+                            handleErrorsState = result
                         }
                     }
                 }.launchIn(viewModelScope)
@@ -183,7 +187,7 @@ constructor(
                                 page -= 1
                                 lastPage = -1
                                 pageLoading = false
-                                result.showSnackBarError(snackBarState)
+                                handleErrorsState = result
                             }
                         }
                     }.launchIn(viewModelScope)
@@ -207,6 +211,10 @@ constructor(
     // update scroll position
     fun onChangeRestaurantsScrollPosition(position: Int) {
         restaurantListScrollPosition = position
+    }
+
+    fun refresh() {
+        if (isSearchIng) newSearch(query = searchRefreshQuery) else getRestaurantsList()
     }
 
 }

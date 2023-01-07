@@ -1,7 +1,5 @@
 package com.digimoplus.foodninja.domain.model
 
-import com.google.gson.annotations.SerializedName
-
 data class MenuDetailInfo(
     val descriptionTop: String,
     val descriptionBottom: String,
@@ -14,5 +12,5 @@ data class MenuDetailInfo(
     val rate: String,
     val restaurantId: Int,
     val restaurantName: String,
-    val title: String
+    val title: String,
 )

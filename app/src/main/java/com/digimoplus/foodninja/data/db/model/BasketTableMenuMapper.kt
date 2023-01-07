@@ -2,7 +2,7 @@ package com.digimoplus.foodninja.data.db.model
 
 import com.digimoplus.foodninja.domain.model.MenuDetailInfo
 
-class BasketTableMenuMapper() : EntityMapper<BasketTable, MenuDetailInfo> {
+class BasketTableMenuMapper : EntityMapper<BasketTable, MenuDetailInfo> {
     override fun mapToDomainModel(model: BasketTable): MenuDetailInfo {
         return MenuDetailInfo(
             descriptionTop = "",
@@ -38,10 +38,10 @@ class BasketTableMenuMapper() : EntityMapper<BasketTable, MenuDetailInfo> {
         model: MenuDetailInfo,
         userId: Int,
         count: Int,
-        tableId: Int,
+        id: Int,
     ): BasketTable {
         val entityModel = mapFromDomainModel(model)
-        entityModel.id = tableId
+        entityModel.id = id
         entityModel.userId = userId
         entityModel.count = count
         return entityModel

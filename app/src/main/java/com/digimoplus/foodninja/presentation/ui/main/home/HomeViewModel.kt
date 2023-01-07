@@ -5,17 +5,18 @@ import androidx.lifecycle.ViewModel
 import com.digimoplus.foodninja.domain.util.HomePageState
 import com.digimoplus.foodninja.domain.util.SearchCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel
 @Inject
-constructor() : ViewModel() {
+constructor(
+
+) : ViewModel() {
 
     // alpha animation when display launched
     val launchAnimState = mutableStateOf(0f)
+    var backHandler = mutableStateOf(false)
 
     // search content categories states
     val searchTypeFilter = mutableStateOf(SearchCategory.Restaurant)
@@ -23,7 +24,7 @@ constructor() : ViewModel() {
     val searchLocationFilter = mutableStateOf(SearchCategory.None)
 
     // display state : main content / restaurant content / menu content / search content
-    val pageState = mutableStateOf(HomePageState.MainContent)
+    val pageState = mutableStateOf(HomePageState.DetailPage)
 
     //search text
     val search = mutableStateOf("")

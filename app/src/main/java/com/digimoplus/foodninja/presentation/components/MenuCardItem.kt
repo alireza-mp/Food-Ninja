@@ -10,7 +10,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +28,6 @@ import com.valentinilk.shimmer.shimmer
 // menu card item // without animation // main content
 @Composable
 fun MenuCardItem(
-    launchAnimState: MutableState<Float>,
     index: Int,
     model: Menu,
     count: Int,
@@ -38,8 +36,7 @@ fun MenuCardItem(
 
     Card(
         modifier = Modifier
-            .padding(getPadding(index = index, count = count))
-            .animateAlpha(state = launchAnimState, delayMillis = 400, durationMillis = 1000),
+            .padding(getPadding(index = index, count = count)),
         onClick = { onClick() },
         shape = RoundedCornerShape(20.dp),
         backgroundColor = AppTheme.colors.surface
@@ -186,11 +183,10 @@ private fun MenuItem(
 
 // menu item shimmer
 @Composable
-fun MenuCardItemShimmer(launchAnimState: MutableState<Float>, index: Int, count: Int) {
+fun MenuCardItemShimmer(index: Int, count: Int) {
     Card(
         modifier = Modifier
             .padding(getPadding(index = index, count = count))
-            .animateAlpha(state = launchAnimState, delayMillis = 400, durationMillis = 1000)
             .shimmer(),
         shape = RoundedCornerShape(20.dp),
         backgroundColor = AppTheme.colors.surface,

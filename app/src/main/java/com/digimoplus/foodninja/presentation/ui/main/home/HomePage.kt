@@ -3,9 +3,15 @@ package com.digimoplus.foodninja.presentation.ui.main.home
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -16,89 +22,101 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.util.HomePageState
 import com.digimoplus.foodninja.presentation.components.SearchAppBar
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.ui.main.home.main_content.MainContent
-import com.digimoplus.foodninja.presentation.ui.main.home.menu_content.MenuContent
-import com.digimoplus.foodninja.presentation.ui.main.home.restaurant_content.RestaurantContent
-import com.digimoplus.foodninja.domain.util.HomePageState
+import com.digimoplus.foodninja.presentation.ui.main.home.home_detail_page.HomeDetailPage
+import com.digimoplus.foodninja.presentation.ui.main.home.home_filter_page.HomeSearchFilterPage
+import com.digimoplus.foodninja.presentation.ui.main.home.home_menu_page.HomeMenuPage
+import com.digimoplus.foodninja.presentation.ui.main.home.home_restaurant_page.HomeRestaurantPage
 import kotlinx.coroutines.delay
-
 
 @Composable
 fun HomePage(
-    snackBarHostState: SnackbarHostState,
     showBottomTab: (visibility: Boolean) -> Unit,
     navController: NavController,
 ) {
-
     val homeViewModel: HomeViewModel = hiltViewModel()
-    val backHandler = remember { mutableStateOf(false) }
+    val lazyListState = rememberLazyListState()
 
-    // handle back press
-    BackHandler(backHandler.value) {
-        homeViewModel.contentListAnim = true
-        when (homeViewModel.pageState.value) {
-            HomePageState.RestaurantContent -> {
-                homeViewModel.pageState.value = HomePageState.MainContent
-            }
-            HomePageState.MenuContent -> {
-                homeViewModel.pageState.value = HomePageState.MainContent
-            }
-            HomePageState.SearchContent -> {
-                showBottomTab(true)
-                homeViewModel.pageState.value = HomePageState.MainContent
-            }
-            else -> {
-                // never
-            }
-        }
-    }
+    HandleBackPress(homeViewModel = homeViewModel, showBottomTab = showBottomTab)
 
-    // update display state
-    when (homeViewModel.pageState.value) {
-
-        HomePageState.MainContent -> {
-            backHandler.value = false
-            MainContent(
-                homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState,
-                navController = navController
-            )
-        }
-
-        HomePageState.RestaurantContent -> {
-            backHandler.value = true
-            RestaurantContent(
-                homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState,
-                navController = navController
-            )
-        }
-
-        HomePageState.MenuContent -> {
-            backHandler.value = true
-            MenuContent(
-                homeViewModel = homeViewModel,
-                snackBarHostState = snackBarHostState,
-                navController = navController
-            )
-        }
-
-        HomePageState.SearchContent -> {
-            backHandler.value = true
-            showBottomTab(false)
-            SearchContent(viewModel = homeViewModel, showBottomTab = showBottomTab)
-        }
-
-    }
+    HomePages(
+        homeViewModel = homeViewModel,
+        navController = navController,
+        lazyListState = lazyListState,
+        showBottomTab = showBottomTab,
+    )
 
     LaunchedEffect(Unit) {
         delay(500)
         homeViewModel.launchAnimState.value = 1f
     }
 
+}
+
+@Composable
+private fun HomePages(
+    homeViewModel: HomeViewModel,
+    navController: NavController,
+    lazyListState: LazyListState,
+    showBottomTab: (visibility: Boolean) -> Unit,
+) {
+    // update display state
+    when (homeViewModel.pageState.value) {
+        HomePageState.DetailPage -> {
+            homeViewModel.backHandler.value = false
+            HomeDetailPage(
+                navController = navController, lazyListState = lazyListState
+            )
+        }
+
+        HomePageState.RestaurantPage -> {
+            homeViewModel.backHandler.value = true
+            HomeRestaurantPage(
+                navController = navController
+            )
+        }
+
+        HomePageState.MenuPage -> {
+            homeViewModel.backHandler.value = true
+            HomeMenuPage(
+                navController = navController
+            )
+        }
+
+        HomePageState.SearchFilterPage -> {
+            homeViewModel.backHandler.value = true
+            showBottomTab(false)
+            HomeSearchFilterPage(showBottomTab = showBottomTab)
+        }
+    }
+}
+
+@Composable
+private fun HandleBackPress(
+    homeViewModel: HomeViewModel,
+    showBottomTab: (visibility: Boolean) -> Unit,
+) {
+    BackHandler(enabled = homeViewModel.backHandler.value) {
+        homeViewModel.contentListAnim = true
+        when (homeViewModel.pageState.value) {
+            HomePageState.RestaurantPage -> {
+                homeViewModel.pageState.value = HomePageState.DetailPage
+            }
+            HomePageState.MenuPage -> {
+                homeViewModel.pageState.value = HomePageState.DetailPage
+            }
+            HomePageState.SearchFilterPage -> {
+                homeViewModel.pageState.value = HomePageState.DetailPage
+                showBottomTab(true)
+            }
+            else -> {
+                // :)
+            }
+        }
+    }
 }
 
 // homeViewModel

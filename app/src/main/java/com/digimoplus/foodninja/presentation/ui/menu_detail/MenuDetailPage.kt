@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.domain.util.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -48,10 +48,21 @@ fun MenuDetailPage(
         }
     }
 
-    MenuDetail(
-        viewModel = viewModel,
-        menuId = menuId,
-    )
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        MenuDetail(
+            viewModel = viewModel,
+            menuId = menuId,
+        )
+
+        CustomSnackBar(
+            snackBarHostState = viewModel.snackBarHost,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            viewModel.snackBarHost.currentSnackbarData?.dismiss()
+        }
+    }
+
 }
 
 @Composable
@@ -59,7 +70,7 @@ private fun MenuDetail(
     viewModel: MenuDetailViewModel,
     menuId: Int,
 ) {
-    when (viewModel.uiState.value) {
+    when (viewModel.uiState) {
         UiState.Visible -> {
             // show details
             Details(
@@ -73,7 +84,7 @@ private fun MenuDetail(
         UiState.NoInternet -> {
             // show no internet page
             NoInternetContent(
-                onRetry = { viewModel.noInternetConnection(menuId) }
+                onRetry = { viewModel.refresh(menuId) }
             )
         }
     }
@@ -89,12 +100,17 @@ private fun MenuDetail(
 private fun Details(
     viewModel: MenuDetailViewModel,
 ) {
+    val imageDetail = remember {
+        viewModel.menuDetails?.menuDetailInfo?.imageDetail ?: ""
+    }
+    val commentList = remember {
+        viewModel.menuDetails?.menuDetailComments ?: listOf()
+    }
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = AppTheme.colors.background)) {
         Box(modifier = Modifier.fillMaxSize()) {
-
-            val image = loadPictureNoneDefault(url = viewModel.menuInfo.imageDetail).value
+            val image = loadPictureNoneDefault(url = imageDetail).value
             // animate background image alpha
             image?.let { img ->
                 Image(
@@ -118,10 +134,10 @@ private fun Details(
                 item {
                     Content(viewModel = viewModel)
                 }
-                items(count = viewModel.commentList.size) { index ->
+                items(count = commentList.size) { index ->
                     CommentCardItem(
-                        model = viewModel.commentList[index],
-                        isLastItem = viewModel.commentList.size - 1 == index
+                        model = commentList[index],
+                        isLastItem = commentList.size - 1 == index
                     )
                 }
             }
@@ -140,7 +156,7 @@ private fun Details(
                 shape = RoundedCornerShape(15.dp),
                 backgroundColor = AppTheme.colors.surface
             ) {
-                if (viewModel.basketCount.value == 0) {
+                if (viewModel.basketCount == 0) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -148,7 +164,7 @@ private fun Details(
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = rememberRipple(bounded = false),
-                                onClick = viewModel::firstPlus
+                                onClick = viewModel::addToCart
                             ),
                         contentAlignment = Alignment.Center,
 
@@ -164,13 +180,13 @@ private fun Details(
                         verticalAlignment = Alignment.CenterVertically) {
                         Spacer(modifier = Modifier.padding(start = 16.dp))
                         Text(
-                            text = viewModel.menuInfo.name,
+                            text = viewModel.menuDetails?.menuDetailInfo?.name ?: "",
                             color = AppTheme.colors.titleText,
                             style = AppTheme.typography.h7
                         )
                         Spacer(Modifier.weight(1f))
                         BasketNumbers(
-                            text = viewModel.basketCount.value.toString(),
+                            text = viewModel.basketCount.toString(),
                             onMinus = viewModel::onMinus,
                             onPlus = viewModel::onPlus
                         )
@@ -199,8 +215,10 @@ private fun ShowProgress() {
 private fun Content(
     viewModel: MenuDetailViewModel,
 ) {
+    val materialsList = remember {
+        viewModel.menuDetails?.menuDetailMaterials ?: listOf()
+    }
     Spacer(modifier = Modifier.padding(top = 155.dps))
-
     Card(
         backgroundColor = AppTheme.colors.background,
         modifier = Modifier
@@ -220,7 +238,7 @@ private fun Content(
             }
             Spacer(modifier = Modifier.padding(top = 16.dp))
             Text(
-                text = viewModel.menuInfo.title,
+                text = viewModel.menuDetails?.menuDetailInfo?.title ?: "",
                 color = AppTheme.colors.titleText,
                 style = AppTheme.typography.h4,
                 fontSize = 30.sp,
@@ -234,7 +252,7 @@ private fun Content(
                 Text(
                     style = AppTheme.typography.body1,
                     color = Color.LightGray,
-                    text = viewModel.menuInfo.locationKm
+                    text = viewModel.menuDetails?.menuDetailInfo?.locationKm ?: ""
                 )
                 Spacer(modifier = Modifier.padding(start = 24.dp))
                 Image(painter = painterResource(id = R.drawable.ic_rate), contentDescription = null
@@ -243,12 +261,12 @@ private fun Content(
                 Text(
                     style = AppTheme.typography.body1,
                     color = Color.LightGray,
-                    text = "${viewModel.menuInfo.rate} Rating"
+                    text = "${viewModel.menuDetails?.menuDetailInfo?.rate ?: ""} Rating"
                 )
             }
             Spacer(modifier = Modifier.padding(top = 24.dp))
             Text(
-                text = viewModel.menuInfo.descriptionTop,
+                text = viewModel.menuDetails?.menuDetailInfo?.descriptionTop ?: "",
                 style = AppTheme.typography.body1,
                 color = AppTheme.colors.titleText,
                 lineHeight = 25.sp,
@@ -258,13 +276,13 @@ private fun Content(
             BulletText(
                 style = AppTheme.typography.body1,
                 color = AppTheme.colors.titleText,
-                texts = viewModel.materialsList
+                texts = materialsList
             )
 
             Spacer(modifier = Modifier.padding(top = 16.dp))
 
             Text(
-                text = viewModel.menuInfo.descriptionBottom,
+                text = viewModel.menuDetails?.menuDetailInfo?.descriptionBottom ?: "",
                 style = AppTheme.typography.body1,
                 color = AppTheme.colors.titleText,
                 lineHeight = 25.sp,

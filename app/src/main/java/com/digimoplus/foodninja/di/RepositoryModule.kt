@@ -1,25 +1,20 @@
 package com.digimoplus.foodninja.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import com.digimoplus.foodninja.data.repository.*
-import com.digimoplus.foodninja.domain.repository.*
-import com.digimoplus.foodninja.data.api.AuthService
 import com.digimoplus.foodninja.data.api.model.MenuDetailDtoMapper
 import com.digimoplus.foodninja.data.api.model.MenuDtoMapper
+import com.digimoplus.foodninja.data.api.model.RestaurantDetailDtoMapper
 import com.digimoplus.foodninja.data.api.model.RestaurantDtoMapper
-import com.digimoplus.foodninja.data.api.model.RestoDetailDtoMapper
 import com.digimoplus.foodninja.data.api.soketio.MessageDtoMapper
-import com.digimoplus.foodninja.data.db.BasketDao
-import com.digimoplus.foodninja.data.db.ProductDao
 import com.digimoplus.foodninja.data.db.model.BasketTableMapper
 import com.digimoplus.foodninja.data.db.model.BasketTableMenuMapper
+import com.digimoplus.foodninja.data.repository.*
+import com.digimoplus.foodninja.domain.repository.*
+import com.digimoplus.foodninja.domain.repository.data_source.*
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.socket.client.Socket
 import javax.inject.Singleton
 
 @Module
@@ -28,129 +23,97 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideMainRepository(
-        productDao: ProductDao,
-        dataStore: DataStore<Preferences>,
-    ): MainRepository {
-        return MainRepositoryImpl(
-            productDao = productDao,
+    fun provideRegisterRepository(
+        registerRemoteDataSource: RegisterRemoteDataSource,
+        dataStore: DataStoreLocalDataSource,
+    ): RegisterRepository {
+        return RegisterRepositoryImpl(
+            registerRemoteDataSource = registerRemoteDataSource,
+            dataStore = dataStore
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideLoginRepositoryImpl(
+        loginRemoteDataSource: LoginRemoteDataSource,
+        dataStore: DataStoreLocalDataSource,
+    ): LoginRepository {
+        return LoginRepositoryImpl(
+            loginRemoteDataSource = loginRemoteDataSource,
             dataStore = dataStore,
         )
     }
 
     @Singleton
     @Provides
-    fun provideSignUpRepository(
-        authService: AuthService,
-        dataStore: DataStore<Preferences>,
-    ): SignUpRepository {
-        return SignUpRepositoryImpl(
-            authService = authService,
-            dataStore = dataStore,
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideSignInRepository(
-        authService: AuthService,
-        dataStore: DataStore<Preferences>,
-    ): SignInRepository {
-        return SignInRepositoryImpl(
-            authService = authService,
-            dataStore = dataStore,
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideRegisterUserRepository(
-        authService: AuthService,
-        dataStore: DataStore<Preferences>,
-    ): RegisterUserRepository {
-        return RegisterUserRepositoryImpl(
-            authService = authService, dataStore = dataStore
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideUploadPhotoRepository(
-        authService: AuthService,
-        dataStore: DataStore<Preferences>,
-    ): UploadPhotoRepository {
-        return UploadPhotoRepositoryImpl(
-            authService = authService, dataStore = dataStore
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideHomeRepository(
-        authService: AuthService,
-        dataStore: DataStore<Preferences>,
+    fun provideRestaurantRepository(
+        restaurantRemoteDataSource: RestaurantRemoteDataSource,
+        dataStoreLocalDataSource: DataStoreLocalDataSource,
+        restaurantDetailsMapper: RestaurantDetailDtoMapper,
         restaurantMapper: RestaurantDtoMapper,
-        menuMapper: MenuDtoMapper,
-    ): HomeRepository {
-        return HomeRepositoryImpl(
-            authService = authService,
-            dataStore = dataStore,
+    ): RestaurantRepository =
+        RestaurantRepositoryImpl(
+            restaurantRemoteDataSource = restaurantRemoteDataSource,
+            dataStore = dataStoreLocalDataSource,
             restaurantMapper = restaurantMapper,
-            menuMapper = menuMapper
+            restaurantDetailsMapper = restaurantDetailsMapper,
         )
-    }
 
     @Singleton
     @Provides
-    fun provideRestoDetailRepository(
-        authService: AuthService,
-        restoDetailDtoMapper: RestoDetailDtoMapper,
-    ): RestoDetailRepository {
-        return RestoDetailRepositoryImpl(
-            authService = authService,
-            mapper = restoDetailDtoMapper,
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideMenuDetailRepository(
-        authService: AuthService,
+    fun provideMenuRepository(
+        menuRemoteDataSource: MenuRemoteDataSource,
+        dataStoreLocalDataSource: DataStoreLocalDataSource,
         menuDetailDtoMapper: MenuDetailDtoMapper,
-        basketTableMenuMapper: BasketTableMenuMapper,
-        productDao: ProductDao,
-    ): MenuDetailRepository {
-        return MenuDetailRepositoryImpl(
-            authService = authService,
+        menuMapper: MenuDtoMapper,
+    ): MenuRepository =
+        MenuRepositoryImpl(
+            menuRemoteDataSource = menuRemoteDataSource,
+            dataStore = dataStoreLocalDataSource,
+            menuMapper = menuMapper,
             menuDetailDtoMapper = menuDetailDtoMapper,
-            productDao = productDao,
-            basketTableMenuMapper = basketTableMenuMapper
         )
-    }
 
     @Singleton
     @Provides
     fun provideBasketRepository(
-        basketDao: BasketDao,
+        dataStoreLocalDataSource: DataStoreLocalDataSource,
+        basketTableMenuMapper: BasketTableMenuMapper,
         mapper: BasketTableMapper,
+        basketLocalDataSource: BasketLocalDataSource,
     ): BasketRepository {
         return BasketRepositoryImpl(
-            basketDao = basketDao,
-            mapper = mapper
+            basketLocalDataSource = basketLocalDataSource,
+            mapper = mapper,
+            basketTableMenuMapper = basketTableMenuMapper,
+            dataStore = dataStoreLocalDataSource,
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideProfileRepository(
+        dataStore: DataStoreLocalDataSource,
+    ): ProfileRepository {
+        return ProfileRepositoryImpl(
+            dataStoreLocalDataSource = dataStore,
         )
     }
 
     @Singleton
     @Provides
     fun provideChatDetailRepository(
-        socket: Socket,
-        gson: Gson,
+        dataStore: DataStoreLocalDataSource,
+        chatRemoteDataSource: ChatRemoteDataSource,
         mapper: MessageDtoMapper,
-    ): ChatDetailRepository {
-        return ChatDetailRepositoryImpl(
-            socket = socket,
+        gson: Gson,
+    ): ChatRepository {
+        return ChatRepositoryImpl(
+            dataStore = dataStore,
+            chatRemoteDataSource = chatRemoteDataSource,
+            mapper = mapper,
             gson = gson,
-            mapper = mapper
         )
     }
 

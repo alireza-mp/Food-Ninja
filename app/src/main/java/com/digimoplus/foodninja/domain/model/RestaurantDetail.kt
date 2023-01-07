@@ -1,9 +1,8 @@
 package com.digimoplus.foodninja.domain.model
 
 
-
-data class RestoDetail(
+data class RestaurantDetail(
     val restaurantDetailComment: List<RestaurantDetailComment>,
-    val restoDetailInfo: RestoDetailInfo,
-    val restaurantDetailMenus: List<RestaurantDetailMenu>
+    val restaurantDetailInfo: RestaurantDetailInfo,
+    val restaurantDetailMenus: List<RestaurantDetailMenu>,
 )

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package com.digimoplus.foodninja.presentation.ui.main.home
+package com.digimoplus.foodninja.presentation.ui.main.home.home_filter_page
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -15,23 +15,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.digimoplus.foodninja.domain.util.HomePageState
+import com.digimoplus.foodninja.domain.util.SearchCategory
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.SearchChips
 import com.digimoplus.foodninja.presentation.components.util.buttonDisabledGradient
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.domain.util.HomePageState
-import com.digimoplus.foodninja.domain.util.SearchCategory
+import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
+import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
 
 // search content not have viewModel // used home viewModel
 @Composable
-fun SearchContent(
-    viewModel: HomeViewModel,
+fun HomeSearchFilterPage(
     showBottomTab: (visibility: Boolean) -> Unit,
 ) {
 
     val searchListState = rememberLazyListState()
+    val homeViewModel: HomeViewModel = hiltViewModel()
+
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = searchListState,
@@ -39,36 +43,37 @@ fun SearchContent(
         ) {
 
             item {
-                HomeHeader(viewModel = viewModel)
+                HomeHeader(viewModel = homeViewModel)
             }
-
             item {
-                SearchBody(viewModel)
+                SearchBody(homeViewModel)
             }
         }
 
         // update button state to enabled or disable
-        viewModel.checkEnabledButton()
+        homeViewModel.checkEnabledButton()
 
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .align(Alignment.BottomCenter)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
+        ) {
             GradientButton(
-                enabled = viewModel.searchButtonEnable.value,
+                enabled = homeViewModel.searchButtonEnable.value,
                 modifier = Modifier
                     .fillMaxWidth(),
                 enableGradient = buttonEnabledGradient(),
                 disableGradient = buttonDisabledGradient(),
                 text = "Search",
-                textColor = getButtonTextColor(viewModel.searchButtonEnable.value),
+                textColor = getButtonTextColor(homeViewModel.searchButtonEnable.value),
                 padding = PaddingValues(bottom = 16.dp),
                 border = BorderStroke(width = 1.dp, color = AppTheme.colors.primary)
             ) {
                 showBottomTab(true)
-                if (viewModel.searchTypeFilter.value == SearchCategory.Restaurant) {
-                    viewModel.pageState.value = HomePageState.RestaurantContent
+                if (homeViewModel.searchTypeFilter.value == SearchCategory.Restaurant) {
+                    homeViewModel.pageState.value = HomePageState.RestaurantPage
                 } else {
-                    viewModel.pageState.value = HomePageState.MenuContent
+                    homeViewModel.pageState.value = HomePageState.MenuPage
                 }
             }
         }
@@ -112,7 +117,7 @@ fun SearchBody(viewModel: HomeViewModel) {
 
         Spacer(modifier = Modifier.padding(top = 10.dps))
 
-        LazyRow() {
+        LazyRow {
             item {
                 SearchChips(
                     chipsValue = SearchCategory.OneKm,
@@ -147,7 +152,7 @@ fun SearchBody(viewModel: HomeViewModel) {
 
         Spacer(modifier = Modifier.padding(top = 10.dps))
 
-        LazyRow() {
+        LazyRow {
             item {
                 SearchChips(
                     chipsValue =
@@ -179,7 +184,7 @@ fun SearchBody(viewModel: HomeViewModel) {
 
         Spacer(modifier = Modifier.padding(top = 8.dps))
 
-        LazyRow() {
+        LazyRow {
             item {
                 SearchChips(
                     chipsValue =

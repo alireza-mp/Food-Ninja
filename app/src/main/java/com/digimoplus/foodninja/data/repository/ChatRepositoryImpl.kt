@@ -1,140 +1,114 @@
 package com.digimoplus.foodninja.data.repository
 
-import com.digimoplus.foodninja.data.api.soketio.*
+import com.digimoplus.foodninja.data.api.soketio.InitialRoomData
+import com.digimoplus.foodninja.data.api.soketio.MessageDto
+import com.digimoplus.foodninja.data.api.soketio.MessageDtoMapper
+import com.digimoplus.foodninja.data.api.soketio.MessageType
 import com.digimoplus.foodninja.domain.model.Message
-import com.digimoplus.foodninja.domain.repository.ChatDetailRepository
+import com.digimoplus.foodninja.domain.repository.ChatRepository
+import com.digimoplus.foodninja.domain.repository.data_source.ChatRemoteDataSource
+import com.digimoplus.foodninja.domain.repository.data_source.DataStoreLocalDataSource
 import com.google.gson.Gson
-import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ChatDetailRepositoryImpl
-@Inject
-constructor(
-    private val socket: Socket,
-    private val gson: Gson,
+class ChatRepositoryImpl
+@Inject constructor(
     private val mapper: MessageDtoMapper,
-) : ChatDetailRepository {
+    private val dataStore: DataStoreLocalDataSource,
+    private val chatRemoteDataSource: ChatRemoteDataSource,
+    private val gson: Gson,
+) : ChatRepository {
 
-    override suspend fun connect(userName: String, roomName: String) = callbackFlow {
-        withContext(Dispatchers.IO) {
+    override suspend fun listeningToMessages(userName: String, roomName: String): Flow<Message> =
+        callbackFlow {
 
-            //first connect
+            val userId = dataStore.getUserId().toString()
+
             val onConnect = Emitter.Listener {
-
                 // send room user name and room name to server
-                val data = InitialRoomData(userName, roomName)
-                val jsonData = gson.toJson(data)
-                socket.emit(SocketEvents.SUBSCRIBE.event, jsonData)
-
+                val data = InitialRoomData(userId, roomName)
+                chatRemoteDataSource.initialRoom(data)
             }
 
-            // new user joined listener
             val onNewUser = Emitter.Listener {
-
-                // new user joined
-                // get new user name
                 val name = it[0] as String
                 val message = Message(
                     userName = name,
                     roomName = roomName,
                     messageType = MessageType.NEW_USER
                 )
-
                 trySend(message)
             }
 
-            // is users left listener
             val onUserLeft = Emitter.Listener {
-
                 val leftUserName = it[0] as String
                 val message = Message(
                     userName = leftUserName,
                     roomName = roomName,
                     messageType = MessageType.USER_LEFT
                 )
-
                 trySend(message)
-
             }
 
-            // listening messages from server
-            val onUpdateChat = Emitter.Listener {
+            val onNewMessage = Emitter.Listener {
                 val chat = gson.fromJson(it[0].toString(), MessageDto::class.java)
                 val data = mapper.mapToDomainModel(chat, MessageType.RECEIVED_MESSAGE)
                 trySend(data)
-
             }
 
 
-            socket.on(Socket.EVENT_CONNECT, onConnect)
-            socket.on(SocketEvents.UPDATE_CHAT.event, onUpdateChat)
-            // To know if the new user entered the room.
-            socket.on(SocketEvents.NEW_USER.event, onNewUser)
-            // To know if the user left the chatroom.
-            socket.on(SocketEvents.USER_LEFT.event, onUserLeft)
-            socket.connect()
+            chatRemoteDataSource.listeningConnect(onConnect)
+            chatRemoteDataSource.listeningToNewMessage(onNewMessage)
+            chatRemoteDataSource.listeningToNewUser(onNewUser)
+            chatRemoteDataSource.listeningToUserLeft(onUserLeft)
+            chatRemoteDataSource.connect()
 
+            awaitClose {
+                channel.close()
+            }
         }
 
-        awaitClose {
-            channel.close()
-        }
-    }
-
-    override fun disconnect(userName: String, roomName: String) {
-
-        val data = InitialRoomData(userName, roomName)
-        val jsonData = gson.toJson(data)
-        socket.emit(SocketEvents.UNSUBSCRIBE.event, jsonData)
-
+    override suspend fun disconnect(userName: String, roomName: String) {
+        val data = InitialRoomData(userName = dataStore.getUserId().toString(), roomName)
+        chatRemoteDataSource.disconnect(data)
     }
 
 
-    override suspend fun sendMessage(
-        message: Message,
-    ) {
+    override suspend fun sendMessage(message: Message) {
         withContext(Dispatchers.IO) {
             val data: MessageDto = mapper.mapFromDomainModel(message)
-            val jsonData = gson.toJson(data)
-            socket.emit(SocketEvents.NEW_MESSAGE.event, jsonData)
-
+            chatRemoteDataSource.sendMessage(data)
         }
     }
 
-    override suspend fun registerTypeIng() = callbackFlow<Boolean> {
-        withContext(Dispatchers.IO) {
+    override suspend fun listeningToTypeIng(): Flow<Boolean> = callbackFlow {
 
-            // is other users typing listener
-
-            val startTypeIng = Emitter.Listener {
-                trySend(true)
-            }
-
-            val stopTypeIng = Emitter.Listener {
-                trySend(false)
-            }
-
-            socket.on(SocketEvents.START_TYPE_ING.event, startTypeIng)
-            socket.on(SocketEvents.STOP_TYPE_ING.event, stopTypeIng)
-
+        val startTypeIng = Emitter.Listener {
+            trySend(true)
         }
+
+        val stopTypeIng = Emitter.Listener {
+            trySend(false)
+        }
+
+        chatRemoteDataSource.listeningToStartTypeIng(startTypeIng)
+        chatRemoteDataSource.listeningToStopTypeIng(stopTypeIng)
+
         awaitClose {
             channel.close()
         }
     }
 
-    override suspend fun startTypeIng(roomName: String) {
-        socket.emit(SocketEvents.START_TYPE_ING.event, roomName)
-    }
+    override suspend fun startTypeIng(roomName: String) =
+        chatRemoteDataSource.startTypeIng(roomName)
 
-    override suspend fun stopTypeInt(roomName: String) {
-        socket.emit(SocketEvents.STOP_TYPE_ING.event, roomName)
-    }
+    override suspend fun stopTypeInt(roomName: String) = chatRemoteDataSource.stopTypeIng(roomName)
 }
 
 

@@ -1,16 +1,13 @@
 package com.digimoplus.foodninja.presentation.ui.splash
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.digimoplus.foodninja.domain.useCase.login.CheckAuthenticationUseCase
+import com.digimoplus.foodninja.domain.useCase.register.CheckCompleteRegisterUseCase
+import com.digimoplus.foodninja.domain.useCase.register.CheckIntroductionUseCase
 import com.digimoplus.foodninja.domain.util.OnlineChecker
-import com.digimoplus.foodninja.domain.util.PreferencesKeys.authenticationKey
-import com.digimoplus.foodninja.domain.util.PreferencesKeys.introductionKey
-import com.digimoplus.foodninja.domain.util.PreferencesKeys.userInformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -18,9 +15,13 @@ import javax.inject.Inject
 class SplashViewModel
 @Inject
 constructor(
-    private val dataStore: DataStore<Preferences>,
     private val onlineChecker: OnlineChecker,
+    private val checkCompleteRegisterUseCase: CheckCompleteRegisterUseCase,
+    private val checkAuthenticationUseCase: CheckAuthenticationUseCase,
+    private val ceckIntroductionUseCase: CheckIntroductionUseCase,
 ) : ViewModel() {
+
+    val retryVisibility = mutableStateOf(false)
 
     // ping google to check internet connection
     suspend fun isOnline(): Boolean {
@@ -29,21 +30,17 @@ constructor(
         }
     }
 
-    // check user looked Introduction pages or not
-    val checkIntroduction: Flow<String> = dataStore.data
-        .map { preferences ->
-            preferences[introductionKey] ?: "null"
-        }
-
     // check user authentication
-    val checkAuthentication: Flow<String> = dataStore.data
-        .map { preferences ->
-            preferences[authenticationKey] ?: "null"
-        }
+    suspend fun checkAuthentication(): String = withContext(Dispatchers.IO) {
+        checkAuthenticationUseCase()
+    }
 
-    // check is user information is completed or not
-    val checkUserInformation: Flow<String> = dataStore.data
-        .map { preferences ->
-            preferences[userInformation] ?: "null"
-        }
+    suspend fun checkCompleteRegister(): String = withContext(Dispatchers.IO) {
+        checkCompleteRegisterUseCase()
+    }
+
+    suspend fun checkUserIntroduction(): String = withContext(Dispatchers.IO) {
+        ceckIntroductionUseCase()
+    }
+
 }

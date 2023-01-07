@@ -19,10 +19,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.util.HomePageState
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
-import com.digimoplus.foodninja.domain.util.HomePageState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -50,9 +50,9 @@ fun SearchAppBar(
                 .padding(end = 8.dp)
                 .focusRequester(focusRequester ?: f)
                 .onFocusChanged {
-                    if (it.isFocused && viewModel.pageState.value == HomePageState.MainContent) {
+                    if (it.isFocused && viewModel.pageState.value == HomePageState.DetailPage) {
                         viewModel.enableRestaurantFocus = true
-                        viewModel.pageState.value = HomePageState.RestaurantContent
+                        viewModel.pageState.value = HomePageState.RestaurantPage
                     }
                 },
             shape = RoundedCornerShape(18.dp),
@@ -97,7 +97,7 @@ fun SearchAppBar(
         Button(onClick = {
             coroutineScope.launch {
                 listState?.animateScrollToItem(0)
-                viewModel.pageState.value = HomePageState.SearchContent
+                viewModel.pageState.value = HomePageState.SearchFilterPage
             }
         },
             contentPadding = PaddingValues(horizontal = 16.dp,

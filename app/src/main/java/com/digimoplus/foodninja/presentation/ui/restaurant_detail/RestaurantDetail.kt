@@ -14,7 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,16 +26,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
 import com.digimoplus.foodninja.presentation.components.util.animateToTop
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.components.util.loadPictureNoneDefault
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.domain.util.UiState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
@@ -45,7 +43,6 @@ fun RestaurantDetailPage(
     restaurantId: Int,
 ) {
     val viewModel: RestaurantDetailViewModel = hiltViewModel()
-    val coroutineScope = rememberCoroutineScope()
 
     // get details from server
     LaunchedEffect(Unit) {
@@ -58,7 +55,6 @@ fun RestaurantDetailPage(
         viewModel = viewModel,
         restaurantId = restaurantId,
         navController = navController,
-        coroutineScope = coroutineScope
     )
 }
 
@@ -67,10 +63,9 @@ private fun RestaurantDetail(
     viewModel: RestaurantDetailViewModel,
     restaurantId: Int,
     navController: NavController,
-    coroutineScope: CoroutineScope,
 ) {
     // update ui
-    when (viewModel.uiState.value) {
+    when (viewModel.uiState) {
         UiState.Visible -> {
             // show details
             Details(
@@ -85,10 +80,7 @@ private fun RestaurantDetail(
         UiState.NoInternet -> {
             // show no internet page
             NoInternetContent {
-                viewModel.uiState.value = UiState.Loading
-                coroutineScope.launch(Dispatchers.IO) {
-                    viewModel.getDetails(restaurantId)
-                }
+                viewModel.refresh(restaurantId)
             }
         }
     }
@@ -99,12 +91,19 @@ private fun Details(
     viewModel: RestaurantDetailViewModel,
     navController: NavController,
 ) {
+    val commentList = remember {
+        viewModel.restaurantDetails.value?.restaurantDetailComment ?: listOf()
+    }
+
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = AppTheme.colors.background)) {
         Box(modifier = Modifier.fillMaxSize()) {
 
-            val image = loadPictureNoneDefault(url = viewModel.restoInfo.imgDetail).value
+            val image = loadPictureNoneDefault(
+                url = viewModel.restaurantDetails.value?.restaurantDetailInfo?.imgDetail ?: ""
+            ).value
 
             // animate background image alpha
             image?.let { img ->
@@ -128,8 +127,8 @@ private fun Details(
                 item {
                     Content(viewModel, navController)
                 }
-                items(count = viewModel.commentList.size) { index ->
-                    CommentCardItem(viewModel.commentList[index])
+                items(count = commentList.size) { index ->
+                    CommentCardItem(commentList[index])
                 }
             }
         }
@@ -152,8 +151,14 @@ private fun Content(
     viewModel: RestaurantDetailViewModel,
     navController: NavController,
 ) {
-    Spacer(modifier = Modifier.padding(top = 120.dps))
+    val menuList = remember {
+        viewModel.restaurantDetails.value?.restaurantDetailMenus ?: listOf()
+    }
+    val detailInfo = remember {
+        viewModel.restaurantDetails.value?.restaurantDetailInfo
+    }
 
+    Spacer(modifier = Modifier.padding(top = 120.dps))
     Card(
         backgroundColor = AppTheme.colors.background,
         modifier = Modifier
@@ -173,7 +178,7 @@ private fun Content(
 
             Spacer(modifier = Modifier.padding(top = 16.dp))
             Text(
-                text = viewModel.restoInfo.title,
+                text = detailInfo?.title ?: "",
                 color = AppTheme.colors.titleText,
                 style = AppTheme.typography.h4,
                 fontSize = 30.sp,
@@ -187,7 +192,7 @@ private fun Content(
                 Text(
                     style = AppTheme.typography.body1,
                     color = Color.LightGray,
-                    text = viewModel.restoInfo.locationKm
+                    text = detailInfo?.locationKm ?: ""
                 )
                 Spacer(modifier = Modifier.padding(start = 24.dp))
                 Image(painter = painterResource(id = R.drawable.ic_rate), contentDescription = null
@@ -196,12 +201,12 @@ private fun Content(
                 Text(
                     style = AppTheme.typography.body1,
                     color = Color.LightGray,
-                    text = "${viewModel.restoInfo.rate} Rating"
+                    text = "${detailInfo?.rate ?: ""} Rating"
                 )
             }
             Spacer(modifier = Modifier.padding(top = 24.dp))
             Text(
-                text = viewModel.restoInfo.desc,
+                text = detailInfo?.desc ?: "",
                 style = AppTheme.typography.body1,
                 color = AppTheme.colors.titleText,
                 lineHeight = 25.sp,
@@ -229,9 +234,9 @@ private fun Content(
             LazyRow(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(count = viewModel.menuList.size) { index ->
+                items(count = menuList.size) { index ->
                     RestaurantDetailMenuItem(
-                        model = viewModel.menuList[index],
+                        model = menuList[index],
                         onClick = {
                             // on item clicked
                         }

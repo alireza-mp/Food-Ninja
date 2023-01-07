@@ -1,12 +1,11 @@
 package com.digimoplus.foodninja.domain.model
 
 
-
-data class RestoDetailMenu(
+data class RestaurantDetailMenu(
     val id: Int,
     val imageUrl: String,
     val name: String,
     val price: String,
     val restaurantId: Int,
-    val restaurantName: String
+    val restaurantName: String,
 )

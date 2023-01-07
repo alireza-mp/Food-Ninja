@@ -4,15 +4,15 @@ sealed class Screens(val route: String) {
 
     object Splash : Screens("splash")
     object Introduction : Screens("introduction")
-    object SignIn : Screens("signIn")
-    object SignUp : Screens("signUp")
+    object Login : Screens("login")
+    object Register : Screens("register")
     object Main : Screens("main")
     object ForgetPassword : Screens("forget_password")
     object Payment : Screens("payment/{user}")
     object UploadProfile : Screens("upload_Profile/{user}")
     object ChooseLocation : Screens("choose_location")
-    object SuccessPage : Screens("success_page")
-    object BasketPage : Screens("basket_page")
+    object Success : Screens("success")
+    object Basket : Screens("basket")
     object ChatDetail : Screens("chat_detail")
 
     object RestaurantDetail : Screens("restaurant_detail/{id}") {
@@ -23,7 +23,7 @@ sealed class Screens(val route: String) {
         fun createIdRoute(id: Int) = "menu_detail/$id"
     }
 
-    object UserInformation : Screens("user_information?name={name}") {
-        fun createRoute(name: String) = "user_information?name=$name"
+    object CompleteRegister : Screens("complete_register?name={name}") {
+        fun createRoute(name: String) = "complete_register?name=$name"
     }
 }

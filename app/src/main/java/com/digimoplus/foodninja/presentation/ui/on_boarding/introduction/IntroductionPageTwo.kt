@@ -17,12 +17,12 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.components.FloatingImageAnimation
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.components.util.dpw
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import kotlinx.coroutines.launch
 
@@ -155,7 +155,7 @@ fun IntroductionPageTwo(
             // onClick
             coroutineScope.launch {
                 viewModel.saveIntroduction()
-                navController.navigate(Screens.SignUp.route) {
+                navController.navigate(Screens.Register.route) {
                     // remove introduction page from backstack
                     popUpTo(Screens.Introduction.route) {
                         inclusive = true

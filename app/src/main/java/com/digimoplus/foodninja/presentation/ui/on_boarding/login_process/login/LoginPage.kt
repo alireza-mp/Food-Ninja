@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.navigation.Screens
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.IconTextField
 import com.digimoplus.foodninja.presentation.components.SignInPasswordTextField
@@ -33,6 +33,7 @@ import com.digimoplus.foodninja.presentation.components.TEXT_FIELD_ICON_EMAIL
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
@@ -132,8 +133,10 @@ fun LoginPage(navController: NavController) {
                             ),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Image(painterResource(id = R.drawable.facebook),
-                                contentDescription = "")
+                            Image(
+                                painterResource(id = R.drawable.facebook),
+                                contentDescription = "",
+                            )
                             Text(
                                 color = AppTheme.colors.titleText,
                                 style = AppTheme.typography.h7,
@@ -178,7 +181,7 @@ fun LoginPage(navController: NavController) {
                 Spacer(modifier = Modifier.padding(top = 5.dps))
 
                 TextButton(
-                    enabled = !viewModel.loading.value,
+                    enabled = viewModel.uiState != UiState.Loading,
                     onClick = {
                         navController.navigate(Screens.ForgetPassword.route)
                     }) {
@@ -195,7 +198,7 @@ fun LoginPage(navController: NavController) {
                     gradient = buttonEnabledGradient(),
                     text = "LogIn",
                     textColor = Color.White,
-                    loading = viewModel.loading.value
+                    loading = viewModel.uiState == UiState.Loading
                 ) { // onClick
                     viewModel.loginUser(navController)
                 }

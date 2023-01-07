@@ -10,20 +10,18 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-const val USER_INFO_NAME = "name";
-const val USER_INFO_FAMILY = "family";
-const val USER_INFO_PHONE = "phone";
+const val USER_INFO_NAME = "name"
+const val USER_INFO_FAMILY = "family"
+const val USER_INFO_PHONE = "phone"
 
 @HiltViewModel
-class UserInformationViewModel
+class CompleteRegisterViewModel
 @Inject
-constructor() : ViewModel() {
+constructor(
 
-    // snack bar state
+) : ViewModel() {
+
     val snackBarState = SnackbarHostState()
-
-    // loading ui state
-    val loading = mutableStateOf(false)
 
     // name textField
     val name = mutableStateOf("")
@@ -35,31 +33,46 @@ constructor() : ViewModel() {
     val phone = mutableStateOf("")
 
     //check name & family & phone
-    fun addInfo(navController: NavController) {
+    fun navigateToPaymentPage(navController: NavController) {
         viewModelScope.launch {
             when {
-                name.value.length < 2 -> {
-                    snackBarState.showSnackbar("The name must not be less than two letters")
+                name.value.isEmpty() -> {
+                    snackBarState.showSnackbar("Name not entered!")
                 }
-                family.value.length <2 -> {
-                    snackBarState.showSnackbar("The family must not be less than two letters")
+                family.value.isEmpty() -> {
+                    snackBarState.showSnackbar("Family not entered!")
                 }
                 phone.value.length < 11 -> {
                     snackBarState.showSnackbar("TThe phone number must not be less than eleven digits")
                 }
                 else -> {
-
-                    // send  user info to payment page
-                    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_NAME,
-                        name.value)
-                    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_FAMILY,
-                        family.value)
-                    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_PHONE,
-                        phone.value)
-                    navController.navigate(Screens.Payment.route)
+                    navigateToPayment(navController, name.value, family.value, phone.value)
                 }
             }
         }
+    }
+
+    private fun navigateToPayment(
+        navController: NavController,
+        name: String,
+        family: String,
+        phone: String,
+    ) {
+        navController.currentBackStackEntry?.arguments?.putString(
+            USER_INFO_NAME,
+            name,
+        )
+        navController.currentBackStackEntry?.arguments?.putString(
+            USER_INFO_FAMILY,
+            family,
+        )
+        navController.currentBackStackEntry?.arguments?.putString(
+            USER_INFO_PHONE,
+            phone,
+        )
+        navController.navigate(Screens.Payment.route)
+        // send  user info to payment page
+
     }
 
 }

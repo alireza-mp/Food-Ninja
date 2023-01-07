@@ -1,17 +1,14 @@
-package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.payment
+package com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.payment
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.digimoplus.foodninja.domain.util.PreferencesKeys
+import com.digimoplus.foodninja.domain.useCase.register.SavePaymentMethodUseCase
 import com.digimoplus.foodninja.presentation.navigation.Screens
-import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_FAMILY
-import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_NAME
-import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_PHONE
+import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.complete_bio.USER_INFO_FAMILY
+import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.complete_bio.USER_INFO_NAME
+import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.complete_bio.USER_INFO_PHONE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +18,7 @@ import javax.inject.Inject
 class PaymentViewModel
 @Inject
 constructor(
-    private val dataStore: DataStore<Preferences>,
+    private val savePaymentMethodUseCase: SavePaymentMethodUseCase,
 ) : ViewModel() {
 
     // payment method model
@@ -35,11 +32,7 @@ constructor(
         phone: String?,
     ) {
         viewModelScope.launch {
-
-            dataStore.edit { preferences ->
-                preferences[PreferencesKeys.userPaymentMethod] = isPress.value
-            }
-
+            savePaymentMethodUseCase(isPress.value)
             // go to next page
             // send user information to upload profile page
             navController.currentBackStackEntry?.arguments?.putString(USER_INFO_NAME, name)

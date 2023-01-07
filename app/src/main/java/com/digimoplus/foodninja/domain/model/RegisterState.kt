@@ -1,10 +1,11 @@
 package com.digimoplus.foodninja.domain.model
 
-enum class Register(var message: String, var value: Any? = null) {
-    NetworkError("No Internet Connection!"),
-    WrongError("Wrong  Email or Password!"),
-    Successful("Successful Registered"),
-    SomeError("Some times Error !"),
-    InvalidError("Invalid Email or Password!"),
-
+sealed class RegisterState<out R>(val message: String) {
+    data class Successful<out T>(val data: T) : RegisterState<T>("Successful Registered")
+    object Loading : RegisterState<Nothing>("loading")
+    object NetworkError : RegisterState<Nothing>("No Internet Connection!")
+    object WrongError : RegisterState<Nothing>("Wrong  Email or Password!")
+    object SomeError : RegisterState<Nothing>("Some times Error !")
+    object InvalidError : RegisterState<Nothing>("Invalid Email or Password!")
+    object InvalidNameError : RegisterState<Nothing>("Name not entered!")
 }

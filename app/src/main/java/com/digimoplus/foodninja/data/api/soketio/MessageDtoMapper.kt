@@ -3,7 +3,7 @@ package com.digimoplus.foodninja.data.api.soketio
 import com.digimoplus.foodninja.domain.model.Message
 import com.digimoplus.foodninja.domain.util.DomainMapper
 
-class MessageDtoMapper() : DomainMapper<MessageDto, Message> {
+class MessageDtoMapper : DomainMapper<MessageDto, Message> {
     override fun mapToDomainModel(model: MessageDto): Message {
         return Message(
             userName = model.userName,

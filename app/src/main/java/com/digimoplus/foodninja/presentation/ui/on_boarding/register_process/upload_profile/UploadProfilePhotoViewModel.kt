@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class UploadPhotoViewModel
+class UploadProfilePhotoViewModel
 @Inject
 constructor(
     private val checkProfileImageUrlUseCase: CheckProfileImageUrlUseCase,
@@ -32,7 +32,7 @@ constructor(
 ) : ViewModel() {
 
     // profile image url
-    val imageUrl = mutableStateOf("none")
+    val imageUrl = mutableStateOf("null")
 
     // snack bar state
     val snackBarState = SnackbarHostState()

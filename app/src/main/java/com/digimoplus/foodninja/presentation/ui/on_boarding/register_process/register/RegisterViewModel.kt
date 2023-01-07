@@ -1,94 +1,77 @@
-package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.sign_up
+package com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.register
 
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.domain.model.RegisterState
+import com.digimoplus.foodninja.domain.useCase.register.RegisterUseCase
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.navigation.Screens
-import com.digimoplus.foodninja.domain.repository.RegisterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel
+class RegisterViewModel
 @Inject
 constructor(
-    private val repository: RegisterRepository,
+    private val registerUseCase: RegisterUseCase,
 ) : ViewModel() {
 
-    // snack bar state
+    var uiState by mutableStateOf(UiState.Visible)
+        private set
+
     val snackBarState = SnackbarHostState()
 
     // name textField
-    val name: MutableState<String> = mutableStateOf("")
+    val name = mutableStateOf("")
 
     // email textField
-    val email: MutableState<String> = mutableStateOf("")
+    val email = mutableStateOf("")
 
     // password textFiled
-    val password: MutableState<String> = mutableStateOf("")
-
-    // loading ui state
-    val loading: MutableState<Boolean> = mutableStateOf(false)
+    val password = mutableStateOf("")
 
     // checkBox one state
-    val checkOne: MutableState<Boolean> = mutableStateOf(false)
+    val checkOne = mutableStateOf(false)
 
     // check box two state
-    val checkTwo: MutableState<Boolean> = mutableStateOf(false)
-
-    // check name & email & password & check one & check two
-    fun register(navController: NavController) {
-        viewModelScope.launch {
-            when {
-                name.value.length < 2 -> {
-                    snackBarState.showSnackbar("The name must not be less than two letters")
-                }
-                email.value.length < 9 -> {
-                    snackBarState.showSnackbar("Invalid Email")
-                }
-                password.value.length < 7 -> {
-                    snackBarState.showSnackbar("Invalid Password")
-                }
-                /*!checkOne.value -> {
-                    snackBarState.showSnackbar("Invalid checkOne")
-                }
-                !checkTwo.value -> {
-                    snackBarState.showSnackbar("Invalid checkTwo")
-                }*/
-                else -> {
-                    registerUser(navController)
-                }
-            }
-        }
-    }
+    val checkTwo = mutableStateOf(false)
 
     // register user to server 
-    private suspend fun registerUser(navController: NavController) {
-        loading.value = true
-        withContext(Dispatchers.IO) {
-            val register = repository.registerUser(name.value, email.value, password.value)
-            withContext(Dispatchers.Main) {
-                // update ui
-                loading.value = false
-                if (register.message == RegisterState.Successful.message) {
-                    // put name to user information page
-                    navController.navigate(Screens.UserInformation.createRoute(name.value)) {
-                        // remove sign up page from backstack
-                        popUpTo(Screens.SignUp.route) {
-                            inclusive = true
+    fun register(navController: NavController) {
+        val name = name.value
+        val email = email.value
+        val password = password.value
+        val checkOne = checkOne.value
+        val checkTwo = checkTwo.value
+        viewModelScope.launch {
+            registerUseCase(name, email, password, checkOne, checkTwo).onEach { result ->
+                when (result) {
+                    is RegisterState.Loading -> {
+                        uiState = UiState.Loading
+                    }
+                    is RegisterState.Successful -> {
+                        uiState = UiState.Visible
+                        navController.navigate(Screens.CompleteRegister.createRoute(name)) {
+                            // remove sign up page from backstack
+                            popUpTo(Screens.Register.route) {
+                                inclusive = true
+                            }
                         }
                     }
-                } else {
-                    snackBarState.showSnackbar(register.message)
+                    else -> {
+                        uiState = UiState.NoInternet
+                        snackBarState.showSnackbar(result.message)
+                    }
                 }
-            }
+            }.launchIn(viewModelScope)
         }
     }
 

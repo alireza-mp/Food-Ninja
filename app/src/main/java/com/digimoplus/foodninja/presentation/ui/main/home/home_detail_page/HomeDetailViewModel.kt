@@ -1,6 +1,5 @@
-package com.digimoplus.foodninja.presentation.ui.main.home.main_content
+package com.digimoplus.foodninja.presentation.ui.main.home.home_detail_page
 
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -12,7 +11,6 @@ import com.digimoplus.foodninja.domain.model.Restaurant
 import com.digimoplus.foodninja.domain.useCase.home_detail.HomeDetailUseCase
 import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.util.UiState
-import com.digimoplus.foodninja.domain.util.showSnackBarError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
@@ -22,10 +20,12 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class HomeMainViewModel
+class HomeDetailViewModel
 @Inject constructor(
     private val homeDetailUseCase: HomeDetailUseCase,
 ) : ViewModel() {
+
+    var handleErrorsState by mutableStateOf<DataState<Any>>(DataState.Loading)
 
     var uiState by mutableStateOf(UiState.Loading)
         private set
@@ -35,8 +35,6 @@ class HomeMainViewModel
 
     private val _menuList = mutableStateListOf<Menu>()
     val menuList: List<Menu> = _menuList
-
-    var snackBarState: SnackbarHostState? = null
 
     init {
         initialData()
@@ -55,7 +53,7 @@ class HomeMainViewModel
                         UiState.Visible
                     }
                     else -> {
-                        result.showSnackBarError(snackBarState)
+                        handleErrorsState = result
                         UiState.NoInternet
                     }
                 }

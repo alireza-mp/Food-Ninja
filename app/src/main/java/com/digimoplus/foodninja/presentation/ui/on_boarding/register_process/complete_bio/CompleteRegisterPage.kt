@@ -19,9 +19,9 @@ import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMai
 import com.digimoplus.foodninja.presentation.components.util.dps
 
 @Composable
-fun UserInformationPage(navController: NavController, name: String) {
+fun CompleteRegisterPage(navController: NavController, name: String) {
 
-    val viewModel: UserInformationViewModel = hiltViewModel()
+    val viewModel: CompleteRegisterViewModel = hiltViewModel()
     //set name from last page
     viewModel.name.value = name
     // focus request references
@@ -33,10 +33,10 @@ fun UserInformationPage(navController: NavController, name: String) {
         title = "Fill in your bio to get started",
         description = "This data will be displayed in your account profile for security",
         snackBarState = viewModel.snackBarState,
-        loading = viewModel.loading.value,
+        loading = false,
         navController = navController,
         onClick = {
-            viewModel.addInfo(navController = navController)
+            viewModel.navigateToPaymentPage(navController = navController)
         }
     ) {
         NoneTextField(
@@ -70,7 +70,7 @@ fun UserInformationPage(navController: NavController, name: String) {
             imeAction = ImeAction.Done,
             onFocusDown = {
                 focusManager.clearFocus()
-                viewModel.addInfo(navController = navController)
+                viewModel.navigateToPaymentPage(navController = navController)
             }
         )
 

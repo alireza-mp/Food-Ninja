@@ -1,10 +1,7 @@
 package com.digimoplus.foodninja.presentation.ui.on_boarding.introduction
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
-import com.digimoplus.foodninja.domain.util.PreferencesKeys.introductionKey
+import com.digimoplus.foodninja.domain.useCase.register.SaveIntroductionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -12,14 +9,12 @@ import javax.inject.Inject
 class IntroductionViewModel
 @Inject
 constructor(
-    private val dataStore: DataStore<Preferences>,
+    private val saveIntroductionUseCase: SaveIntroductionUseCase,
 ) : ViewModel() {
 
     // save user looked introduction to datastore
     suspend fun saveIntroduction() {
-        dataStore.edit { preferences ->
-            preferences[introductionKey] = "OK"
-        }
+        saveIntroductionUseCase(true)
     }
 
 }

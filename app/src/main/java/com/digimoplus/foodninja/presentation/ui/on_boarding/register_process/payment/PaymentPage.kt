@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.payment
+package com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.payment
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding

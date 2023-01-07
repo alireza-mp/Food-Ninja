@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalPermissionsApi::class)
 
-package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.upload_profile
+package com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.upload_profile
 
 import android.Manifest
 import android.app.Activity
@@ -23,15 +23,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.navigation.Screens
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.CardUploadPhoto
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_FAMILY
-import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_NAME
-import com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.complete_bio.USER_INFO_PHONE
+import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.complete_bio.USER_INFO_FAMILY
+import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.complete_bio.USER_INFO_NAME
+import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.complete_bio.USER_INFO_PHONE
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -48,7 +49,7 @@ fun UploadProfilePage(
     phone: String?,
 ) {
 
-    val viewModel: UploadPhotoViewModel = hiltViewModel()
+    val viewModel: UploadProfilePhotoViewModel = hiltViewModel()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -85,26 +86,23 @@ fun UploadProfilePage(
         description = "This data will be displayed in your account profile for security",
         snackBarState = viewModel.snackBarState,
         navController = navController,
-        loading = viewModel.loading.value,
+        loading = viewModel.uiState == UiState.Loading,
         onClick = {
             // on button click
-            if (viewModel.imageUrl.value == "none") {
+            if (viewModel.imageUrl.value == "null") {
                 coroutineScope.launch {
                     viewModel.snackBarState.showSnackbar("please set your profile image")
                 }
             } else {
                 // send user info to choose location page
-                navController.currentBackStackEntry?.arguments?.putString(USER_INFO_NAME, name)
-                navController.currentBackStackEntry?.arguments?.putString(USER_INFO_FAMILY, family)
-                navController.currentBackStackEntry?.arguments?.putString(USER_INFO_PHONE, phone)
-                navController.navigate(Screens.ChooseLocation.route)
+                navigateToLocationPage(navController, name, family, phone)
             }
         }) {
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
 
             // check photo is set or not
-            if (viewModel.imageUrl.value != "none") {
+            if (viewModel.imageUrl.value != "null") {
                 ShowProfilePhoto(viewModel)
             } else {
                 ChoseProfilePhoto(
@@ -113,7 +111,7 @@ fun UploadProfilePage(
                     resultCamera = resultCamera
                 )
             }
-            if (viewModel.loading.value) {
+            if (viewModel.uiState == UiState.Loading) {
                 BallProgress(
                     modifier = Modifier.align(Alignment.BottomCenter)
                 )
@@ -124,7 +122,7 @@ fun UploadProfilePage(
 }
 
 @Composable
-private fun ShowProfilePhoto(viewModel: UploadPhotoViewModel) {
+private fun ShowProfilePhoto(viewModel: UploadProfilePhotoViewModel) {
     Card(
         shape = RoundedCornerShape(25.dp), elevation = 0.dp, modifier = Modifier
             .size(250.dp)
@@ -154,7 +152,7 @@ private fun ShowProfilePhoto(viewModel: UploadPhotoViewModel) {
 @ExperimentalPermissionsApi
 @Composable
 private fun ChoseProfilePhoto(
-    viewModel: UploadPhotoViewModel,
+    viewModel: UploadProfilePhotoViewModel,
     resultGallery: ActivityResultLauncher<Intent>,
     resultCamera: ActivityResultLauncher<Intent>,
 ) {
@@ -179,12 +177,23 @@ private fun ChoseProfilePhoto(
             cameraPermissions.launchPermissionRequest()
         }
         if (cameraPermissions.status == PermissionStatus.Granted) {
-            if (!viewModel.loading.value) {
+            if (viewModel.uiState != UiState.Loading) {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 resultCamera.launch(intent)
             }
         }
     }
+}
 
+private fun navigateToLocationPage(
+    navController: NavController,
+    name: String?,
+    family: String?,
+    phone: String?,
+) {
+    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_NAME, name)
+    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_FAMILY, family)
+    navController.currentBackStackEntry?.arguments?.putString(USER_INFO_PHONE, phone)
+    navController.navigate(Screens.ChooseLocation.route)
 }
 

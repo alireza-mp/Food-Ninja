@@ -1,6 +1,5 @@
-package com.digimoplus.foodninja.presentation.ui.main.home.menu_content
+package com.digimoplus.foodninja.presentation.ui.main.home.home_menu_page
 
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -15,7 +14,6 @@ import com.digimoplus.foodninja.domain.useCase.menus.SearchMenuUseCase
 import com.digimoplus.foodninja.domain.util.Constants
 import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.util.LoadingSearchState
-import com.digimoplus.foodninja.domain.util.showSnackBarError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -31,12 +29,13 @@ constructor(
     private val getMenusListUseCase: GetMenusListUseCase,
     private val searchMenuUseCase: SearchMenuUseCase,
 ) : ViewModel() {
-    // snack bar state
-    var snackBarHostState: SnackbarHostState? = null
+
 
     // ui state / loading / not loading / not found
     var uiState by mutableStateOf(LoadingSearchState.Loading)
         private set
+
+    var handleErrorsState by mutableStateOf<DataState<Any>>(DataState.Loading)
 
     // next page loading progress
     var pageLoading by mutableStateOf(false)
@@ -62,8 +61,11 @@ constructor(
     val backState = mutableStateOf(false)
 
     // search state
-    var searchIng = false
+    var isSearchIng = false
         private set
+
+    // save search query to use no internet refresh method
+    private var searchRefreshQuery = ""
 
     // update topAppBar animation
     private val _scrollUp = MutableLiveData(false)
@@ -78,14 +80,14 @@ constructor(
 
     //request for search from restaurants list
     fun searchQuery(query: String) {
-        searchIng = true
+        isSearchIng = true
         backState.value = true
         newSearch(query = query)
     }
 
     // remove search items and show all
     fun resetList() {
-        searchIng = false
+        isSearchIng = false
         backState.value = false
         resetPage()
         getMenusList()
@@ -93,6 +95,7 @@ constructor(
 
     // new search request to server with page number
     private fun newSearch(query: String) {
+        searchRefreshQuery = query
         viewModelScope.launch(Dispatchers.IO) {
             resetPage()
             searchMenuUseCase(
@@ -114,7 +117,8 @@ constructor(
                     }
                     else -> {
                         lastPage = -1
-                        result.showSnackBarError(snackBarHostState)
+                        uiState = LoadingSearchState.NotInternet
+                        handleErrorsState = result
                     }
                 }
             }.launchIn(viewModelScope)
@@ -140,7 +144,7 @@ constructor(
     // get all menus list with page
     private fun getMenusList() {
         // if menu list is empty || search  state is ture
-        if (_menuList.isEmpty() || searchIng) {
+        if (_menuList.isEmpty() || isSearchIng) {
             viewModelScope.launch(Dispatchers.IO) {
                 delay(1000)
                 getMenusListUseCase(page = 1).onEach { result ->
@@ -155,7 +159,8 @@ constructor(
                         }
                         else -> {
                             lastPage = -1
-                            result.showSnackBarError(snackBarHostState)
+                            uiState = LoadingSearchState.NotInternet
+                            handleErrorsState = result
                         }
                     }
                 }.launchIn(viewModelScope)
@@ -184,7 +189,7 @@ constructor(
                                 lastPage = -1
                                 page -= 1
                                 pageLoading = false
-                                result.showSnackBarError(snackBarHostState)
+                                handleErrorsState = result
                             }
                         }
                     }.launchIn(viewModelScope)
@@ -201,6 +206,10 @@ constructor(
     // is last page
     private fun checkIsLastPage(): Boolean {
         return lastPage > page
+    }
+
+    fun refresh() {
+        if (isSearchIng) newSearch(searchRefreshQuery) else getMenusList()
     }
 
 }

@@ -1,4 +1,4 @@
-package com.digimoplus.foodninja.presentation.ui.on_boarding.sign_up_process.location
+package com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.location
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
 import com.digimoplus.foodninja.presentation.components.util.dps
@@ -49,7 +50,7 @@ fun ChooseLocationPage(
         description = "This data will be displayed in your account profile for security",
         snackBarState = viewModel.snackBarState,
         buttonTitle = if (viewModel.mapIsVisible.value) "Save" else "Next",
-        loading = viewModel.loading.value,
+        loading = viewModel.uiState == UiState.Loading,
         navController = navController,
         onClick = {
             // on button clicked
@@ -151,14 +152,16 @@ fun ShowMap(viewModel: ChooseLocationViewModel, defaultLocation: LatLng) {
             position = viewModel.selectedLocation.value
         )
     }
-    if (viewModel.loading.value) {
-        Box(modifier = Modifier
-            .padding(top = 10.dps)
-            .fillMaxWidth()
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() } // This is mandatory
-            ) { }, contentAlignment = Alignment.Center
+    if (viewModel.uiState == UiState.Loading || !viewModel.mapIsVisible.value) {
+        Box(
+            modifier = Modifier
+                .padding(top = 10.dps)
+                .fillMaxWidth()
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() } // This is mandatory
+                ) { },
+            contentAlignment = Alignment.Center,
         ) {
             BallProgress()
         }

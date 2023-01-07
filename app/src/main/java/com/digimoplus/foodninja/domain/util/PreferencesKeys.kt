@@ -4,14 +4,14 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 object PreferencesKeys {
-    // check user is first time
+    // flag for check show introduction to user
     val introductionKey = stringPreferencesKey("INTRODUCTION_KEY")
 
-    // check user is registered
+    // flag for check user is authenticated
     val authenticationKey = stringPreferencesKey("AUTHENTICATION_KEY")
 
-    // check user information is completed
-    val userInformation = stringPreferencesKey("INFORMATION_KEY")
+    // flag for check user register data is completed
+    val completeRegisterKey = stringPreferencesKey("COMPLETE_REGISTER_KEY")
 
     // user id
     val userId = intPreferencesKey("ID_KEY")

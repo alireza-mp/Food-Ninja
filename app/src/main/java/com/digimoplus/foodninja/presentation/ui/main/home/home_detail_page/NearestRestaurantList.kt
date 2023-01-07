@@ -2,7 +2,6 @@
 
 package com.digimoplus.foodninja.presentation.ui.main.home.home_detail_page
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow

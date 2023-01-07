@@ -22,15 +22,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.presentation.navigation.Screens
+import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
 import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
-fun SignUpPage(navController: NavController) {
+fun RegisterPage(navController: NavController) {
 
     val viewModel: RegisterViewModel = hiltViewModel()
     // focus request references
@@ -136,7 +137,7 @@ fun SignUpPage(navController: NavController) {
                 Spacer(modifier = Modifier.padding(top = 4.dps))
 
                 GradientButton(
-                    loading = viewModel.loading.value,
+                    loading = viewModel.uiState == UiState.Loading,
                     gradient = buttonEnabledGradient(),
                     text = "Create Account",
                     textColor = Color.White,
@@ -146,9 +147,9 @@ fun SignUpPage(navController: NavController) {
                 }
 
                 TextButton(
-                    enabled = !viewModel.loading.value,
+                    enabled = viewModel.uiState != UiState.Loading,
                     onClick = {
-                        navController.navigate(Screens.SignIn.route)
+                        navController.navigate(Screens.Login.route)
                     },
                 ) {
                     Text(

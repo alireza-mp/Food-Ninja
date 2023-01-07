@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
-import com.digimoplus.foodninja.domain.model.Message
 import com.digimoplus.foodninja.data.api.soketio.MessageType
+import com.digimoplus.foodninja.domain.model.Message
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.animateAlpha
@@ -53,8 +53,8 @@ fun ChatDetailPage(navController: NavController) {
 
     DisposableEffect(view) {
 
-        viewModel.registerTypeIng()
-        viewModel.connect()
+        viewModel.listeningToTypeIng()
+        viewModel.listeningToMessages()
 
         // move page to top when keyboard opened
         val listener = ViewTreeObserver.OnGlobalLayoutListener {

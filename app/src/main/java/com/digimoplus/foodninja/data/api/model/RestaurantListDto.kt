@@ -1,9 +1,8 @@
 package com.digimoplus.foodninja.data.api.model
 
-
 import com.google.gson.annotations.SerializedName
 
-data class RestaurantList(
+data class RestaurantListDto(
     @SerializedName("current_page")
     val currentPage: Int,
 

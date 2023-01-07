@@ -1,16 +1,20 @@
 package com.digimoplus.foodninja.presentation.ui.main.basket
 
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digimoplus.foodninja.domain.model.Basket
+import com.digimoplus.foodninja.domain.useCase.basket.BasketUseCases
 import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.util.showSnackBarError
-import com.digimoplus.foodninja.domain.repository.BasketRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -19,43 +23,46 @@ import javax.inject.Inject
 class BasketViewModel
 @Inject
 constructor(
-    private val repository: BasketRepository,
+    private val basketUseCases: BasketUseCases,
 ) : ViewModel() {
 
     // basket list
-    val basketList = mutableStateListOf<Basket>()
+    private val _basketList = mutableStateListOf<Basket>()
+    val basketList: List<Basket> = _basketList
 
     // snack bar state
     val snackBarState = SnackbarHostState()
 
     // total of items price
-    val totalPrice = mutableStateOf(0)
+    var totalPrice by mutableStateOf(0)
+        private set
 
     // get all basket list items
-    suspend fun getBasketList() {
+    fun getBasketList() {
         if (basketList.isEmpty()) {
-            withContext(Dispatchers.IO) {
-                val result = repository.basketList()
-                withContext(Dispatchers.Main) {
+            viewModelScope.launch(Dispatchers.IO) {
+                basketUseCases.getBasketListUseCase().onEach { result ->
                     when (result) {
+                        is DataState.Loading -> {
+
+                        }
                         is DataState.Success -> {
-                            withContext(Dispatchers.Main) {
-                                basketList.addAll(result.data)
-                                calculationTotalPrice()
-                            }
+                            _basketList.addAll(result.data)
+                            calculationTotalPrice()
                         }
                         else -> {
                             result.showSnackBarError(snackBarState)
                         }
                     }
-                }
+                }.launchIn(viewModelScope)
+
             }
         }
     }
 
     // delete item
     fun onDelete(id: Int) {
-        basketList.removeIf { it.id == id }
+        _basketList.removeIf { it.id == id }
         removeBasketItem(id)
         calculationTotalPrice()
     }
@@ -63,7 +70,7 @@ constructor(
     // update item count form database
     fun onItemCount(id: Int, count: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateCount(id, count)
+            basketUseCases.updateBasketItemCountUseCase(id, count)
         }
         // update count in basket list
         basketList.forEach {
@@ -76,7 +83,7 @@ constructor(
     //  call repository delete item
     private fun removeBasketItem(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteBasketItem(id = id)
+            basketUseCases.deleteBasketItemUseCase(id = id)
         }
     }
 
@@ -88,7 +95,7 @@ constructor(
                 total += (it.price.toInt() * it.count)
             }
             withContext(Dispatchers.Main) {
-                totalPrice.value = total
+                totalPrice = total
             }
         }
     }
