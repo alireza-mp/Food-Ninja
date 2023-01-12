@@ -43,7 +43,7 @@ fun HomeSearchFilterPage(
         ) {
 
             item {
-                HomeHeader(viewModel = homeViewModel)
+                HomeHeader()
             }
             item {
                 SearchBody(homeViewModel)

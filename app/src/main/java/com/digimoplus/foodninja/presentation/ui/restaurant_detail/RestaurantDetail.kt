@@ -96,9 +96,11 @@ private fun Details(
     }
 
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = AppTheme.colors.background)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = AppTheme.colors.background),
+    ) {
         Box(modifier = Modifier.fillMaxSize()) {
 
             val image = loadPictureNoneDefault(
@@ -167,7 +169,7 @@ private fun Content(
                 durationMillis = 1000,
                 delayMillis = 0
             ),
-        shape = RoundedCornerShape(topStart = 35.dp, topEnd = 35.dp)
+        shape = RoundedCornerShape(topStart = 35.dp, topEnd = 35.dp),
     ) {
         Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
             Spacer(modifier = Modifier.padding(top = 10.dp))
@@ -184,9 +186,13 @@ private fun Content(
                 fontSize = 30.sp,
             )
             Spacer(modifier = Modifier.padding(top = 24.dp))
-            Row(modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically) {
-                Image(painter = painterResource(id = R.drawable.ic_map), contentDescription = null
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_map),
+                    contentDescription = null,
                 )
                 Spacer(modifier = Modifier.padding(start = 10.dp))
                 Text(
@@ -195,7 +201,9 @@ private fun Content(
                     text = detailInfo?.locationKm ?: ""
                 )
                 Spacer(modifier = Modifier.padding(start = 24.dp))
-                Image(painter = painterResource(id = R.drawable.ic_rate), contentDescription = null
+                Image(
+                    painter = painterResource(id = R.drawable.ic_rate),
+                    contentDescription = null,
                 )
                 Spacer(modifier = Modifier.padding(start = 10.dp))
                 Text(
@@ -216,7 +224,8 @@ private fun Content(
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
                 Text(
                     text = "Popular Menu",
                     color = AppTheme.colors.titleText,

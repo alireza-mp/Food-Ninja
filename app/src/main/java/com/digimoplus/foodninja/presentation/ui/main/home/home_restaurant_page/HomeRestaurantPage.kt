@@ -62,7 +62,6 @@ fun HomeRestaurantPage(
     // top app bar
     AnimatedTopAppBar(
         viewModel = viewModel,
-        homeViewModel = homeViewModel,
         focusRequester = focusRequester
     ) {
         Box(
@@ -139,7 +138,7 @@ private fun RestaurantsContent(
 ) {
     LazyVerticalGrid(
         state = lazyGridState,
-        columns = GridCells.Fixed(2)
+        columns = GridCells.Fixed(2),
     ) {
         itemsIndexed(viewModel.restaurantsList) { index, item ->
 
@@ -159,7 +158,8 @@ private fun RestaurantsContent(
                 animationEnabled = homeViewModel.contentListAnim,
                 disableAnim = {
                     homeViewModel.contentListAnim = false
-                }) {
+                },
+            ) {
                 navController.navigate(
                     Screens.RestaurantDetail.createIdRoute(item.id)
                 )
@@ -177,8 +177,7 @@ private fun RestaurantsContent(
             ) {
                 if (viewModel.pageLoading) {
                     BallPulseSyncProgressIndicator(
-                        modifier = Modifier
-                            .align(Alignment.Center),
+                        modifier = Modifier.align(Alignment.Center),
                         color = AppTheme.colors.primary,
                     )
                 }

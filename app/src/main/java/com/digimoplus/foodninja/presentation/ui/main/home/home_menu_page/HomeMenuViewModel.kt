@@ -72,7 +72,6 @@ constructor(
     val scrollUp: LiveData<Boolean> get() = _scrollUp
     private var lastScrollIndex = 0
 
-    // get token
     // request for get menus list with page number
     init {
         getMenusList()

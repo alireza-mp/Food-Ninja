@@ -15,15 +15,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
-import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
 import com.digimoplus.foodninja.presentation.ui.main.home.home_menu_page.HomeMenuViewModel
 import com.digimoplus.foodninja.presentation.ui.main.home.home_restaurant_page.HomeRestaurantViewModel
 
 // animated search app bar & title & notification icon
+// restaurant
 @Composable
 fun AnimatedTopAppBar(
     viewModel: HomeRestaurantViewModel,
-    homeViewModel: HomeViewModel,
     focusRequester: FocusRequester,
     content: @Composable () -> Unit,
 ) {
@@ -48,7 +47,6 @@ fun AnimatedTopAppBar(
         }
 
         HomeHeader(
-            viewModel = homeViewModel,
             modifier = Modifier
                 .graphicsLayer {
                     // move layout to top
@@ -64,10 +62,10 @@ fun AnimatedTopAppBar(
     }
 }
 
+// menu
 @Composable
 fun AnimatedTopAppBar(
     viewModel: HomeMenuViewModel,
-    homeViewModel: HomeViewModel,
     content: @Composable () -> Unit,
 ) {
 
@@ -91,7 +89,6 @@ fun AnimatedTopAppBar(
         }
 
         HomeHeader(
-            viewModel = homeViewModel,
             modifier = Modifier
                 .graphicsLayer {
                     // move layout to top

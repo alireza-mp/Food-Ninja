@@ -42,17 +42,18 @@ fun HomeDetailPage(
 
     LazyColumn(
         state = lazyListState,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         item {
-            HomeHeader(viewModel = homeViewModel, listState = lazyListState)
+            HomeHeader(listState = lazyListState)
         }
 
         item {
-            HomeBody(viewModel = viewModel,
+            HomeBody(
+                viewModel = viewModel,
                 homeViewModel = homeViewModel,
                 listState = lazyListState,
-                navController = navController
+                navController = navController,
             )
         }
 
@@ -71,7 +72,7 @@ fun HomeDetailPage(
                     launchAnimState = homeViewModel.launchAnimState,
                     index = index,
                     count = 6,
-                    list = viewModel.menuList
+                    list = viewModel.menuList,
                 )
             }
         }
@@ -100,8 +101,8 @@ private fun HomeBody(
     navController: NavController,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    Box(modifier = Modifier
-        .fillMaxSize()
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
         Column {
 
@@ -112,9 +113,11 @@ private fun HomeBody(
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .animateAlpha(state = homeViewModel.launchAnimState,
+                    .animateAlpha(
+                        state = homeViewModel.launchAnimState,
                         delayMillis = 500,
-                        durationMillis = 1000),
+                        durationMillis = 1000,
+                    ),
             )
 
             Spacer(modifier = Modifier.padding(top = 8.dp))
@@ -122,9 +125,11 @@ private fun HomeBody(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .animateAlpha(state = homeViewModel.launchAnimState,
+                    .animateAlpha(
+                        state = homeViewModel.launchAnimState,
                         delayMillis = 800,
-                        durationMillis = 1000),
+                        durationMillis = 1000,
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -139,42 +144,56 @@ private fun HomeBody(
                         homeViewModel.pageState.value = HomePageState.RestaurantPage
                     }
                 }) {
-                    Text(text = "View More",
+                    Text(
+                        text = "View More",
                         color = AppTheme.colors.primaryTextVariant,
-                        style = AppTheme.typography.body1)
+                        style = AppTheme.typography.body1,
+                    )
                 }
             }
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .animateAlpha(state = homeViewModel.launchAnimState,
-                    delayMillis = 800,
-                    durationMillis = 1000)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .animateAlpha(
+                        state = homeViewModel.launchAnimState,
+                        delayMillis = 800,
+                        durationMillis = 1000,
+                    ),
+            ) {
                 BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
                     NearestRestaurantList(viewModel = viewModel, navController = navController)
                 }
             }
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .animateAlpha(state = homeViewModel.launchAnimState,
-                    delayMillis = 1000,
-                    durationMillis = 1000),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateAlpha(
+                        state = homeViewModel.launchAnimState,
+                        delayMillis = 1000,
+                        durationMillis = 1000,
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
                 Text(
                     text = "Popular Menu",
                     color = AppTheme.colors.titleText,
                     style = AppTheme.typography.h7,
                 )
-                TextButton(onClick = {
-                    coroutineScope.launch {
-                        listState.animateScrollToItem(0)
-                        homeViewModel.pageState.value = HomePageState.MenuPage
-                    }
-                }) {
-                    Text(text = "View More",
+                TextButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            listState.animateScrollToItem(0)
+                            homeViewModel.pageState.value = HomePageState.MenuPage
+                        }
+                    },
+                ) {
+                    Text(
+                        text = "View More",
                         color = AppTheme.colors.primaryTextVariant,
-                        style = AppTheme.typography.body1)
+                        style = AppTheme.typography.body1,
+                    )
                 }
             }
         }

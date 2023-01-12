@@ -49,11 +49,10 @@ fun HomeMenuPage(
     // top app bar
     AnimatedTopAppBar(
         viewModel = viewModel,
-        homeViewModel = homeViewModel
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             when (viewModel.uiState) {
                 // loading
@@ -141,7 +140,8 @@ fun MenusContent(
                 animationEnabled = viewModel.listAnim,
                 disableAnim = {
                     viewModel.listAnim = false
-                }) {
+                },
+            ) {
                 navController.navigate(Screens.MenuDetail.createIdRoute(item.id))
             }
         }

@@ -47,14 +47,15 @@ fun RegisterPage(navController: NavController) {
             end = 24.dp
         )
     ) {
-        BoxWithConstraints(modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter) {
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxWidth()
-
+                    .fillMaxWidth(),
             ) {
 
                 Image(
@@ -81,7 +82,7 @@ fun RegisterPage(navController: NavController) {
                     nextFocusRequester = emailFocus,
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next,
-                    iconId = TEXT_FIELD_ICON_PERSON
+                    iconId = TEXT_FIELD_ICON_PERSON,
                 )
 
                 Spacer(modifier = Modifier.padding(4.dps))
@@ -109,7 +110,7 @@ fun RegisterPage(navController: NavController) {
                     onFocusDown = {
                         focusManager.clearFocus()
                         viewModel.register(navController = navController)
-                    }
+                    },
                 )
 
                 Spacer(modifier = Modifier.padding(top = 8.dps))
@@ -118,7 +119,7 @@ fun RegisterPage(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     selected = viewModel.checkOne.value,
-                    text = "Keep Me Signed In"
+                    text = "Keep Me Signed In",
                 ) {
                     viewModel.checkOne.value = !viewModel.checkOne.value
                 }
@@ -129,7 +130,7 @@ fun RegisterPage(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     selected = viewModel.checkTwo.value,
-                    text = "Email Me About Special Pricing"
+                    text = "Email Me About Special Pricing",
                 ) {
                     viewModel.checkTwo.value = !viewModel.checkTwo.value
                 }
@@ -143,7 +144,6 @@ fun RegisterPage(navController: NavController) {
                     textColor = Color.White,
                 ) { // onClick
                     viewModel.register(navController = navController)
-                    //navController.navigate(Screens.Main.route)
                 }
 
                 TextButton(

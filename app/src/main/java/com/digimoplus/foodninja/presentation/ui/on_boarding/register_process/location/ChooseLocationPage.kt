@@ -66,7 +66,8 @@ fun ChooseLocationPage(
                     }
                 }
             }
-        }) {
+        },
+    ) {
 
         // map visibility
         if (viewModel.mapIsVisible.value) {

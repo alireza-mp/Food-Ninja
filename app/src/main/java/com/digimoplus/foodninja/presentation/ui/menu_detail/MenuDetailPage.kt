@@ -106,9 +106,11 @@ private fun Details(
     val commentList = remember {
         viewModel.menuDetails?.menuDetailComments ?: listOf()
     }
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = AppTheme.colors.background)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = AppTheme.colors.background),
+    ) {
         Box(modifier = Modifier.fillMaxSize()) {
             val image = loadPictureNoneDefault(url = imageDetail).value
             // animate background image alpha
@@ -128,8 +130,7 @@ private fun Details(
             }
 
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
             ) {
                 item {
                     Content(viewModel = viewModel)
@@ -167,8 +168,7 @@ private fun Details(
                                 onClick = viewModel::addToCart
                             ),
                         contentAlignment = Alignment.Center,
-
-                        ) {
+                    ) {
                         Text(
                             text = "Add To Chart",
                             color = Color.White,
@@ -176,8 +176,10 @@ private fun Details(
                         )
                     }
                 } else {
-                    Row(modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
                         Spacer(modifier = Modifier.padding(start = 16.dp))
                         Text(
                             text = viewModel.menuDetails?.menuDetailInfo?.name ?: "",
@@ -201,10 +203,11 @@ private fun Details(
 
 @Composable
 private fun ShowProgress() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = AppTheme.colors.background),
-        contentAlignment = Alignment.Center
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = AppTheme.colors.background),
+        contentAlignment = Alignment.Center,
     ) {
         BallProgress()
     }
@@ -244,9 +247,13 @@ private fun Content(
                 fontSize = 30.sp,
             )
             Spacer(modifier = Modifier.padding(top = 24.dp))
-            Row(modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically) {
-                Image(painter = painterResource(id = R.drawable.ic_map), contentDescription = null
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_map),
+                    contentDescription = null,
                 )
                 Spacer(modifier = Modifier.padding(start = 10.dp))
                 Text(
@@ -255,7 +262,9 @@ private fun Content(
                     text = viewModel.menuDetails?.menuDetailInfo?.locationKm ?: ""
                 )
                 Spacer(modifier = Modifier.padding(start = 24.dp))
-                Image(painter = painterResource(id = R.drawable.ic_rate), contentDescription = null
+                Image(
+                    painter = painterResource(id = R.drawable.ic_rate),
+                    contentDescription = null,
                 )
                 Spacer(modifier = Modifier.padding(start = 10.dp))
                 Text(

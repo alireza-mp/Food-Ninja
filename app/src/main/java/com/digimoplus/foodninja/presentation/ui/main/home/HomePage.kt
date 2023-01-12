@@ -123,44 +123,52 @@ private fun HandleBackPress(
 // Header used into all pages home display
 @Composable
 fun HomeHeader(
-    viewModel: HomeViewModel,
     modifier: Modifier = Modifier,
     searchTopPadding: Dp = 24.dp,
     listState: LazyListState? = null,
     searchQuery: (query: String) -> Unit = {},
     focusRequester: FocusRequester? = null,
 ) {
+    val viewModel: HomeViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = modifier) {
 
         Spacer(modifier = Modifier.padding(top = 40.dp))
 
-        Row(horizontalArrangement = Arrangement.SpaceBetween,
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .animateAlpha(state = viewModel.launchAnimState, durationMillis = 1000)) {
+                .animateAlpha(state = viewModel.launchAnimState, durationMillis = 1000),
+        ) {
 
-            Text(text = "Find Your Favorite Food",
+            Text(
+                text = "Find Your Favorite Food",
                 lineHeight = 40.sp,
                 color = AppTheme.colors.titleText,
                 modifier = Modifier.width(250.dp),
-                style = AppTheme.typography.h4)
+                style = AppTheme.typography.h4,
+            )
 
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterVertically),
-                contentAlignment = Alignment.Center) {
-                Button(onClick = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterVertically),
+                contentAlignment = Alignment.Center,
+            ) {
+                Button(
+                    onClick = {
 
-                },
+                    },
                     contentPadding = PaddingValues(horizontal = 16.dp,
                         vertical = 14.dp),
                     elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
                     modifier = Modifier
                         .defaultMinSize(1.dp, 1.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.surface),
-                    shape = RoundedCornerShape(20.dp)) {
+                    shape = RoundedCornerShape(20.dp),
+                ) {
                     Icon(painter = painterResource(id = R.drawable.ic_notifiaction),
                         contentDescription = "",
                         tint = AppTheme.colors.primary
@@ -179,7 +187,7 @@ fun HomeHeader(
             focusRequester = focusRequester,
             searchQuery = {
                 searchQuery(it)
-            }
+            },
         )
 
     }

@@ -30,9 +30,8 @@ fun SplashPage(navController: NavController) {
 
     val viewModel: SplashViewModel = hiltViewModel()
 
-    // check user introduction & authentication & isOnline
     LaunchedEffect(Unit) {
-        checkUserIntroduction(
+        checkUserStatus(
             viewModel = viewModel,
             navController = navController,
         )
@@ -112,7 +111,7 @@ private fun retryView(
         ) {
             coroutineScope.launch {
                 viewModel.retryVisibility.value = false
-                checkUserIntroduction(
+                checkUserStatus(
                     viewModel = viewModel,
                     navController = navController,
                 )
@@ -121,97 +120,54 @@ private fun retryView(
     }
 }
 
-private suspend fun checkUserIntroduction(
+private suspend fun checkUserStatus(
     viewModel: SplashViewModel,
     navController: NavController,
 ) {
-    if (viewModel.checkUserIntroduction() == "null") {
-        goToIntroductionPage(viewModel, navController)
-    } else {
-        checkUserAuthentication(viewModel, navController)
-    }
-}
-
-private suspend fun checkUserAuthentication(
-    viewModel: SplashViewModel,
-    navController: NavController,
-) {
-    if (viewModel.checkAuthentication() == "null") {
-        goToSignUpPage(viewModel, navController)
-    } else {
-        checkUserInformation(viewModel, navController)
-    }
-}
-
-private suspend fun checkUserInformation(
-    viewModel: SplashViewModel,
-    navController: NavController,
-) {
-    if (viewModel.checkCompleteRegister() == "null") {
-        goToUserInformationPage(viewModel, navController)
-    } else {
-        goToHomePage(viewModel, navController)
-    }
-}
-
-suspend fun goToUserInformationPage(
-    viewModel: SplashViewModel,
-    navController: NavController,
-) {
-    delay(1500)
-    if (viewModel.isOnline()) {
-        navController.navigate(Screens.CompleteRegister.route) {
-            // remove splash page from backstack
-            popUpTo(Screens.Splash.route) {
-                inclusive = true
-            }
+    when {
+        viewModel.checkUserIntroduction() == "null" -> {
+            // navigate to introduction page
+            navigateToPage(
+                viewModel = viewModel,
+                navController = navController,
+                route = Screens.Introduction.route,
+            )
         }
-    } else {
-        viewModel.retryVisibility.value = true
-    }
-}
-
-private suspend fun goToSignUpPage(
-    viewModel: SplashViewModel,
-    navController: NavController,
-) {
-    delay(1500)
-    if (viewModel.isOnline()) {
-        navController.navigate(Screens.Register.route) {
-            // remove splash page from backstack
-            popUpTo(Screens.Splash.route) {
-                inclusive = true
-            }
+        viewModel.checkAuthentication() == "null" -> {
+            // navigate to register page
+            navigateToPage(
+                viewModel = viewModel,
+                navController = navController,
+                route = Screens.Register.route,
+            )
         }
-    } else {
-        viewModel.retryVisibility.value = true
-    }
-}
-
-private suspend fun goToHomePage(
-    viewModel: SplashViewModel,
-    navController: NavController,
-) {
-    delay(1500)
-    if (viewModel.isOnline()) {
-        navController.navigate(Screens.Main.route) {
-            // remove splash page from backstack
-            popUpTo(Screens.Splash.route) {
-                inclusive = true
-            }
+        viewModel.checkCompleteRegister() == "null" -> {
+            // navigate to Complete Register page
+            navigateToPage(
+                viewModel = viewModel,
+                navController = navController,
+                route = Screens.CompleteRegister.route,
+            )
         }
-    } else {
-        viewModel.retryVisibility.value = true
+        else -> {
+            // navigate to main page
+            navigateToPage(
+                viewModel = viewModel,
+                navController = navController,
+                route = Screens.Main.route,
+            )
+        }
     }
 }
 
-private suspend fun goToIntroductionPage(
+private suspend fun navigateToPage(
     viewModel: SplashViewModel,
     navController: NavController,
+    route: String,
 ) {
     delay(1500)
     if (viewModel.isOnline()) {
-        navController.navigate(Screens.Introduction.route) {
+        navController.navigate(route) {
             // remove splash page from backstack
             popUpTo(Screens.Splash.route) {
                 inclusive = true

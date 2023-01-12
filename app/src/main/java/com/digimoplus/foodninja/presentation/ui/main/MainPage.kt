@@ -57,7 +57,7 @@ fun MainPage(navController: NavController) {
                 itemSpacing = 20.dp,
                 modifier = Modifier
                     .background(color = Color.Transparent)
-                    .fillMaxSize()
+                    .fillMaxSize(),
             ) { index ->
                 when (index) {
                     0 -> Home(navController, viewModel)
@@ -102,8 +102,10 @@ private fun bottomNavigation(
         viewModel.updateBasketBadge()
     }
 
-    AnimatedVisibility(modifier = modifier,
-        visible = viewModel.showBottomTab.value) {
+    AnimatedVisibility(
+        modifier = modifier,
+        visible = viewModel.showBottomTab.value,
+    ) {
         Card(
             backgroundColor = AppTheme.colors.surface,
             modifier = modifier

@@ -18,7 +18,7 @@ constructor(
     private val onlineChecker: OnlineChecker,
     private val checkCompleteRegisterUseCase: CheckCompleteRegisterUseCase,
     private val checkAuthenticationUseCase: CheckAuthenticationUseCase,
-    private val ceckIntroductionUseCase: CheckIntroductionUseCase,
+    private val checkIntroductionUseCase: CheckIntroductionUseCase,
 ) : ViewModel() {
 
     val retryVisibility = mutableStateOf(false)
@@ -40,7 +40,7 @@ constructor(
     }
 
     suspend fun checkUserIntroduction(): String = withContext(Dispatchers.IO) {
-        ceckIntroductionUseCase()
+        checkIntroductionUseCase()
     }
 
 }
