@@ -26,7 +26,7 @@ import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.*
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
-import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.components.util.coloredShadow
 import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
@@ -60,22 +60,28 @@ fun RegisterPage(navController: NavController) {
 
                 Image(
                     modifier = Modifier
-                        .width(100.dps)
-                        .height(100.dps),
-                    painter = painterResource(id = R.drawable.logo), contentDescription = ""
+                        .width(188.dp)
+                        .height(203.dp),
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = ""
                 )
 
-                Spacer(modifier = Modifier.padding(top = 10.dps))
+                Spacer(modifier = Modifier.padding(top = 30.dp))
 
                 Text(
                     text = "Sign Up For Free",
                     style = AppTheme.typography.h5,
                     color = AppTheme.colors.titleText,
+                    fontSize = 20.sp,
                 )
 
-                Spacer(modifier = Modifier.padding(top = 10.dps))
+                Spacer(modifier = Modifier.padding(top = 30.dp))
 
                 IconTextField(
+                    modifier = Modifier.coloredShadow(
+                        offsetX = 8.dp,
+                        offsetY = 10.dp,
+                    ),
                     placeHolder = "Alireza Momenpour",
                     value = viewModel.name,
                     focusRequester = nameFocus,
@@ -85,9 +91,13 @@ fun RegisterPage(navController: NavController) {
                     iconId = TEXT_FIELD_ICON_PERSON,
                 )
 
-                Spacer(modifier = Modifier.padding(4.dps))
+                Spacer(modifier = Modifier.padding(12.dp))
 
                 IconTextField(
+                    modifier = Modifier.coloredShadow(
+                        offsetX = 8.dp,
+                        offsetY = 10.dp,
+                    ),
                     placeHolder = "Email",
                     value = viewModel.email,
                     focusRequester = emailFocus,
@@ -97,9 +107,13 @@ fun RegisterPage(navController: NavController) {
                     iconId = TEXT_FIELD_ICON_EMAIL,
                 )
 
-                Spacer(modifier = Modifier.padding(4.dps))
+                Spacer(modifier = Modifier.padding(12.dp))
 
                 IconTextField(
+                    modifier = Modifier.coloredShadow(
+                        offsetX = 8.dp,
+                        offsetY = 10.dp,
+                    ),
                     placeHolder = "Password",
                     value = viewModel.password,
                     focusRequester = passwordFocus,
@@ -113,7 +127,7 @@ fun RegisterPage(navController: NavController) {
                     },
                 )
 
-                Spacer(modifier = Modifier.padding(top = 8.dps))
+                Spacer(modifier = Modifier.padding(top = 20.dp))
 
                 CustomCheckBox(
                     modifier = Modifier
@@ -124,7 +138,7 @@ fun RegisterPage(navController: NavController) {
                     viewModel.checkOne.value = !viewModel.checkOne.value
                 }
 
-                Spacer(modifier = Modifier.padding(1.dps))
+                Spacer(modifier = Modifier.padding(top = 12.dp))
 
                 CustomCheckBox(
                     modifier = Modifier
@@ -135,7 +149,7 @@ fun RegisterPage(navController: NavController) {
                     viewModel.checkTwo.value = !viewModel.checkTwo.value
                 }
 
-                Spacer(modifier = Modifier.padding(top = 4.dps))
+                Spacer(modifier = Modifier.padding(top = 20.dp))
 
                 GradientButton(
                     loading = viewModel.uiState == UiState.Loading,

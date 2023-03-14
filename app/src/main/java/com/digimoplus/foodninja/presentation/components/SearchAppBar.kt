@@ -34,10 +34,16 @@ fun SearchAppBar(
     searchQuery: (query: String) -> Unit,
     focusRequester: FocusRequester? = null,
 ) {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .animateAlpha(state = viewModel.launchAnimState, delayMillis = 300, durationMillis = 1000),
-        horizontalArrangement = Arrangement.SpaceAround) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateAlpha(
+                state = viewModel.launchAnimState,
+                delayMillis = 300,
+                durationMillis = 1000
+            ),
+        horizontalArrangement = Arrangement.SpaceAround,
+    ) {
         val f = remember {
             FocusRequester()
         }
@@ -46,8 +52,7 @@ fun SearchAppBar(
         TextField(
             value = viewModel.search.value,
             modifier = Modifier
-                .fillMaxWidth(0.84f)
-                .padding(end = 8.dp)
+                .weight(1f)
                 .focusRequester(focusRequester ?: f)
                 .onFocusChanged {
                     if (it.isFocused && viewModel.pageState.value == HomePageState.DetailPage) {
@@ -55,9 +60,10 @@ fun SearchAppBar(
                         viewModel.pageState.value = HomePageState.RestaurantPage
                     }
                 },
-            shape = RoundedCornerShape(18.dp),
+            shape = RoundedCornerShape(15.dp),
             leadingIcon = {
-                Icon(painter = painterResource(id = R.drawable.ic_search),
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = "",
                     tint = AppTheme.colors.secondary,
                     modifier = Modifier.size(30.dp)
@@ -75,10 +81,12 @@ fun SearchAppBar(
             textStyle = AppTheme.typography.body1,
             singleLine = true,
             placeholder = {
-                Text(text = "What do you want to order?",
+                Text(
+                    text = "What do you want to order?",
                     color = AppTheme.colors.secondaryText,
                     modifier = Modifier.padding(vertical = 2.dp),
-                    style = AppTheme.typography.body1)
+                    style = AppTheme.typography.body1
+                )
             },
             onValueChange = {
                 viewModel.search.value = it
@@ -90,24 +98,30 @@ fun SearchAppBar(
                         searchQuery(viewModel.search.value)
                     }
                 }),
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search,
-                keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search,
+                keyboardType = KeyboardType.Text
+            ),
         )
-
-        Button(onClick = {
-            coroutineScope.launch {
-                listState?.animateScrollToItem(0)
-                viewModel.pageState.value = HomePageState.SearchFilterPage
-            }
-        },
-            contentPadding = PaddingValues(horizontal = 16.dp,
-                vertical = 17.dp),
+        Spacer(modifier = Modifier.padding(end = 9.dp))
+        Button(
+            modifier = Modifier.size(55.dp),
+            onClick = {
+                coroutineScope.launch {
+                    listState?.animateScrollToItem(0)
+                    viewModel.pageState.value = HomePageState.SearchFilterPage
+                }
+            },
+            contentPadding = PaddingValues(
+                horizontal = 16.dp,
+                vertical = 17.dp
+            ),
             elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
-            modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.onSecondary),
-            shape = RoundedCornerShape(18.dp)
+            shape = RoundedCornerShape(15.dp)
         ) {
-            Icon(painter = painterResource(id = R.drawable.ic_filtter_light),
+            Icon(
+                painter = painterResource(id = R.drawable.ic_filtter_light),
                 tint = AppTheme.colors.secondary,
                 modifier = Modifier.padding(vertical = 2.dp),
                 contentDescription = ""

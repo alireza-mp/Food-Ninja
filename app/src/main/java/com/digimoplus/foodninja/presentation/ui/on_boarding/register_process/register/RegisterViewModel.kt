@@ -15,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import navigateAndClean
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,12 +60,10 @@ constructor(
                     }
                     is RegisterState.Successful -> {
                         uiState = UiState.Visible
-                        navController.navigate(Screens.CompleteRegister.createRoute(name)) {
-                            // remove sign up page from backstack
-                            popUpTo(Screens.Register.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateAndClean(
+                            route = Screens.CompleteRegister.createRoute(name),
+                            popUpRoute = Screens.Register.route,
+                        )
                     }
                     else -> {
                         uiState = UiState.NoInternet

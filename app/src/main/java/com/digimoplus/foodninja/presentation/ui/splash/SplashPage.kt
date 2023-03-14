@@ -24,6 +24,7 @@ import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import navigateAndClean
 
 @Composable
 fun SplashPage(navController: NavController) {
@@ -56,9 +57,11 @@ fun SplashPage(navController: NavController) {
         )
         // ball progress
         if (!viewModel.retryVisibility.value) {
-            BallProgress(modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 28.dp))
+            BallProgress(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 28.dp)
+            )
         }
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -167,12 +170,8 @@ private suspend fun navigateToPage(
 ) {
     delay(1500)
     if (viewModel.isOnline()) {
-        navController.navigate(route) {
-            // remove splash page from backstack
-            popUpTo(Screens.Splash.route) {
-                inclusive = true
-            }
-        }
+        // remove splash page from backstack
+        navController.navigateAndClean(route = route, popUpRoute = Screens.Splash.route)
     } else {
         viewModel.retryVisibility.value = true
     }

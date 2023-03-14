@@ -30,17 +30,19 @@ class HomeDetailViewModel
     var uiState by mutableStateOf(UiState.Loading)
         private set
 
-    private val _restaurantList = mutableStateListOf<Restaurant>()
-    val restaurantList: List<Restaurant> = _restaurantList
+    private val _restaurantList = mutableStateListOf<Restaurant?>()
+    val restaurantList: List<Restaurant?> = _restaurantList
 
-    private val _menuList = mutableStateListOf<Menu>()
-    val menuList: List<Menu> = _menuList
+    private val _menuList = mutableStateListOf<Menu?>()
+    val menuList: List<Menu?> = _menuList
 
     init {
         initialData()
     }
 
     private fun initialData() {
+        if (_menuList.isEmpty()) _menuList.addAll(arrayOfNulls(6)) // add for shimmers
+        if (_restaurantList.isEmpty()) _restaurantList.addAll(arrayOfNulls(6)) // add for shimmers
         viewModelScope.launch(Dispatchers.IO) {
             homeDetailUseCase().onEach { result ->
                 uiState = when (result) {
@@ -48,6 +50,8 @@ class HomeDetailViewModel
                         UiState.Loading
                     }
                     is DataState.Success -> {
+                        _menuList.clear() // remove null shimmer items
+                        _restaurantList.clear() // remove null shimmer items
                         _restaurantList.addAll(result.data.restaurantList)
                         _menuList.addAll(result.data.menuList)
                         UiState.Visible

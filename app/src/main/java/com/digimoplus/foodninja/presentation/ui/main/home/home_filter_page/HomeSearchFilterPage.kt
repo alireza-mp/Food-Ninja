@@ -22,7 +22,6 @@ import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.SearchChips
 import com.digimoplus.foodninja.presentation.components.util.buttonDisabledGradient
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
-import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeHeader
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
@@ -56,6 +55,7 @@ fun HomeSearchFilterPage(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 20.dp)
                 .align(Alignment.BottomCenter),
         ) {
             GradientButton(
@@ -82,13 +82,13 @@ fun HomeSearchFilterPage(
 
 @Composable
 fun SearchBody(viewModel: HomeViewModel) {
-    Column {
+    Column(modifier = Modifier.padding(horizontal = 20.dp)) {
 
-        Spacer(modifier = Modifier.padding(top = 12.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         Text(text = "Type", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = 10.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         LazyRow {
             item {
@@ -111,11 +111,11 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = 12.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         Text(text = "Location", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = 10.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         LazyRow {
             item {
@@ -146,11 +146,11 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = 12.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         Text(text = "Food", color = AppTheme.colors.titleText, style = AppTheme.typography.h7)
 
-        Spacer(modifier = Modifier.padding(top = 10.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         LazyRow {
             item {
@@ -182,7 +182,7 @@ fun SearchBody(viewModel: HomeViewModel) {
             }
         }
 
-        Spacer(modifier = Modifier.padding(top = 8.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         LazyRow {
             item {

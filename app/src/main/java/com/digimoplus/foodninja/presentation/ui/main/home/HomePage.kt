@@ -132,9 +132,9 @@ fun HomeHeader(
     val viewModel: HomeViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(horizontal = 20.dp)) {
 
-        Spacer(modifier = Modifier.padding(top = 40.dp))
+        Spacer(modifier = Modifier.padding(top = 60.dp))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -161,15 +161,18 @@ fun HomeHeader(
                     onClick = {
 
                     },
-                    contentPadding = PaddingValues(horizontal = 16.dp,
-                        vertical = 14.dp),
+                    contentPadding = PaddingValues(
+                        horizontal = 16.dp,
+                        vertical = 14.dp,
+                    ),
                     elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
-                    modifier = Modifier
-                        .defaultMinSize(1.dp, 1.dp),
+                    modifier = Modifier.size(45.dp, 45.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.surface),
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(15.dp),
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.ic_notifiaction),
+                    Icon(
+                        modifier = Modifier.size(18.dp, 20.dp),
+                        painter = painterResource(id = R.drawable.ic_notifiaction),
                         contentDescription = "",
                         tint = AppTheme.colors.primary
                     )

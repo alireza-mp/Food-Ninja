@@ -16,7 +16,6 @@ import com.digimoplus.foodninja.domain.util.DataState
 import com.digimoplus.foodninja.domain.util.LoadingSearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -86,10 +85,12 @@ constructor(
 
     // remove search items and show all
     fun resetList() {
-        isSearchIng = false
-        backState.value = false
-        resetPage()
-        getMenusList()
+        viewModelScope.launch {
+            isSearchIng = false
+            backState.value = false
+            resetPage()
+            getMenusList()
+        }
     }
 
     // new search request to server with page number
@@ -125,12 +126,10 @@ constructor(
     }
 
     private fun resetPage() {
-        viewModelScope.launch(Dispatchers.Main) {
-            lastPage = -1
-            restaurantListScrollPosition = 0
-            page = 1
-            _menuList.clear()
-        }
+        lastPage = -1
+        restaurantListScrollPosition = 0
+        page = 1
+        _menuList.clear()
     }
 
     // update scrollUp for animated appbar
@@ -145,7 +144,6 @@ constructor(
         // if menu list is empty || search  state is ture
         if (_menuList.isEmpty() || isSearchIng) {
             viewModelScope.launch(Dispatchers.IO) {
-                delay(1000)
                 getMenusListUseCase(page = 1).onEach { result ->
                     when (result) {
                         is DataState.Loading -> {
@@ -173,7 +171,6 @@ constructor(
             if (checkIsLastPage()) {
                 if ((restaurantListScrollPosition + 1) >= page * Constants.MENU_PAGE_SIZE) {
                     page += 1 //incrementPage
-                    delay(1000)
                     getMenusListUseCase(page = page).onEach { result ->
                         when (result) {
                             is DataState.Loading -> {
@@ -209,6 +206,10 @@ constructor(
 
     fun refresh() {
         if (isSearchIng) newSearch(searchRefreshQuery) else getMenusList()
+    }
+
+    fun isLastPage(): Boolean {
+        return lastPage == page
     }
 
 }

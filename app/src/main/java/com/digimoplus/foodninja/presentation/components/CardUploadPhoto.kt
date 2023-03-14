@@ -12,37 +12,42 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.digimoplus.foodninja.presentation.components.util.dps
+import androidx.compose.ui.unit.sp
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
 fun CardUploadPhoto(
+    modifier: Modifier = Modifier,
     title: String,
     @DrawableRes id: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
-        shape = RoundedCornerShape(15.dp),
+        modifier = modifier,
+        shape = RoundedCornerShape(22.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.surface),
+        elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
         onClick = onClick,
 
-    ) {
+        ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(vertical = 22.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                modifier = Modifier.padding(top = 16.dps).size(35.dps),
+                modifier = Modifier
+                    .size(50.dp),
                 painter = painterResource(id = id),
                 contentDescription = "",
             )
-            Spacer(modifier = Modifier.padding(top = 4.dps))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Text(
                 text = title,
                 style = AppTheme.typography.h7,
                 color = AppTheme.colors.titleText,
-                modifier =Modifier.padding(bottom = 16.dps)
+                fontSize = 14.sp,
             )
         }
 

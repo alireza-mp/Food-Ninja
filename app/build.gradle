@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.digimoplus.foodninja"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -37,9 +37,6 @@ android {
         jvmTarget = '1.8'
     }
     composeOptions {
-        def kotlin_compiler_version = "1.7.0"
-        kotlinCompilerVersion kotlin_compiler_version
-
         kotlinCompilerExtensionVersion compose_version
     }
     buildFeatures {

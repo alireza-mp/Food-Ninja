@@ -13,9 +13,8 @@ import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.BackButton
 import com.digimoplus.foodninja.presentation.components.GradientButton
-import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
-import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
 fun OnBoardingMainPage(
@@ -25,6 +24,7 @@ fun OnBoardingMainPage(
     navController: NavController,
     onClick: () -> Unit,
     loading: Boolean = false,
+    backButtonEnabled: Boolean = true,
     buttonTitle: String = "Next",
     content: @Composable () -> Unit,
 ) {
@@ -36,31 +36,40 @@ fun OnBoardingMainPage(
         paddingValues = PaddingValues(
             start = 24.dp,
             end = 24.dp,
-            top = 24.dps
+            top = 0.dp
         )
     ) {
         Column {
-            BackButton {
-                navController.navigateUp()
+
+            if (backButtonEnabled) {
+                Spacer(modifier = Modifier.fillMaxHeight(0.06f))
+                BackButton {
+                    navController.navigateUp()
+                }
+                Spacer(modifier = Modifier.padding(top = 20.dp))
+            } else {
+                Spacer(modifier = Modifier.fillMaxHeight(0.14f))
             }
-            Spacer(modifier = Modifier.padding(top = 8.dps))
+
             Text(
-                modifier = Modifier.width(180.dps),
+                modifier = Modifier.fillMaxWidth(0.8f),
                 text = title,
                 lineHeight = 40.sp,
                 color = AppTheme.colors.titleText,
-                style = AppTheme.typography.h4M
+                style = AppTheme.typography.h4M,
+                fontSize = 25.sp,
             )
 
-            Spacer(modifier = Modifier.padding(top =  10.dps))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Text(
-                modifier = Modifier.width(264.dp),
+                modifier = Modifier.fillMaxWidth(0.8f),
                 text = description,
                 lineHeight = 25.sp,
                 color = AppTheme.colors.titleText,
-                style = AppTheme.typography.body2
+                style = AppTheme.typography.body2,
+                fontSize = 12.sp,
             )
-            Spacer(modifier = Modifier.padding(top =  10.dps))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
 
             content()
 
@@ -68,7 +77,7 @@ fun OnBoardingMainPage(
                 GradientButton(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom =  10.dps),
+                        .padding(bottom = 20.dp),
                     gradient = buttonEnabledGradient(),
                     text = buttonTitle,
                     textColor = Color.White,

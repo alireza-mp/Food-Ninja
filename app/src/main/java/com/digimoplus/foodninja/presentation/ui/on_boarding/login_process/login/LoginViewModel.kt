@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import navigateAndClean
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,11 +49,10 @@ constructor(
                     }
                     is RegisterState.Successful -> {
                         uiState = UiState.Visible
-                        navController.navigate(Screens.Main.route) {
-                            popUpTo(Screens.Login.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.navigateAndClean(
+                            route = Screens.Main.route,
+                            popUpRoute = Screens.Login.route
+                        )
                     }
                     else -> {
                         uiState = UiState.NoInternet

@@ -1,13 +1,11 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterialApi::class)
+@file:OptIn(
+    ExperimentalMaterialApi::class, ExperimentalMaterialApi::class, ExperimentalMaterialApi::class
+)
 
 package com.digimoplus.foodninja.presentation.ui.main.home.home_restaurant_page
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
@@ -31,6 +29,7 @@ import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
+import navigateWithSaveState
 
 @Composable
 fun HomeRestaurantPage(
@@ -42,7 +41,7 @@ fun HomeRestaurantPage(
     val focusRequester = remember { FocusRequester() }
 
 
-    viewModel.updateScrollPosition(lazyGridState.firstVisibleItemIndex)
+    changeScrollingListener(viewModel, lazyGridState)
 
     // focus on search textField
     LaunchedEffect(Unit) {
@@ -61,12 +60,10 @@ fun HomeRestaurantPage(
 
     // top app bar
     AnimatedTopAppBar(
-        viewModel = viewModel,
-        focusRequester = focusRequester
+        viewModel = viewModel, focusRequester = focusRequester
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             when (viewModel.uiState) {
                 // loading
@@ -76,7 +73,7 @@ fun HomeRestaurantPage(
                 // show restaurant list
                 LoadingSearchState.NotLoading -> {
                     RestaurantsContent(
-                        progressModifier = Modifier.align(Alignment.BottomCenter),
+                        modifier = Modifier.align(Alignment.BottomCenter), // grid progress modifier
                         homeViewModel = homeViewModel,
                         viewModel = viewModel,
                         lazyGridState = lazyGridState,
@@ -97,6 +94,13 @@ fun HomeRestaurantPage(
             }
         }
     }
+}
+
+private fun changeScrollingListener(
+    viewModel: HomeRestaurantViewModel,
+    lazyGridState: LazyGridState,
+) {
+    viewModel.updateScrollPosition(lazyGridState.firstVisibleItemIndex)
 }
 
 @Composable
@@ -134,9 +138,12 @@ private fun RestaurantsContent(
     viewModel: HomeRestaurantViewModel,
     lazyGridState: LazyGridState,
     navController: NavController,
-    progressModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier, // grid progress modifier
 ) {
     LazyVerticalGrid(
+        modifier = Modifier.padding(
+            top = if (viewModel.scrollUp.value == true) 12.dp else 20.dp,
+        ),
         state = lazyGridState,
         columns = GridCells.Fixed(2),
     ) {
@@ -144,10 +151,7 @@ private fun RestaurantsContent(
 
             // Restaurant to next page
             viewModel.onChangeRestaurantsScrollPosition(index)
-            if (
-                (index + 1) >= viewModel.page * Constants.RESTAURANT_PAGE_SIZE &&
-                !viewModel.pageLoading
-            ) {
+            if ((index + 1) >= viewModel.page * Constants.RESTAURANT_PAGE_SIZE && !viewModel.pageLoading) {
                 viewModel.onNextPage()
             }
 
@@ -159,21 +163,27 @@ private fun RestaurantsContent(
                 disableAnim = {
                     homeViewModel.contentListAnim = false
                 },
+                paddingValues = PaddingValues(
+                    top = 12.dp,
+                    bottom = 0.dp,
+                    start = 14.dp,
+                    end = 14.dp,
+                )
             ) {
-                navController.navigate(
+                navController.navigateWithSaveState(
                     Screens.RestaurantDetail.createIdRoute(item.id)
                 )
             }
         }
-        item(
-            span = {
-                GridItemSpan(maxCurrentLineSpan)
-            }
-        ) {
+        item(span = {
+            GridItemSpan(maxCurrentLineSpan)
+        }) {
             Box(
-                modifier = progressModifier
+                modifier = modifier
                     .fillMaxWidth()
-                    .padding(bottom = 100.dp, top = 16.dp),
+                    .padding(
+                        bottom = if (viewModel.isLastPage()) 100.dp else 150.dp, top = 16.dp
+                    ),
             ) {
                 if (viewModel.pageLoading) {
                     BallPulseSyncProgressIndicator(

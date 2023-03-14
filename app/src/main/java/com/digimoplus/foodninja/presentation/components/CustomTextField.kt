@@ -1,6 +1,5 @@
 package com.digimoplus.foodninja.presentation.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 
@@ -34,6 +34,7 @@ const val TEXT_FIELD_ICON_EMAIL = R.drawable.ic_message
 // no icon
 @Composable
 fun NoneTextField(
+    modifier: Modifier = Modifier,
     placeHolder: String,
     value: MutableState<String>,
     focusRequester: FocusRequester,
@@ -44,13 +45,13 @@ fun NoneTextField(
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface,
-        border = BorderStroke(1.dp, AppTheme.colors.onSurface)
+        elevation = 0.dp,
     ) {
         TextField(
-            textStyle = AppTheme.typography.body,
+            textStyle = AppTheme.typography.body1,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
@@ -61,7 +62,8 @@ fun NoneTextField(
                 Text(
                     text = placeHolder,
                     color = AppTheme.colors.onTitleText,
-                    style = AppTheme.typography.body
+                    style = AppTheme.typography.body1,
+                    fontSize = 14.sp,
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
@@ -87,6 +89,7 @@ fun NoneTextField(
 // It has an icon on the left
 @Composable
 fun IconTextField(
+    modifier: Modifier = Modifier,
     placeHolder: String,
     value: MutableState<String>,
     focusRequester: FocusRequester,
@@ -98,13 +101,13 @@ fun IconTextField(
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface,
-        border = BorderStroke(1.dp, AppTheme.colors.onSurface)
+        elevation = 0.dp,
     ) {
         TextField(
-            textStyle = AppTheme.typography.body,
+            textStyle = AppTheme.typography.body1,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
@@ -115,7 +118,8 @@ fun IconTextField(
                 Text(
                     text = placeHolder,
                     color = AppTheme.colors.onTitleText,
-                    style = AppTheme.typography.body
+                    style = AppTheme.typography.body1,
+                    fontSize = 14.sp,
                 )
             },
             leadingIcon = {
@@ -144,6 +148,7 @@ fun IconTextField(
 // It has an icon on the left and eye icon in right
 @Composable
 fun SignInPasswordTextField(
+    modifier: Modifier = Modifier,
     placeHolder: String,
     value: MutableState<String>,
     focusRequester: FocusRequester,
@@ -153,27 +158,30 @@ fun SignInPasswordTextField(
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         backgroundColor = AppTheme.colors.surface,
-        border = BorderStroke(1.dp, AppTheme.colors.onSurface)
+        elevation = 0.dp,
     ) {
         TextField(
-            textStyle = AppTheme.typography.body,
+            textStyle = AppTheme.typography.body1,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
                 .focusRequester(focusRequester),
             value = value.value,
             leadingIcon = {
-                Image(painter = painterResource(id = TEXT_FIELD_ICON_PASSWORD),
-                    contentDescription = null)
+                Image(
+                    painter = painterResource(id = TEXT_FIELD_ICON_PASSWORD),
+                    contentDescription = null
+                )
             },
             placeholder = {
                 Text(
                     text = placeHolder,
                     color = AppTheme.colors.onTitleText,
-                    style = AppTheme.typography.body
+                    style = AppTheme.typography.body1,
+                    fontSize = 14.sp,
                 )
             },
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
@@ -230,7 +238,8 @@ fun ChatTextField(
         textStyle = AppTheme.typography.body,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp,
+            .padding(
+                horizontal = 8.dp,
                 vertical = 4.dp
             ),
         value = text.value,

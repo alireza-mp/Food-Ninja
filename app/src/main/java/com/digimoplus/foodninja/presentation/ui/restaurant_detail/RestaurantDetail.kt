@@ -2,11 +2,11 @@
 
 package com.digimoplus.foodninja.presentation.ui.restaurant_detail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -18,9 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,13 +27,8 @@ import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.*
-import com.digimoplus.foodninja.presentation.components.util.animateAlpha
-import com.digimoplus.foodninja.presentation.components.util.animateToTop
-import com.digimoplus.foodninja.presentation.components.util.dps
-import com.digimoplus.foodninja.presentation.components.util.loadPictureNoneDefault
+import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 
 @Composable
@@ -46,9 +40,7 @@ fun RestaurantDetailPage(
 
     // get details from server
     LaunchedEffect(Unit) {
-        withContext(Dispatchers.IO) {
-            viewModel.getDetails(restaurantId)
-        }
+        viewModel.getDetails(restaurantId)
     }
 
     RestaurantDetail(
@@ -95,43 +87,39 @@ private fun Details(
         viewModel.restaurantDetails.value?.restaurantDetailComment ?: listOf()
     }
 
-
-    Box(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(color = AppTheme.colors.background),
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        // animate background image alpha
+        NetworkImage(
+            url = viewModel.restaurantDetails.value?.restaurantDetailInfo?.imgDetail ?: "",
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.5f)
+                .animateAlpha(
+                    delayMillis = 0,
+                    durationMillis = 1000
+                ),
+            cornerRadius = 0.dp,
+        )
 
-            val image = loadPictureNoneDefault(
-                url = viewModel.restaurantDetails.value?.restaurantDetailInfo?.imgDetail ?: ""
-            ).value
-
-            // animate background image alpha
-            image?.let { img ->
-                Image(
-                    bitmap = img.asImageBitmap(),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dps)
-                        .animateAlpha(
-                            delayMillis = 0,
-                            durationMillis = 1000
-                        ),
-                    contentScale = ContentScale.Crop
-                )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+        ) {
+            item {
+                Content(viewModel, navController, maxHeight)
             }
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize(),
-            ) {
-                item {
-                    Content(viewModel, navController)
-                }
-                items(count = commentList.size) { index ->
-                    CommentCardItem(commentList[index])
-                }
+            itemsIndexed(items = commentList) { _, item ->
+                CommentCardItem(
+                    name = item.name,
+                    imageUrl = item.imageUrl,
+                    date = item.date,
+                    rate = item.rate,
+                    description = item.description,
+                )
             }
         }
     }
@@ -139,9 +127,10 @@ private fun Details(
 
 @Composable
 private fun ShowProgress() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = AppTheme.colors.background),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = AppTheme.colors.background),
         contentAlignment = Alignment.Center
     ) {
         BallProgress()
@@ -152,6 +141,7 @@ private fun ShowProgress() {
 private fun Content(
     viewModel: RestaurantDetailViewModel,
     navController: NavController,
+    maxHeight: Dp,
 ) {
     val menuList = remember {
         viewModel.restaurantDetails.value?.restaurantDetailMenus ?: listOf()
@@ -160,7 +150,10 @@ private fun Content(
         viewModel.restaurantDetails.value?.restaurantDetailInfo
     }
 
-    Spacer(modifier = Modifier.padding(top = 120.dps))
+    Spacer(modifier = Modifier.padding(top = (maxHeight / 10) * 4))
+    Box {
+
+    }
     Card(
         backgroundColor = AppTheme.colors.background,
         modifier = Modifier
@@ -171,58 +164,76 @@ private fun Content(
             ),
         shape = RoundedCornerShape(topStart = 35.dp, topEnd = 35.dp),
     ) {
-        Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
-            Spacer(modifier = Modifier.padding(top = 10.dp))
+        Column(
+            modifier = Modifier.padding(vertical = 10.dp),
+        ) {
 
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.padding(top = 18.dp))
+
+            DragChips()
+
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 TitleChips(title = "Popular")
+                Spacer(modifier = Modifier.weight(1f))
+                ClickableChips(icon = R.drawable.ic_map, color = Color(0xFF53E88B)) {
+                    // onClick
+                }
+                Spacer(modifier = Modifier.padding(end = 10.dp))
+                ClickableChips(icon = R.drawable.ic_like, color = Color(0xFFFF1D1D)) {
+                    // onClick
+                }
             }
 
             Spacer(modifier = Modifier.padding(top = 16.dp))
             Text(
+                modifier = Modifier.padding(horizontal = 20.dp),
                 text = detailInfo?.title ?: "",
                 color = AppTheme.colors.titleText,
                 style = AppTheme.typography.h4,
-                fontSize = 30.sp,
+                fontSize = 27.sp,
+                fontWeight = FontWeight.W400,
             )
-            Spacer(modifier = Modifier.padding(top = 24.dp))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_map),
-                    contentDescription = null,
-                )
-                Spacer(modifier = Modifier.padding(start = 10.dp))
-                Text(
-                    style = AppTheme.typography.body1,
-                    color = Color.LightGray,
-                    text = detailInfo?.locationKm ?: ""
+                InfoChips(
+                    title = detailInfo?.locationKm ?: "",
+                    icon = R.drawable.ic_map,
+                    space = 10.dp,
                 )
                 Spacer(modifier = Modifier.padding(start = 24.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.ic_rate),
-                    contentDescription = null,
-                )
-                Spacer(modifier = Modifier.padding(start = 10.dp))
-                Text(
-                    style = AppTheme.typography.body1,
-                    color = Color.LightGray,
-                    text = "${detailInfo?.rate ?: ""} Rating"
+                InfoChips(
+                    title = "${detailInfo?.rate ?: ""} Rating",
+                    icon = R.drawable.ic_rate,
+                    space = 10.dp,
                 )
             }
-            Spacer(modifier = Modifier.padding(top = 24.dp))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Text(
+                modifier = Modifier.padding(horizontal = 20.dp),
                 text = detailInfo?.desc ?: "",
                 style = AppTheme.typography.body1,
                 color = AppTheme.colors.titleText,
                 lineHeight = 25.sp,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.W400,
             )
-            Spacer(modifier = Modifier.padding(top = 16.dp))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -230,36 +241,50 @@ private fun Content(
                     text = "Popular Menu",
                     color = AppTheme.colors.titleText,
                     style = AppTheme.typography.h7,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.W400,
                 )
-                TextButton(onClick = {
-                    // onclick
-                }) {
-                    Text(text = "View More",
+                TextButton(
+                    onClick = {
+                        // onclick
+                    },
+                ) {
+                    Text(
+                        text = "View More",
                         color = AppTheme.colors.primaryTextVariant,
-                        style = AppTheme.typography.body1)
+                        style = AppTheme.typography.body1,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
+                    )
                 }
             }
-            Spacer(modifier = Modifier.padding(top = 16.dp))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             LazyRow(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items(count = menuList.size) { index ->
+                itemsIndexed(items = menuList) { index, item ->
                     RestaurantDetailMenuItem(
-                        model = menuList[index],
+                        model = item,
+                        padding = PaddingValues(
+                            start = if (index == 0) 20.dp else 1.dp,
+                            end = 19.dp
+                        ),
                         onClick = {
                             // on item clicked
                         }
                     )
                 }
             }
-            Spacer(modifier = Modifier.padding(top = 16.dp))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Text(
+                modifier = Modifier.padding(horizontal = 20.dp),
                 text = "Testimonials",
                 color = AppTheme.colors.titleText,
                 style = AppTheme.typography.h7,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.W400,
             )
             Spacer(modifier = Modifier.padding(top = 8.dp))
-
         }
     }
 }

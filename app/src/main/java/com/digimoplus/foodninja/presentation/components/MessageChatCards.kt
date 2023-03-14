@@ -19,12 +19,16 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 
 @Composable
 fun SendMessage(text: String) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 10.dp, horizontal = 10.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp, horizontal = 10.dp),
+    ) {
         Card(modifier = Modifier.align(Alignment.CenterEnd), shape = RoundedCornerShape(15.dp)) {
-            Box(modifier = Modifier
-                .background(brush = gradientText())) {
+            Box(
+                modifier = Modifier
+                    .background(brush = gradientText())
+            ) {
                 Text(
                     modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
                     text = text,
@@ -39,12 +43,16 @@ fun SendMessage(text: String) {
 
 @Composable
 fun ReceiveMessage(text: String) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 10.dp, horizontal = 10.dp)) {
-        Card(modifier = Modifier.align(Alignment.CenterStart),
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp, horizontal = 10.dp)
+    ) {
+        Card(
+            modifier = Modifier.align(Alignment.CenterStart),
             backgroundColor = AppTheme.colors.secondarySurface,
-            shape = RoundedCornerShape(15.dp)) {
+            shape = RoundedCornerShape(15.dp)
+        ) {
             Text(
                 modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),
                 lineHeight = 20.sp,
@@ -58,13 +66,16 @@ fun ReceiveMessage(text: String) {
 
 @Composable
 fun RoomMessage(text: String) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 10.dp, horizontal = 25.dp),
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp, horizontal = 25.dp),
         contentAlignment = Alignment.Center
     ) {
-        Card(backgroundColor = AppTheme.colors.secondarySurface,
-            shape = RoundedCornerShape(15.dp)) {
+        Card(
+            backgroundColor = AppTheme.colors.secondarySurface,
+            shape = RoundedCornerShape(15.dp)
+        ) {
             Text(
                 modifier = Modifier.padding(vertical = 6.dp, horizontal = 8.dp),
                 lineHeight = 20.sp,

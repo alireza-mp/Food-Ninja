@@ -1,5 +1,6 @@
-@file:OptIn(ExperimentalPagerApi::class,
-    ExperimentalMaterialApi::class)
+@file:OptIn(
+    ExperimentalMaterialApi::class, ExperimentalPagerApi::class
+)
 
 package com.digimoplus.foodninja.presentation.ui.main
 
@@ -20,6 +21,7 @@ import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.bottomNavigationTabValues
+import com.digimoplus.foodninja.presentation.components.util.coloredShadow
 import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.chat.ChatPage
@@ -43,13 +45,14 @@ fun MainPage(navController: NavController) {
         lightBackground = R.drawable.main_page_background_light,
         darkBackground = R.drawable.main_page_background_dark,
         paddingValues = PaddingValues(
-            start = 16.dp,
-            end = 16.dp
+            start = 0.dp,
+            end = 0.dp
         ),
         snackBarState = viewModel.snackBarState
     ) {
-        Box(modifier = Modifier
-            .fillMaxSize()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
 
             HorizontalPager(
@@ -66,7 +69,7 @@ fun MainPage(navController: NavController) {
                 }
             }
 
-            bottomNavigation(
+            BottomNavigation(
                 modifier = Modifier.align(Alignment.BottomCenter),
                 viewModel = viewModel,
                 pagerState = pagerState,
@@ -91,7 +94,7 @@ private fun Home(
 }
 
 @Composable
-private fun bottomNavigation(
+private fun BottomNavigation(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     pagerState: PagerState,
@@ -110,14 +113,19 @@ private fun bottomNavigation(
             backgroundColor = AppTheme.colors.surface,
             modifier = modifier
                 .fillMaxWidth()
-                .height(90.dp)
-                .padding(bottom = 8.dp),
-            shape = RoundedCornerShape(15.dp),
-            elevation = 4.dp,
+                .height(74.dp)
+                .padding(bottom = 11.dp, end = 20.dp, start = 20.dp)
+                .coloredShadow(
+                    offsetX = 2.dp,
+                    offsetY = 2.dp,
+                    alpha = 0.09f,
+                ),
+            shape = RoundedCornerShape(22.dp),
+            elevation = 0.dp,
         ) {
             CustomBottomNavigation(
                 modifier = Modifier,
-                contentPadding = PaddingValues(horizontal = 8.dp),
+                contentPadding = PaddingValues(horizontal = 10.dp),
                 pagerState = pagerState,
                 tabValues = bottomNavigationTabValues(
                     basketBadge = viewModel.basketBadge,

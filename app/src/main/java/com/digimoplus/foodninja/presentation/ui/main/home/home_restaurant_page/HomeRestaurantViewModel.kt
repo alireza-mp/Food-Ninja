@@ -168,11 +168,9 @@ constructor(
     // request  to next page
     fun onNextPage() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (checkIsLastPage()) {
+            if (checkLastPage()) {
                 if ((restaurantListScrollPosition + 1) >= page * Constants.RESTAURANT_PAGE_SIZE) {
-
                     page += 1 //incrementPage
-                    delay(1000)
                     getRestaurantsListUseCase(page = page).onEach { result ->
                         when (result) {
                             is DataState.Loading -> {
@@ -196,9 +194,13 @@ constructor(
         }
     }
 
-    // is last page
-    private fun checkIsLastPage(): Boolean {
+    // check is not last page
+    private fun checkLastPage(): Boolean {
         return lastPage > page
+    }
+
+    fun isLastPage(): Boolean {
+        return lastPage == page
     }
 
     // update scrollUp for animated appbar

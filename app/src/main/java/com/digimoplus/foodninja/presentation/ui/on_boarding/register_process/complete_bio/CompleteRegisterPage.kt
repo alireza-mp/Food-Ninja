@@ -12,11 +12,12 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.presentation.components.NoneTextField
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
-import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.components.util.coloredShadow
 
 @Composable
 fun CompleteRegisterPage(navController: NavController, name: String) {
@@ -35,11 +36,16 @@ fun CompleteRegisterPage(navController: NavController, name: String) {
         snackBarState = viewModel.snackBarState,
         loading = false,
         navController = navController,
+        backButtonEnabled = false,
         onClick = {
             viewModel.navigateToPaymentPage(navController = navController)
-        }
+        },
     ) {
         NoneTextField(
+            modifier = Modifier.coloredShadow(
+                offsetX = 8.dp,
+                offsetY = 10.dp,
+            ),
             placeHolder = "First Name",
             value = viewModel.name,
             focusRequester = nameFocus,
@@ -48,9 +54,13 @@ fun CompleteRegisterPage(navController: NavController, name: String) {
             imeAction = ImeAction.Next,
         )
 
-        Spacer(modifier = Modifier.padding(top = 8.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         NoneTextField(
+            modifier = Modifier.coloredShadow(
+                offsetX = 8.dp,
+                offsetY = 10.dp,
+            ),
             placeHolder = "Last Name",
             value = viewModel.family,
             focusRequester = familyFocus,
@@ -59,9 +69,13 @@ fun CompleteRegisterPage(navController: NavController, name: String) {
             imeAction = ImeAction.Next,
         )
 
-        Spacer(modifier = Modifier.padding(top = 8.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
 
         NoneTextField(
+            modifier = Modifier.coloredShadow(
+                offsetX = 8.dp,
+                offsetY = 10.dp,
+            ),
             placeHolder = "Mobile Number",
             value = viewModel.phone,
             focusRequester = phoneFocus,
@@ -71,9 +85,8 @@ fun CompleteRegisterPage(navController: NavController, name: String) {
             onFocusDown = {
                 focusManager.clearFocus()
                 viewModel.navigateToPaymentPage(navController = navController)
-            }
+            },
         )
-
     }
 }
 

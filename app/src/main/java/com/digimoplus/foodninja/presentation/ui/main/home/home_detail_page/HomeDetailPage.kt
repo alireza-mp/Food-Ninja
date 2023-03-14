@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -12,8 +13,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
@@ -57,22 +61,29 @@ fun HomeDetailPage(
             )
         }
 
-        // update menu ui
-        if (viewModel.uiState == UiState.NoInternet) {
-            item {
-                ListNoInternetItem {
+        item {
+            // update menu ui
+            if (viewModel.uiState == UiState.NoInternet) {
+                ListNoInternetItem(modifier = Modifier.height(300.dp)) {
                     viewModel.refresh()
                 }
             }
-        } else {
-            items(count = 6) { index ->
+        }
+
+        itemsIndexed(items = viewModel.menuList, key = { index, _ -> index }) { index, item ->
+            Box(
+                modifier = Modifier.animateAlpha(
+                    state = homeViewModel.launchAnimState,
+                    delayMillis = 1000,
+                    durationMillis = 1000,
+                )
+            ) {
                 PopularMenuList(
                     navController = navController,
-                    state = viewModel.uiState,
-                    launchAnimState = homeViewModel.launchAnimState,
+                    isLoading = viewModel.uiState == UiState.Loading,
                     index = index,
-                    count = 6,
-                    list = viewModel.menuList,
+                    count = viewModel.menuList.size,
+                    model = item,
                 )
             }
         }
@@ -106,25 +117,28 @@ private fun HomeBody(
     ) {
         Column {
 
-            Spacer(modifier = Modifier.padding(top = 16.dp))
+            Spacer(modifier = Modifier.padding(top = 21.dp))
 
             Image(
                 painter = painterResource(id = R.drawable.home_baner),
                 contentDescription = "",
                 modifier = Modifier
+                    .padding(horizontal = 20.dp)
                     .fillMaxWidth()
                     .animateAlpha(
                         state = homeViewModel.launchAnimState,
                         delayMillis = 500,
                         durationMillis = 1000,
                     ),
+                contentScale = ContentScale.FillWidth
             )
 
-            Spacer(modifier = Modifier.padding(top = 8.dp))
+            Spacer(modifier = Modifier.padding(top = 25.dp))
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
                     .animateAlpha(
                         state = homeViewModel.launchAnimState,
                         delayMillis = 800,
@@ -137,6 +151,8 @@ private fun HomeBody(
                     text = "Nearest Restaurant",
                     color = AppTheme.colors.titleText,
                     style = AppTheme.typography.h7,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.W400,
                 )
                 TextButton(onClick = {
                     coroutineScope.launch {
@@ -148,26 +164,29 @@ private fun HomeBody(
                         text = "View More",
                         color = AppTheme.colors.primaryTextVariant,
                         style = AppTheme.typography.body1,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
                     )
                 }
             }
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .height(220.dp)
                     .animateAlpha(
                         state = homeViewModel.launchAnimState,
                         delayMillis = 800,
                         durationMillis = 1000,
                     ),
             ) {
-                BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-                    NearestRestaurantList(viewModel = viewModel, navController = navController)
-                }
+                // restaurant list
+                NearestRestaurantList(viewModel = viewModel, navController = navController)
             }
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
                     .animateAlpha(
                         state = homeViewModel.launchAnimState,
                         delayMillis = 1000,
@@ -180,6 +199,8 @@ private fun HomeBody(
                     text = "Popular Menu",
                     color = AppTheme.colors.titleText,
                     style = AppTheme.typography.h7,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.W400,
                 )
                 TextButton(
                     onClick = {
@@ -193,6 +214,8 @@ private fun HomeBody(
                         text = "View More",
                         color = AppTheme.colors.primaryTextVariant,
                         style = AppTheme.typography.body1,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W400,
                     )
                 }
             }

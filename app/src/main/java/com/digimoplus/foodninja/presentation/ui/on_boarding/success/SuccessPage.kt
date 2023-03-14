@@ -20,7 +20,6 @@ import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.presentation.components.GradientButton
 import com.digimoplus.foodninja.presentation.components.main_pages.PageMainBackgroundImage
 import com.digimoplus.foodninja.presentation.components.util.buttonEnabledGradient
-import com.digimoplus.foodninja.presentation.components.util.dps
 import com.digimoplus.foodninja.presentation.components.util.gradientText
 import com.digimoplus.foodninja.presentation.components.util.textBrush
 import com.digimoplus.foodninja.presentation.navigation.Screens
@@ -32,68 +31,73 @@ fun SuccessPage(
 ) {
     PageMainBackgroundImage(
         paddingValues = PaddingValues(
-            top = 24.dps,
+            top = 24.dp,
             start = 24.dp,
             end = 24.dp
         )
     ) {
-        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.fillMaxHeight(0.15f))
+            Box(modifier = Modifier.fillMaxSize()) {
+                Box {
 
-            Box(modifier = Modifier.padding(top = 7.dps)) {
+                    val icon by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.successful))
+                    val papers by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.successful_back))
 
-                val icon by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.successful))
-                val papers by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.successful_back))
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        LottieAnimation(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(300.dp),
+                            composition = icon,
+                            iterations = 1,
+                        )
+                        Column(modifier = Modifier.align(Alignment.BottomCenter)) {
 
-                Box(modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = "Congrats!",
+                                lineHeight = 40.sp,
+                                color = AppTheme.colors.titleText,
+                                style = AppTheme.typography.h4M,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .textBrush(gradientText())
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 12.dp),
+                                text = "Your Profile Is Ready To Use",
+                                lineHeight = 40.sp,
+                                color = AppTheme.colors.titleText,
+                                style = AppTheme.typography.h6,
+                                textAlign = TextAlign.Center
+                            )
+
+                        }
+                    }
                     LottieAnimation(
                         modifier = Modifier
-                            .height(170.dps),
-                        composition = icon,
-                        iterations = 1,
+                            .fillMaxWidth()
+                            .height(350.dp),
+                        composition = papers,
+                        iterations = LottieConstants.IterateForever,
                     )
-                    Column(modifier = Modifier.align(Alignment.BottomCenter)) {
-
-                        Text(
-                            text = "Congrats!",
-                            lineHeight = 40.sp,
-                            color = AppTheme.colors.titleText,
-                            style = AppTheme.typography.h4M,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .textBrush(gradientText())
-                        )
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 12.dps),
-                            text = "Your Profile Is Ready To Use",
-                            lineHeight = 40.sp,
-                            color = AppTheme.colors.titleText,
-                            style = AppTheme.typography.h6,
-                            textAlign = TextAlign.Center
-                        )
-
-                    }
                 }
-                LottieAnimation(
-                    modifier = Modifier.height(200.dps),
-                    composition = papers,
-                    iterations = LottieConstants.IterateForever,
-                )
-            }
 
-            GradientButton(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 10.dps),
-                gradient = buttonEnabledGradient(),
-                text = "Try Order",
-                textColor = Color.White,
-            ) {
-                navController.navigate(Screens.Main.route) {
-                    //remove all last pages from back stack
-                    popUpTo(0)
+                GradientButton(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 10.dp),
+                    gradient = buttonEnabledGradient(),
+                    text = "Try Order",
+                    textColor = Color.White,
+                ) {
+                    navController.navigate(Screens.Main.route) {
+                        //remove all last pages from back stack
+                        popUpTo(0)
+                    }
                 }
             }
         }

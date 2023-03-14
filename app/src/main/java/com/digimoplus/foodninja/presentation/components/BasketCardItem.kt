@@ -1,6 +1,5 @@
 package com.digimoplus.foodninja.presentation.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -11,11 +10,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -24,25 +21,25 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.model.Basket
+import com.digimoplus.foodninja.domain.util.vibrator
 import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
-import com.digimoplus.foodninja.domain.util.vibrator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun AnimatableBasketCardItem(
+fun AnimatedBasketCardItem(
     item: Basket,
     coroutineScope: CoroutineScope,
-    enableBottomPadding: Boolean,
+    paddingValues: PaddingValues,
     onDelete: (id: Int) -> Unit,
     onItemCount: (id: Int, count: Int) -> Unit,
 ) {
     // animate height card
     val heightState = remember {
-        mutableStateOf(100.dp)
+        mutableStateOf(105.dp)
     }
     // animate alpha card
     val alphaState = remember {
@@ -52,9 +49,7 @@ fun AnimatableBasketCardItem(
     BasketCardItem(
         modifier = Modifier
             // space from last item in list (Pay Card)
-            .padding(
-                if (enableBottomPadding) PaddingValues(vertical = 10.dp)
-                else PaddingValues(top = 10.dp, bottom = 260.dp))
+            .padding(paddingValues)
             // animate height and alpha item
             .removeAnimItem(
                 alphaState = alphaState,
@@ -101,17 +96,23 @@ private fun BasketCardItem(
 
     Card(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .coloredShadow(
+                offsetX = 8.dp,
+                offsetY = 10.dp,
+            ),
         backgroundColor = AppTheme.colors.primaryVariant,
-        shape = RoundedCornerShape(25.dp)
+        shape = RoundedCornerShape(22.dp),
+        elevation = 0.dp,
     ) {
 
         // Background orange card
         Box(modifier = Modifier.fillMaxSize()) {
 
-            Box(modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = 28.dp)
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 28.dp)
             ) {
                 if (trashIconVisibility.value)
                     LottieAnimation(
@@ -141,41 +142,31 @@ private fun BasketCardItem(
                     }
                 ),
             backgroundColor = AppTheme.colors.surface,
-            shape = RoundedCornerShape(25.dp),
+            shape = RoundedCornerShape(22.dp),
         ) {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp, horizontal = 12.dp),
-                verticalAlignment = Alignment.CenterVertically) {
-
-                val image = loadPictureNoneDefault(url = item.imageUrl).value
-                image?.let { img ->
-                    Image(
-                        bitmap = img.asImageBitmap(),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(70.dp)
-                            .animateAlpha(
-                                delayMillis = 500,
-                                durationMillis = 750)
-                            .clip(RoundedCornerShape(15.dp)),
-                        contentScale = ContentScale.Crop
-                    )
-                }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 21.dp, horizontal = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                NetworkImage(url = item.imageUrl, size = 62.dp)
                 Spacer(modifier = Modifier.padding(start = 8.dp))
                 Column {
                     Text(
                         text = item.name,
                         color = AppTheme.colors.titleText,
                         style = AppTheme.typography.h7,
-                        fontSize = 15.sp
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.W400,
                     )
                     Spacer(modifier = Modifier.padding(top = 4.dp))
                     Text(
                         text = item.restoName,
                         color = Color.LightGray,
                         style = AppTheme.typography.h7,
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W400,
                     )
                     Spacer(modifier = Modifier.padding(top = 4.dp))
                     Text(
@@ -183,7 +174,8 @@ private fun BasketCardItem(
                         modifier = Modifier
                             .textBrush(gradientText()),
                         style = AppTheme.typography.h7,
-                        fontSize = 20.sp
+                        fontSize = 19.sp,
+                        fontWeight = FontWeight.W400,
                     )
                 }
 

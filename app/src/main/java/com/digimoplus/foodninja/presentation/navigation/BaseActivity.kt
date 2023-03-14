@@ -6,17 +6,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.digimoplus.foodninja.presentation.components.util.*
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.theme.isDark
 import com.digimoplus.foodninja.presentation.ui.chat_detail.ChatDetailPage
@@ -41,27 +36,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
-
-var appHeight = 0f
-var appWidth = 0f
-
 @AndroidEntryPoint
 class BaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-                // get display height px
-                val height = with(LocalDensity.current) { maxHeight.toPx() }
-                // 1/1000 % of height
-                appHeight = (height * 0.001f)
-
-                // get display width px
-                val width = with(LocalDensity.current) { maxWidth.toPx() }
-                // 1/2000 % of width
-                appWidth = (width * 0.002f)
-
-            }
             AppTheme(isDark(isSystemInDarkTheme())) {
                 // start nav host
                 FoodNinja()
@@ -208,7 +187,8 @@ fun FoodNinja() {
             },*/
             arguments = listOf(navArgument("name") {
                 defaultValue = ""
-            })) { backStackEntry ->
+            })
+        ) { backStackEntry ->
             CompleteRegisterPage(
                 navController = navController,
                 name = backStackEntry.arguments?.getString("name") ?: ""

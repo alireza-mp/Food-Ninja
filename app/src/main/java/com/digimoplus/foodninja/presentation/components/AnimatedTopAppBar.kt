@@ -31,11 +31,11 @@ fun AnimatedTopAppBar(
 
     // animations for AppBar
     // translation appBar animation
-    val searchBarPosition by animateFloatAsState(if (scrollUpState.value == true) -312f else 0f)
+    val searchBarPosition by animateFloatAsState(if (scrollUpState.value == true) -365f else 0f)
     // grid view padding top
     val gridViewPaddingTop by animateDpAsState(if (scrollUpState.value == true) 104.dp else 200.dp)
     // search box padding top
-    val searchBoxPadding by animateDpAsState(if (scrollUpState.value == true) 40.dp else 24.dp)
+    val searchBoxPadding by animateDpAsState(if (scrollUpState.value == true) 50.dp else 24.dp)
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -73,11 +73,11 @@ fun AnimatedTopAppBar(
 
     // animations for AppBar
     // translation appBar animation
-    val searchBarPosition by animateFloatAsState(if (scrollUpState.value == true) -312f else 0f)
+    val searchBarPosition by animateFloatAsState(if (scrollUpState.value == true) -365f else 0f)
     // content padding top
     val contentPaddingTop by animateDpAsState(if (scrollUpState.value == true) 104.dp else 200.dp)
     // search box padding top
-    val searchBoxPadding by animateDpAsState(if (scrollUpState.value == true) 40.dp else 24.dp)
+    val searchBoxPadding by animateDpAsState(if (scrollUpState.value == true) 50.dp else 24.dp)
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(

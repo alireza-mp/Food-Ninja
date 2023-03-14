@@ -1,10 +1,7 @@
 package com.digimoplus.foodninja.presentation.ui.main.home.home_menu_page
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -28,6 +25,7 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.MainViewModel
 import com.digimoplus.foodninja.presentation.ui.main.home.HomeViewModel
 import com.ehsanmsz.mszprogressindicator.progressindicator.BallPulseSyncProgressIndicator
+import navigateWithSaveState
 
 @Composable
 fun HomeMenuPage(
@@ -36,9 +34,9 @@ fun HomeMenuPage(
 
     val viewModel: HomeMenuViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
-
     val lazyListState = rememberLazyListState()
-    viewModel.updateScrollPosition(lazyListState.firstVisibleItemIndex)
+
+    changeScrollingListener(viewModel, lazyListState)
 
     HandleErrors(viewModel = viewModel)
 
@@ -62,7 +60,7 @@ fun HomeMenuPage(
                 // show menu list
                 LoadingSearchState.NotLoading -> {
                     MenusContent(
-                        progressModifier = Modifier.align(Alignment.BottomCenter),
+                        modifier = Modifier.align(Alignment.BottomCenter), // progress modifier
                         lazyListState = lazyListState,
                         viewModel = viewModel,
                         navController = navController,
@@ -83,6 +81,14 @@ fun HomeMenuPage(
         }
     }
 }
+
+private fun changeScrollingListener(
+    viewModel: HomeMenuViewModel,
+    lazyListState: LazyListState,
+) {
+    viewModel.updateScrollPosition(lazyListState.firstVisibleItemIndex)
+}
+
 
 @Composable
 private fun HandleErrors(viewModel: HomeMenuViewModel) {
@@ -116,10 +122,11 @@ private fun HandleBackPress(
 fun MenusContent(
     lazyListState: LazyListState,
     viewModel: HomeMenuViewModel,
-    progressModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier, // progress modifier
     navController: NavController,
 ) {
     LazyColumn(
+        modifier = Modifier.padding(top = if (viewModel.scrollUp.value == true) 12.dp else 20.dp),
         state = lazyListState,
     ) {
         itemsIndexed(viewModel.menuList) { index, item ->
@@ -134,21 +141,27 @@ fun MenusContent(
             }
 
             // Menu Card
-            MenuCardItem(
+            AnimatedMenuCardItem(
                 index = index,
                 model = item,
                 animationEnabled = viewModel.listAnim,
                 disableAnim = {
                     viewModel.listAnim = false
                 },
+                paddingValues = PaddingValues(
+                    top = 19.dp,
+                    bottom = 1.dp,
+                    end = 20.dp,
+                    start = 20.dp
+                )
             ) {
-                navController.navigate(Screens.MenuDetail.createIdRoute(item.id))
+                navController.navigateWithSaveState(Screens.MenuDetail.createIdRoute(item.id))
             }
         }
         item {
             Box(
-                modifier = progressModifier
-                    .padding(bottom = 100.dp, top = 12.dp)
+                modifier = modifier
+                    .padding(bottom = if (viewModel.isLastPage()) 100.dp else 150.dp, top = 12.dp)
                     .fillMaxWidth(),
             ) {
                 if (viewModel.pageLoading) {

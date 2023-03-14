@@ -27,7 +27,7 @@ import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.CardUploadPhoto
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
-import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.components.util.coloredShadow
 import com.digimoplus.foodninja.presentation.navigation.Screens
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.complete_bio.USER_INFO_FAMILY
@@ -97,7 +97,8 @@ fun UploadProfilePage(
                 // send user info to choose location page
                 navigateToLocationPage(navController, name, family, phone)
             }
-        }) {
+        },
+    ) {
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
 
@@ -126,7 +127,7 @@ private fun ShowProfilePhoto(viewModel: UploadProfilePhotoViewModel) {
     Card(
         shape = RoundedCornerShape(25.dp), elevation = 0.dp, modifier = Modifier
             .size(250.dp)
-            .padding(top = 6.dps)
+            .padding(top = 20.dp)
     ) {
         GlideImage(
             imageModel = viewModel.imageUrl.value,
@@ -162,6 +163,10 @@ private fun ChoseProfilePhoto(
     )
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         CardUploadPhoto(
+            modifier = Modifier.coloredShadow(
+                offsetX = 8.dp,
+                offsetY = 10.dp,
+            ),
             title = "From Gallery",
             id = R.drawable.gallery
         ) {
@@ -169,8 +174,12 @@ private fun ChoseProfilePhoto(
             intent.type = "image/*"
             resultGallery.launch(intent)
         }
-        Spacer(modifier = Modifier.padding(top = 6.dps))
+        Spacer(modifier = Modifier.padding(top = 20.dp))
         CardUploadPhoto(
+            modifier = Modifier.coloredShadow(
+                offsetX = 8.dp,
+                offsetY = 10.dp,
+            ),
             title = "Take Photo",
             id = R.drawable.camera
         ) {

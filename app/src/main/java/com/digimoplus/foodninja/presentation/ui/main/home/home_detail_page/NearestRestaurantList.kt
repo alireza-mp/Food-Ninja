@@ -2,9 +2,11 @@
 
 package com.digimoplus.foodninja.presentation.ui.main.home.home_detail_page
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,6 +18,7 @@ import com.digimoplus.foodninja.presentation.components.ListNoInternetItem
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItem
 import com.digimoplus.foodninja.presentation.components.RestaurantCardItemShimmer
 import com.digimoplus.foodninja.presentation.navigation.Screens
+import navigateWithSaveState
 
 @Composable
 fun NearestRestaurantList(viewModel: HomeDetailViewModel, navController: NavController) {
@@ -27,14 +30,16 @@ fun NearestRestaurantList(viewModel: HomeDetailViewModel, navController: NavCont
         }
     } else {
         LazyRow(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxSize()
         ) {
-            items(count = 6) { index ->
+            itemsIndexed(
+                items = viewModel.restaurantList,
+                key = { index, _ -> index }) { index, item ->
                 RestaurantListItem(
-                    state = viewModel.uiState,
+                    isLoading = viewModel.uiState == UiState.Loading,
+                    model = item,
+                    navController = navController,
                     index = index,
-                    list = viewModel.restaurantList,
-                    navController = navController
                 )
             }
         }
@@ -43,27 +48,35 @@ fun NearestRestaurantList(viewModel: HomeDetailViewModel, navController: NavCont
 
 @Composable
 private fun RestaurantListItem(
-    state: UiState,
+    isLoading: Boolean,
+    model: Restaurant?,
     index: Int,
-    list: List<Restaurant>,
     navController: NavController,
 ) {
-    when (state) {
-        UiState.Loading -> {
-            RestaurantCardItemShimmer()
-        }
-        UiState.Visible -> {
-            if (list.size == 6)
-                RestaurantCardItem(
-                    model = list[index],
-                    onClick = {
-                        // navigate to restaurant Detail page & send id
-                        navController.navigate(Screens.RestaurantDetail.createIdRoute(id = list[index].id)) {
-                            restoreState = true
-                        }
-                    }
+    if (isLoading) {
+        RestaurantCardItemShimmer(
+            paddingValues = PaddingValues(
+                top = 16.dp,
+                bottom = 20.dp,
+                end = 19.dp,
+                start = if (index == 0) 20.dp else 1.dp,
+            )
+        )
+    } else {
+        model?.let {
+            RestaurantCardItem(
+                model = model,
+                onClick = {
+                    // navigate to restaurant Detail page & send id
+                    navController.navigateWithSaveState(Screens.RestaurantDetail.createIdRoute(id = model.id))
+                },
+                paddingValues = PaddingValues(
+                    top = 16.dp,
+                    bottom = 20.dp,
+                    end = 19.dp,
+                    start = if (index == 0) 20.dp else 1.dp,
                 )
+            )
         }
-        else -> {}
     }
 }

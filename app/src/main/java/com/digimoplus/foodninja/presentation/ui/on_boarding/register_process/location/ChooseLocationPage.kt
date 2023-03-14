@@ -17,13 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.digimoplus.foodninja.R
 import com.digimoplus.foodninja.domain.util.UiState
 import com.digimoplus.foodninja.presentation.components.BallProgress
 import com.digimoplus.foodninja.presentation.components.main_pages.OnBoardingMainPage
-import com.digimoplus.foodninja.presentation.components.util.dps
+import com.digimoplus.foodninja.presentation.components.util.coloredShadow
 import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -82,50 +83,60 @@ fun ChooseLocationPage(
 @Composable
 fun ChooseLocation(viewModel: ChooseLocationViewModel) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(15.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .coloredShadow(
+                offsetX = 8.dp,
+                offsetY = 10.dp,
+            ),
+        shape = RoundedCornerShape(22.dp),
         backgroundColor = AppTheme.colors.surface
     ) {
-        Column(modifier = Modifier.padding(top = 4.dps)) {
+        Column(
+            modifier = Modifier.padding(
+                top = 20.dp,
+                start = 10.dp,
+                end = 10.dp,
+                bottom = 10.dp,
+            )
+        ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Image(
-                    modifier = Modifier.padding(start = 2.dps),
+                    modifier = Modifier.size(33.dp),
                     painter = painterResource(id = R.drawable.location_pin),
                     contentDescription = "",
                 )
+                Spacer(modifier = Modifier.padding(end = 14.dp))
                 Text(
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(start = 2.dps),
+                        .align(Alignment.CenterVertically),
                     text = "Your Location",
                     color = AppTheme.colors.titleText,
-                    style = AppTheme.typography.h7
+                    style = AppTheme.typography.h7,
+                    fontSize = 15.sp,
                 )
             }
-            Spacer(modifier = Modifier.padding(top = 20.dp))
+            Spacer(modifier = Modifier.padding(top = 33.dp))
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        start = 2.dps,
-                        end = 2.dps,
-                        bottom = 2.dps
-                    ),
-                shape = RoundedCornerShape(15.dp),
+                    .height(57.dp),
+                shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.colors.primary),
                 onClick = {
                     viewModel.mapIsVisible.value = true
-                }
+                },
+                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
             ) {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        modifier = Modifier.padding(vertical = 4.dps),
                         text = "Set Location",
                         style = AppTheme.typography.h7,
-                        color = Color.White
+                        color = Color.White,
+                        fontSize = 14.sp,
                     )
                 }
             }
@@ -142,7 +153,7 @@ fun ShowMap(viewModel: ChooseLocationViewModel, defaultLocation: LatLng) {
     GoogleMap(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dps),
+            .fillMaxHeight(0.7f),
         cameraPositionState = cameraPositionState,
         onMapClick = {
             viewModel.selectedLocation.value = it
@@ -156,7 +167,7 @@ fun ShowMap(viewModel: ChooseLocationViewModel, defaultLocation: LatLng) {
     if (viewModel.uiState == UiState.Loading || !viewModel.mapIsVisible.value) {
         Box(
             modifier = Modifier
-                .padding(top = 10.dps)
+                .padding(top = 20.dp)
                 .fillMaxWidth()
                 .clickable(
                     indication = null,
