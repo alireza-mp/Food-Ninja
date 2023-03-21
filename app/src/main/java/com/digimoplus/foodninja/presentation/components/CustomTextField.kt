@@ -7,16 +7,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -191,18 +190,22 @@ fun SignInPasswordTextField(
             ),
             keyboardActions = KeyboardActions(onDone = { onFocusDown() }),
             trailingIcon = {
-                IconButton(onClick = {
-                    passwordVisibility = !passwordVisibility
-                }) {
+                IconButton(
+                    onClick = {
+                        passwordVisibility = !passwordVisibility
+                    },
+                ) {
                     if (passwordVisibility) {
                         Icon(
-                            imageVector = Icons.Filled.VisibilityOff,
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_eye_off),
+                            contentDescription = null,
+                            tint = Color(0xFFC5C5C5),
                         )
                     } else {
                         Icon(
-                            imageVector = Icons.Filled.Visibility,
-                            contentDescription = ""
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_eye),
+                            contentDescription = null,
+                            tint = Color(0xFFC5C5C5),
                         )
                     }
                 }

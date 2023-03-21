@@ -1,12 +1,16 @@
 @file:OptIn(
-    ExperimentalMaterialApi::class, ExperimentalPagerApi::class
+    ExperimentalMaterialApi::class, ExperimentalFoundationApi::class
 )
 
 package com.digimoplus.foodninja.presentation.ui.main
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -27,17 +31,13 @@ import com.digimoplus.foodninja.presentation.theme.AppTheme
 import com.digimoplus.foodninja.presentation.ui.main.chat.ChatPage
 import com.digimoplus.foodninja.presentation.ui.main.home.HomePage
 import com.digimoplus.foodninja.presentation.ui.main.profile.ProfilePage
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import ir.digimoplus.bottom_navigation.CustomBottomNavigation
 
 @Composable
 fun MainPage(navController: NavController) {
 
     val viewModel: MainViewModel = hiltViewModel()
-    val pagerState = rememberPagerState(pageCount = 3)
+    val pagerState = rememberPagerState()
 
 
 
@@ -57,7 +57,8 @@ fun MainPage(navController: NavController) {
 
             HorizontalPager(
                 state = pagerState,
-                itemSpacing = 20.dp,
+                pageCount = 3,
+                pageSpacing = 20.dp,
                 modifier = Modifier
                     .background(color = Color.Transparent)
                     .fillMaxSize(),

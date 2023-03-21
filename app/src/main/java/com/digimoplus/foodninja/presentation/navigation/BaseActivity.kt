@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalPagerApi::class)
-
 package com.digimoplus.foodninja.presentation.navigation
 
 import android.os.Bundle
@@ -32,7 +30,6 @@ import com.digimoplus.foodninja.presentation.ui.on_boarding.register_process.upl
 import com.digimoplus.foodninja.presentation.ui.on_boarding.success.SuccessPage
 import com.digimoplus.foodninja.presentation.ui.restaurant_detail.RestaurantDetailPage
 import com.digimoplus.foodninja.presentation.ui.splash.SplashPage
-import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
@@ -334,8 +331,7 @@ fun FoodNinja() {
             }*/
         ) { backStackEntry ->
             MenuDetailPage(
-                navController = navController,
-                menuId = backStackEntry.arguments?.getInt("id") ?: 1
+                navController = navController, menuId = backStackEntry.arguments?.getInt("id") ?: 1
             )
         }
         composable(

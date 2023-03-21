@@ -4,7 +4,6 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
-
 }
 
 android {
@@ -51,35 +50,19 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    //material
-    implementation "com.google.android.material:material:1.7.0-alpha01"
-
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // dagger hilt
-    implementation "com.google.dagger:hilt-android:2.42"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    kapt "com.google.dagger:hilt-compiler:2.42"
+    implementation "com.google.dagger:hilt-android:2.44.2"
+    kapt "com.google.dagger:hilt-compiler:2.44.2"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
-
-
-    //hilt jetpack library
-    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
-
-
-    //navigation jetpack
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.2"
-    implementation "androidx.navigation:navigation-runtime-ktx:2.4.2"
 
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -87,55 +70,40 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
 
     //kotlin coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.0"
+
+    //flow
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
 
     //datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
-    //flow
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
-
-    // compose
-    def constraint_layout = "2.0.4"
-    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
-
-    def androidx_ui = "1.0.0-alpha07"
-    debugImplementation "androidx.compose.ui:ui-tooling:$androidx_ui"
-    implementation "androidx.compose.ui:ui-tooling-preview:$androidx_ui"
-
     //compose
-    implementation "androidx.compose.material:material-ripple:$compose_version"
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.material:material-icons-core:$compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    implementation "androidx.activity:activity-compose:1.3.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01"
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-    implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"
+    implementation "androidx.compose.material:material-ripple:1.3.1"
+    implementation "androidx.compose.ui:ui:1.3.3"
+    implementation "androidx.compose.ui:ui-tooling:1.3.3"
+    implementation "androidx.compose.material:material:1.3.1"
+    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0"
+    implementation "androidx.compose.runtime:runtime-livedata:1.3.3"
 
     //preview
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.3.3"
 
     // compose navigation
-    implementation "androidx.navigation:navigation-compose:2.5.0-rc02"
-    //implementation "com.google.accompanist:accompanist-navigation-animation:0.25.1"
+    implementation "androidx.navigation:navigation-compose:2.6.0-alpha07"
+    //implementation "com.google.accompanist:accompanist-navigation-animation:0"
 
-    // constraint layout
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
-    // pager
-    implementation "com.google.accompanist:accompanist-pager:0.12.0"
+    // compose constraint
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     // datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // progress bar
-    implementation("com.ehsanmsz:msz-progress-indicator:0.2.0")
+    implementation "com.ehsanmsz:msz-progress-indicator:0.2.0"
 
     // glide
     implementation "com.github.skydoves:landscapist-glide:1.5.1"
@@ -145,24 +113,24 @@ dependencies {
 
     // google map sdk
     implementation "com.google.maps.android:maps-compose:1.0.0"
-    implementation "com.google.android.gms:play-services-maps:18.0.2"
+    implementation "com.google.android.gms:play-services-maps:18.1.0"
 
     //shimmer
     implementation 'com.valentinilk.shimmer:compose-shimmer:1.0.2'
 
     //bottom navigation
-    implementation 'com.github.alireza-mp:BottomNavigationCompose:1.0.1'
+    implementation 'com.github.alireza-mp:BottomNavigationCompose:1.0.2'
 
     //lottie
     implementation "com.airbnb.android:lottie-compose:5.0.3"
 
     //room
-    implementation 'androidx.room:room-runtime:2.4.2'
-    implementation "androidx.room:room-ktx:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
+    implementation 'androidx.room:room-runtime:2.5.0'
+    implementation "androidx.room:room-ktx:2.5.0"
+    kapt "androidx.room:room-compiler:2.5.0"
 
     //google gson
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     //Socket.io
     implementation('io.socket:socket.io-client:2.0.0') {

@@ -2,7 +2,7 @@ package com.digimoplus.foodninja.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import com.digimoplus.foodninja.data.db.model.BasketTable
 
