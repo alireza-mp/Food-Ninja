@@ -9,7 +9,6 @@ import retrofit2.http.*
 
 interface RegisterService {
 
-    @Headers("Accept: application/json")
     @FormUrlEncoded
     @POST("auth/signup")
     suspend fun registerUser(
@@ -20,7 +19,6 @@ interface RegisterService {
     ): Response<RegisterDto>
 
 
-    @Headers("Accept: application/json")
     @FormUrlEncoded
     @POST("auth/add_info")
     suspend fun completeUserRegister(
@@ -31,7 +29,6 @@ interface RegisterService {
         @Field("location") location: String,
     ): Response<ResponseDto>
 
-    @Headers("Accept: application/json")
     @Multipart
     @POST("auth/upload")
     suspend fun uploadUserProfile(

@@ -11,7 +11,6 @@ import retrofit2.http.Query
 
 interface MenuService {
 
-    @Headers("Accept: application/json")
     @GET("menu_detail")
     suspend fun menuDetails(
         @Header("Authorization") token: String,
@@ -19,14 +18,12 @@ interface MenuService {
     ): Response<MenuDetailDto>
 
 
-    @Headers("Accept: application/json")
     @GET("menu_all")
     suspend fun menusList(
         @Header("Authorization") token: String,
         @Query("page") page: Int,
     ): Response<MenuListDto>
 
-    @Headers("Accept: application/json")
     @GET("menu_search")
     suspend fun menuSearch(
         @Header("Authorization") token: String,
@@ -34,7 +31,6 @@ interface MenuService {
         @Query("page") page: Int,
     ): Response<MenuListDto>
 
-    @Headers("Accept: application/json")
     @GET("menu")
     suspend fun popularMenus(@Header("Authorization") token: String): Response<List<MenuDto>>
 }

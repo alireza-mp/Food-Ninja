@@ -9,7 +9,6 @@ import retrofit2.http.POST
 
 interface LoginService {
 
-    @Headers("Accept: application/json")
     @FormUrlEncoded
     @POST("auth/login")
     suspend fun login(

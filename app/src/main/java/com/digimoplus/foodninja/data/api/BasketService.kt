@@ -7,7 +7,6 @@ import retrofit2.http.*
 interface BasketService {
 
 
-    @Headers("Accept: application/json")
     @FormUrlEncoded
     @POST("add_to_basket")
     suspend fun addToBasket(

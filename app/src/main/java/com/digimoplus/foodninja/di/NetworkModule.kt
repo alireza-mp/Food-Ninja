@@ -11,6 +11,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -86,9 +87,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideClient(
+        headersInterceptor: Interceptor,
+        loggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
         return OkHttpClient.Builder().apply {
-            addInterceptor(interceptor)
+            addInterceptor(headersInterceptor)
+            addInterceptor(loggingInterceptor)
         }.build()
     }
 
@@ -97,6 +102,18 @@ object NetworkModule {
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
+        }
+    }
+
+    @Singleton
+    @Provides
+    fun provideHeadersInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val request =
+                chain.request().newBuilder()
+                    .header("Accept", "application/json")
+                    .build()
+            chain.proceed(request)
         }
     }
 
